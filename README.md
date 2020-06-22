@@ -1,9 +1,6 @@
 This an example Python/Django web site for displaying evolution of some variables over time.
 
 Right now it has a set of views for:
-  * `gasolina`: gasoline consumption
-  * `ahorro`: money balances in accounts
-  * `pesos`: personal weight
   * `books`: books read
 
 ## Installation
@@ -57,46 +54,11 @@ $ bash docker/run $PWD/progress.db
 
 ## Example functionality
 
-The main index has access to both sections (gasoline and accounting):
+The main index:
 
 ```
 http://localhost:8081/
 ```
-
-### Gasoline consumption
-
-Index/data introduction:
-
-```
-http://localhost:8081/gasolina/
-```
-
-It presents one of the plots (gasoline consumption per 100 km), and a form to introduce data, with the following fields:
-
-* date
-* total kilometres
-* partial kilometres (since previous refill)
-* gasoline intake in current refill
-* current gasoline price
-
-There is also one view per each of the following properties:
-
-* gasoline consumption per 100 km, vs total kms
-* kms done with a full tank, vs refill number
-* yearly km average, vs time
-* monthly cost of gasoline, vs time
-
-### Account balance
-
-Index/data introduction:
-
-```
-http://localhost:8081/ahorro/
-```
-
-It presents a plot of the total registered money vs time, and a form to introduce data. Data is introduced as a date, and one field per registered account, for the amount of money.
-
-There is also one view per registered account, showing a plot of money in the account vs time.
 
 ## Administrative view
 

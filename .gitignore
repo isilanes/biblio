@@ -6,7 +6,5 @@ media/
 backup
 .idea
 *nonfree*
-gasolina/static
-ahorro/static
 uwsgi/progress_rpi.ini
 utils/*.json
