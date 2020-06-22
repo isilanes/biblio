@@ -1,0 +1,11 @@
+{
+  "SECRET_KEY": "whatever",
+  "DEBUG": true,
+  "WHICH_DB": "local-pg",
+  "DBFILE": "biblio.db",
+  "DBNAME": "biblio",
+  "DBUSER": "books",
+  "DB_PASSWORD": "whatever",
+  "ALLOWED_HOSTS": ["localhost"],
+  "EXTRA_APPS": ["apps.books"]
+}
