@@ -1,35 +1,31 @@
-# Standard libs:
 import os
 import json
+
+
+PROJECT_NAME = "biblio"
 
 # You can specify multiple configuration files to be checked in order.
 # The first one found will be used.
 try_confs = [
     os.environ.get("DJANGO_PROGRESS_CONF", None),
-    os.path.join(os.environ["HOME"], ".django-progress.json"),
+    os.path.join(os.environ["HOME"], ".biblio.json"),
 ]
 
 # Get configuration from JSON file (or keep default, empty):
-conf_dict = {}
-for conf in try_confs:
-    if conf and os.path.isfile(conf):
-        with open(conf, 'r') as f:
-            conf_dict = json.load(f)
+conf = {}
+for conf_file in try_confs:
+    if conf_file and os.path.isfile(conf_file):
+        with open(conf_file, 'r') as f:
+            conf = json.load(f)
         break
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...):
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Quick-start development settings - unsuitable for production
+SECRET_KEY = conf.get("SECRET_KEY") or os.environ.get("DJANGO_SECRET_KEY")
+DEBUG = conf.get("DEBUG") or (os.environ.get("DEBUG") == "True")
+ALLOWED_HOSTS = conf.get("ALLOWED_HOSTS") or ["*"]
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = conf_dict.get("SECRET_KEY") or os.environ.get("DJANGO_SECRET_KEY")
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = conf_dict.get("DEBUG") or (os.environ.get("DEBUG") == "True")
-ALLOWED_HOSTS = conf_dict.get("ALLOWED_HOSTS") or ["*"]
-
-# Application definition:
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -41,7 +37,7 @@ INSTALLED_APPS = [
 ]
 
 # Get extra apps either from JSON config (local), or from env variable (heroku):
-EXTRA_APPS = conf_dict.get("MY_INSTALLED_APPS") or [a for a in os.environ.get("INSTALLED_APPS", "").split(":") if a]
+EXTRA_APPS = conf.get("EXTRA_APPS") or [a for a in os.environ.get("INSTALLED_APPS", "").split(":") if a]
 if EXTRA_APPS:
     INSTALLED_APPS += EXTRA_APPS
 
@@ -56,7 +52,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'DjangoProgress.urls'
+ROOT_URLCONF = f'{PROJECT_NAME}.urls'
 
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 TEMPLATES = [
@@ -74,11 +70,8 @@ TEMPLATES = [
         },
     },
 ]
+WSGI_APPLICATION = f'{PROJECT_NAME}.wsgi.application'
 
-WSGI_APPLICATION = 'DjangoProgress.wsgi.application'
-
-
-# Database:
 AVAILABLE_DATABASES = {
     'heroku': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -86,26 +79,25 @@ AVAILABLE_DATABASES = {
     },
     'sqlite3': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': conf_dict.get("DBFILE"),
+        'NAME': conf.get("DBFILE"),
     },
     'local-pg': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django-progress',
-        'USER': 'books',
-        'PASSWORD': conf_dict.get("DB_PASSWORD"),
+        'NAME': conf.get("DBNAME", PROJECT_NAME),
+        'USER': conf.get("DBUSER"),
+        'PASSWORD': conf.get("DB_PASSWORD"),
     },
 }
 DATABASES = {}
 
-if conf_dict.get("WHICH_DB"):
-    DATABASES["default"] = AVAILABLE_DATABASES[conf_dict.get("WHICH_DB")]
+if conf.get("WHICH_DB"):
+    DATABASES["default"] = AVAILABLE_DATABASES[conf.get("WHICH_DB")]
 else:
     # Heroku: Update database configuration from $DATABASE_URL.
     import dj_database_url
     db_from_env = dj_database_url.config(conn_max_age=500)
     DATABASES["default"] = AVAILABLE_DATABASES["heroku"]
     DATABASES['default'].update(db_from_env)
-
 
 # Password validation:
 AUTH_PASSWORD_VALIDATORS = [
@@ -123,7 +115,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization:
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Europe/Madrid'
@@ -135,5 +126,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "DjangoProgress", "static"),
+    os.path.join(BASE_DIR, PROJECT_NAME, "static"),
 ]
