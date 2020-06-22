@@ -1,15 +1,11 @@
-# Django libs:
 from django.urls import path
 
-# Our libs:
-from books import views
+from . import views
 
 
-# Constants:
 app_name = "books"
 
 
-# URL patterns:
 urlpatterns = [
     # Main:
     path('', views.stats, name="stats"),

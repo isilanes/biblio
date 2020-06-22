@@ -1,13 +1,10 @@
-# Django libs:
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 
-# Our libs:
-from DjangoProgress import settings
+from biblio import settings
 
 
-# URL patterns:
 urlpatterns = [
     # Admin view:
     path('admin/', admin.site.urls),
@@ -18,4 +15,5 @@ urlpatterns = [
 
 # Apps:
 for app in settings.EXTRA_APPS:
-    urlpatterns.append(path(f'{app}/', include(f'{app}.urls', namespace=app)))
+    app_name = app.split(".")[-1]  # if app = "apps.app_name", "fix" it
+    urlpatterns.append(path(f'{app_name}/', include(f'{app}.urls', namespace=app_name)))

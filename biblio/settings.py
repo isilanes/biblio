@@ -7,8 +7,8 @@ PROJECT_NAME = "biblio"
 # You can specify multiple configuration files to be checked in order.
 # The first one found will be used.
 try_confs = [
-    os.environ.get("DJANGO_PROGRESS_CONF", None),
-    os.path.join(os.environ["HOME"], ".biblio.json"),
+    os.environ.get("DJANGO_BIBLIO_CONF"),
+    os.path.join(os.environ["HOME"], f".{PROJECT_NAME}.json"),
 ]
 
 # Get configuration from JSON file (or keep default, empty):
