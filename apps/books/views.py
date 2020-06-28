@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
@@ -35,6 +37,11 @@ def sagas(request):
 def book_detail(request, book_id):
     """Detail view for a book."""
 
+    # Calculate pages_per_day so far:
+    year = timezone.now().year
+    state = statistics.State(year)
+    pages_per_day = state.pages_per_day
+
     book = Book.objects.get(pk=book_id)
 
     reading = []  # list of (when, pages) for a time read
@@ -53,10 +60,11 @@ def book_detail(request, book_id):
         dt = reading[-1][0] - reading[0][0]
         if longest is None or dt > longest:
             longest = dt
+    longest += timedelta(hours=12)
 
     context = {
         "book": book,
-        "plotly_plots": [core.get_book_progress_plot(r, longest) for r in readings],
+        "plotly_plots": [core.get_book_progress_plot(r, book.pages, longest, pages_per_day) for r in readings],
     }
 
     return render(request, "books/book_detail.html", context)

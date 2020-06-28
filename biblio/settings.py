@@ -79,12 +79,12 @@ AVAILABLE_DATABASES = {
     },
     'sqlite3': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': conf.get("DBFILE"),
+        'NAME': conf.get("DB_FILE"),
     },
     'local-pg': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': conf.get("DBNAME", PROJECT_NAME),
-        'USER': conf.get("DBUSER"),
+        'NAME': conf.get("DB_NAME", PROJECT_NAME),
+        'USER': conf.get("DB_USER"),
         'PASSWORD': conf.get("DB_PASSWORD"),
     },
 }
