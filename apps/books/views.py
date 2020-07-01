@@ -55,10 +55,10 @@ def book_detail(request, book_id):
         readings.append(reading)
 
     # Longest reading:
-    longest = None
+    longest = timedelta(hours=0)
     for reading in readings:
         dt = reading[-1][0] - reading[0][0]
-        if longest is None or dt > longest:
+        if dt >= longest:
             longest = dt
     longest += timedelta(hours=12)
 
