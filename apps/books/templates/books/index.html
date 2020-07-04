@@ -1,12 +1,12 @@
-{% extends "books/base.html" %}
+{% extends "books/base_books.html" %}
 
-{% block content %}
+{% load static %}
 
-<div class="banner index-color">Index</div>
-{% include "books/top_menu.html" %}
+{% block title %}
+Index
+{% endblock %}
 
-<br><br>
-
+{% block body %}
 {% if currently_reading_books %}
 <div class="index-grid" style="width: 800px">
     <div class="two-col-grid-text button-books">Currently reading</div>
@@ -39,5 +39,4 @@
         <div>{{book.date_read|date:"Y-m-d H:i"}}</div>
     {% endfor %}
 </div>
-
 {% endblock %}

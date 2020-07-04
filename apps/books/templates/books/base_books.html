@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{% static 'books/style.css' %}" />
+{% endblock %}
+
+{% block top_left %}
+{% include "books/top_menu.html" %}
+{% endblock %}
+
+
+{% block top_middle %}
+<div></div>
+{% endblock %}
+
+{% block top_right %}
+{% include "apps_menu.html" %}
+{% endblock %}

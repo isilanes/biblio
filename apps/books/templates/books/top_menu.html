@@ -4,7 +4,11 @@
     {% else %}
         <a class="btn btn-secondary btn-lg" href="{% url 'books:stats' %}">Stats</a>
     {% endif %}
-    <a class="btn btn-secondary btn-lg" href="{% url 'books:index' %}">Index</a>
+    {% if books_index_active %}
+        <a class="btn btn-primary btn-lg" href="{% url 'books:index' %}">Index</a>
+    {% else %}
+        <a class="btn btn-secondary btn-lg" href="{% url 'books:index' %}">Index</a>
+    {% endif %}
     <a class="btn btn-secondary btn-lg" href="{% url 'books:sagas' %}">Sagas</a>
     <a class="btn btn-secondary btn-lg" href="{% url 'books:start_book' %}">Start</a>
     <a class="btn btn-secondary btn-lg" href="{% url 'books:add_book' %}">Add</a>

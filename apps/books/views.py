@@ -10,10 +10,12 @@ from .models import Book, Author, BookStartEvent, Saga, BookEndEvent
 from .forms import BookForm, AddBookForm, SearchBookForm
 
 
+@login_required
 def index(request):
     """Index view."""
 
     context = {
+        "books_index_active": True,
         "currently_reading_books": currently_reading_books(),
         "currently_ordered_books": currently_ordered_books(),
         "already_read_books": already_read_books(),
@@ -333,7 +335,7 @@ def stats(request, year=None):
 
     context = {
         "books_active": "active",
-        "books_stats_active": "active",
+        "books_stats_active": True,
         "year": year,
         "state": state,
         "books_read_bar": books_read_bar,
