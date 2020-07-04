@@ -1,18 +1,11 @@
-{% load static %}
-
-<div>
-    <div class="btn-group ml-3 my-3">
-        <a class="btn btn-success btn-lg" href="/">Home</a>
-    </div>
-
-    <div class="btn-group ml-3 col-0">
+<div class="btn-group ml-3 col-0">
+    {% if books_stats_active %}
+        <a class="btn btn-primary btn-lg" href="{% url 'books:stats' %}">Stats</a>
+    {% else %}
         <a class="btn btn-secondary btn-lg" href="{% url 'books:stats' %}">Stats</a>
-        <a class="btn btn-secondary btn-lg" href="{% url 'books:index' %}">Index</a>
-        <a class="btn btn-secondary btn-lg" href="{% url 'books:sagas' %}">Sagas</a>
-    </div>
-
-    <div class="btn-group ml-3 col-0">
-        <a class="btn btn-primary btn-lg" href="{% url 'books:start_book' %}">Start</a>
-        <a class="btn btn-primary btn-lg" href="{% url 'books:add_book' %}">Add</a>
-    </div>
+    {% endif %}
+    <a class="btn btn-secondary btn-lg" href="{% url 'books:index' %}">Index</a>
+    <a class="btn btn-secondary btn-lg" href="{% url 'books:sagas' %}">Sagas</a>
+    <a class="btn btn-secondary btn-lg" href="{% url 'books:start_book' %}">Start</a>
+    <a class="btn btn-secondary btn-lg" href="{% url 'books:add_book' %}">Add</a>
 </div>
