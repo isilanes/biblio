@@ -96,3 +96,51 @@ div.banner {
     grid-gap: 0px;
     background-color: white;
 }
+
+.pagination > .username > a
+{
+    background-color: #33ff33;
+    color: #115511;
+}
+
+.pagination > li > a,
+.pagination > li > button
+{
+    background-color: #f0f0ff;
+    border-color: #0000dd;
+    color: #0000dd; !important
+}
+
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover,
+.pagination > li > button:focus,
+.pagination > li > button:hover
+{
+    color: #0000dd;
+    background-color: #ccccff;
+    border-color: #0000dd;
+}
+
+.pagination > .active > a,
+.pagination > .active > button
+{
+    color: white;
+    background-color: #6666dd !important;
+    border: solid 1px #c0c0ff !important;
+}
+
+.pagination > .active > a:hover
+{
+    color: #0000dd;
+    background-color: #ccccff !important;
+    border: solid 1px #0000dd;
+}
+
+.pagination > .disabled > button:hover
+{
+    color: white;
+    background-color: #7161ff !important;
+    border: solid 1px #c0c0ff !important;
+}

@@ -332,6 +332,7 @@ def stats(request, year=None):
     }
 
     context = {
+        "books_active": "active",
         "year": year,
         "state": state,
         "books_read_bar": books_read_bar,
