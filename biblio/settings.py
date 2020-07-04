@@ -128,3 +128,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, PROJECT_NAME, "static"),
 ]
+
+# Other:
+LOGIN_REDIRECT_URL = "/books"
