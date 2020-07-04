@@ -1,0 +1,20 @@
+<nav class="my-2 my-md-0 mr-md-3">
+    <ul class="pagination">
+        <li class="page-item {{home_active}}">
+            <a class="page-link" href="/">Home</a>
+        </li>
+        {% if user.is_authenticated %}
+            <li class="page-item {{books_active}}">
+                <a class="page-link" href="{% url 'books:stats' %}">Books</a>
+            </li>
+
+            <li class="page-item username">
+                <a class="page-link username" href="{% url 'user' %}">{{ user.username }}</a>
+            </li>
+        {% else %}
+            <li class="page-item">
+                <a class="page-link" href="{% url 'login' %}">Log in</a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>

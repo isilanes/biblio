@@ -130,4 +130,5 @@ STATICFILES_DIRS = [
 ]
 
 # Other:
+LOGIN_URL = "/login"
 LOGIN_REDIRECT_URL = "/books"

@@ -1,8 +1,9 @@
 from datetime import timedelta
 
 from django.utils import timezone
-from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
 
 from . import core, statistics
 from .models import Book, Author, BookStartEvent, Saga, BookEndEvent
@@ -271,6 +272,7 @@ def author_detail(request, author_id=None):
     return render(request, "books/author_detail.html", context)
 
 
+@login_required
 def stats(request, year=None):
     """View with statistics for 'year'."""
 

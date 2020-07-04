@@ -1,0 +1,17 @@
+{% extends "master_layout.html" %}
+{% load login_filters %}
+
+{% block section_name %}
+User
+{% endblock %}
+
+{% block body %}
+{% if form.errors %}
+<p>An error happened. Please try again.</p>
+{% endif %}
+
+<div>
+    <a class="btn btn-lg mt-3 btn-warning" href="/">Cancel</a>
+    <a class="btn btn-lg mt-3 btn-danger" href="{% url 'logout' %}">Log out</a>
+</div>
+{% endblock %}
