@@ -24,10 +24,12 @@ def index(request):
     return render(request, "books/index.html", context)
 
 
+@login_required
 def sagas(request):
     """Saga view."""
 
     context = {
+        "books_sagas_active": True,
         "sagas": Saga.objects.all(),
         "completed": completed_sagas(),
         "owned": owned_sagas(),
