@@ -88,3 +88,11 @@ div.banner {
     background-color: #3344aa;
 }
 
+.top-menu-grid {
+    display: grid;
+    grid-template-columns: auto 1fr auto 1fr auto;
+    justify-items: center;
+    align-items: center;
+    grid-gap: 0px;
+    background-color: white;
+}

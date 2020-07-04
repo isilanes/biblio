@@ -1,9 +1,29 @@
-{% extends "books/base.html" %}
+{% extends "master_layout.html" %}
 
-{% block content %}
-<div class="banner stats-color">Statistics</div>
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{% static 'books/style.css' %}" />
+{% endblock %}
+
+{% block title %}
+Stats
+{% endblock %}
+
+{% block top_left %}
 {% include "books/top_menu.html" %}
+{% endblock %}
+
+
+{% block top_middle %}
+<div class="banner stats-color" style="width: 20em;">Statistics</div>
+{% endblock %}
+
+{% block top_right %}
 {% include "apps_menu.html" %}
+{% endblock %}
+
+{% block body %}
 
 <div class="stats-book-grid" style="margin-top: 35px; margin-left: 10px; margin-right: 10px;">
 
