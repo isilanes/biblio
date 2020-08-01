@@ -3,6 +3,6 @@
     {% if user.is_authenticated %}
         <a class="btn btn-success btn-lg" href="{% url 'user' %}">{{user.username}}</a>
     {% else %}
-        <a class="btn btn-danger btn-lg" href="{% url 'login' %}">Log in</a>
+        <a class="btn btn-danger btn-lg" href="{% url 'login:login' %}">Log in</a>
     {% endif %}
 </div>

@@ -1,4 +1,4 @@
-{% extends "login/master_layout.html" %}
+{% extends "base.html" %}
 {% load login_filters %}
 
 {% block section_name %}
@@ -12,13 +12,15 @@ Log in
 
 {% if next %}
     {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed, please login with an account that has access.</p>
+        <p>Your account doesn't have access to this page.
+            To proceed, please login with an account that has access.
+        </p>
     {% else %}
-    <p>Please login to see this page.</p>
+        <p>Please login to see this page.</p>
     {% endif %}
 {% endif %}
 
-<form method="POST" action="{% url 'login' %}">
+<form method="POST" action="{% url 'login:login' %}">
     {% csrf_token %}
     <div class="input-group mt-3">
         <div class="input-group-prepend ml-0 col-2">
@@ -39,5 +41,5 @@ Log in
 </form>
 
 {# Assumes you setup the password_reset view in your URL conf #}
-<p>Don't have an account? <a href="{% url 'signup' %}">Sign up</a></p>
+<p>Don't have an account? <a href="{% url 'login:signup' %}">Sign up</a></p>
 {% endblock %}
