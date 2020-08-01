@@ -54,7 +54,7 @@ label {
     background-color: #ffffff;
 }
 
-.add-book label {
+.add-book-form label {
     border: none;
     text-align: left;
     text-decoration: none;
@@ -68,7 +68,7 @@ label {
     background-color: #ffffff;
 }
 
-.add-book input {
+.add-book-form input {
     border: none;
     text-align: center;
     text-decoration: none;
@@ -105,6 +105,12 @@ label {
 
 .cancel {
     background-color: #f0ad4e;
+}
+
+.cancel:hover {
+    color: white;
+    background-color: #ffbd6e;
+    text-decoration: none;
 }
 
 .primary {

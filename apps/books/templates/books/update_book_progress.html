@@ -8,8 +8,8 @@
     </div>
 
     <div class="mt-3">
-        <input type="submit" class="big-button submit" value="Submit">
-        <a class="big-button mark-read" href="{% url 'books:mark_book_read' book.id %}">Mark read</a>
+        <input type="submit" class="big-button good" value="Submit">
+        <a class="big-button bad" href="{% url 'books:mark_book_read' book.id %}">Mark read</a>
         <a class="big-button cancel" href="{% url 'books:book_detail' book.id %}">Cancel</a>
     </div>
 </form>
