@@ -28,6 +28,10 @@
 </head>
 
 <body>
+    <div>
+        {% block top_top %}
+        {% endblock %}
+    </div>
     <div class="top-menu-grid">
         {% block top_left %}
         {% endblock %}
@@ -43,7 +47,7 @@
         {% endblock %}
     </div>
 
-    <div style="width: 90%; margin-left: 5%;">
+    <div style="width: 96%; margin-left: 2%;">
         {% block body %}
         {% endblock %}
     </div>

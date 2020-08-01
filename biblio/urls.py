@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
 
 from . import settings, views
@@ -19,7 +18,7 @@ urlpatterns = [
     path('user/', views.user, name="user"),
 
     # Main:
-    path('', TemplateView.as_view(template_name="main_index.html"), name="main_index"),
+    path('', views.main_index, name="main_index"),
 ]
 
 # Apps:

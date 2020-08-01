@@ -1,17 +1,9 @@
-{% extends "books/base.html" %}
+{% extends "books/base_books.html" %}
+
 {% load bootstrap4 %}
 
-{% block content %}
-{% if action == "add" %}
-<div class="banner add-color">Add book</div>
-{% endif %}
-
-{% if action == "modify" %}
-<div class="banner add-color">Modify '{{book.title}}'</div>
-{% endif %}
-{% include "books/top_menu.html" %}
-
-<form action="" method="post" class="add-book ml-3">
+{% block body %}
+<form action="" method="post" class="add-book ml-3 mt-4">
     {% csrf_token %}
     {% bootstrap_form form layout="vertical" %}
 
@@ -28,5 +20,4 @@
     <a class="btn btn-warning btn-lg ml-3" href="{% url 'books:book_detail' book.id %}">Cancel</a>
     {% endif %}
 </form>
-
 {% endblock %}

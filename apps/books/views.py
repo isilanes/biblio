@@ -15,6 +15,7 @@ def index(request):
     """Index view."""
 
     context = {
+        "banner": "Index",
         "books_index_active": True,
         "currently_reading_books": currently_reading_books(),
         "currently_ordered_books": currently_ordered_books(),
@@ -29,6 +30,7 @@ def sagas(request):
     """Saga view."""
 
     context = {
+        "banner": "Sagas",
         "books_sagas_active": True,
         "sagas": Saga.objects.all(),
         "completed": completed_sagas(),
@@ -172,6 +174,7 @@ def add_book(request):
     }
     form = AddBookForm(initial=initial)
     context = {
+        "banner": "Add book",
         "form": form,
         "action": "add",
     }
@@ -241,8 +244,8 @@ def start_book(request):
 
     if request.method == "POST":
         return handle_start_reading_post(request)
-    else:
-        return handle_start_reading_get(request)
+
+    return handle_start_reading_get(request)
 
 
 def mark_book_read(request, book_id):
@@ -336,6 +339,7 @@ def stats(request, year=None):
     }
 
     context = {
+        "banner": "Stats",
         "books_active": "active",
         "books_stats_active": True,
         "year": year,
@@ -419,6 +423,7 @@ def handle_start_reading_post(request):
 
 def handle_start_reading_get(request):
     context = {
+        "banner": "Start reading book",
         "form": SearchBookForm(initial={"search_for": ""}),
         "matching_books": Book.objects.none(),
     }

@@ -2,6 +2,12 @@
 
 {% load static %}
 
+{% block top_top %}
+{% if banner %}
+<div class="banner index-color">{{banner}}</div>
+{% endif %}
+{% endblock %}
+
 {% block extra_head %}
 <link rel="stylesheet" type="text/css" href="{% static 'books/style.css' %}" />
 <script src="{% static 'books/js/books.js' %}"></script>
