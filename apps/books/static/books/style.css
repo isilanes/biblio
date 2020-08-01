@@ -95,16 +95,26 @@ label {
     border-radius: 8px;
 }
 
-input.submit {
+.good {
     background-color: #34aa66;
 }
 
-.mark-read {
+.bad {
     background-color: #d9534f;
 }
 
 .cancel {
     background-color: #f0ad4e;
+}
+
+.primary {
+    background-color: #433fd9;
+}
+
+.primary:hover {
+    color: white;
+    background-color: #745ff9;
+    text-decoration: none;
 }
 
 .stats-book-grid {

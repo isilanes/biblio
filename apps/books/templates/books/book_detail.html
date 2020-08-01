@@ -1,7 +1,7 @@
 {% extends "books/base_books.html" %}
 
 {% block body %}
-<div class="book-detail-grid mt-3 ml-3" style="width: 800px">
+<div class="book-detail-grid mt-4 ml-3" style="width: 800px">
     <div class="two-col-grid-text">Title:</div><div class="two-col-grid-text">{{ book.title }}</div>
     <div class="two-col-grid-text">Author:</div>
     <div class="two-col-grid-text">
@@ -17,11 +17,13 @@
     {% endif %}
 </div>
 
-<a class="btn btn-primary btn-lg mt-3 ml-3" href="{% url 'books:modify_book' book.id %}">Modify</a>
-<a class="btn btn-success btn-lg mt-3 ml-2" href="{% url 'books:update_book_progress' book.id %}">Update</a>
-{% if not book.owned %}
-<a class="btn btn-info btn-lg mt-3 ml-2" href="{% url 'books:mark_book_owned' book.id %}">Mark owned</a>
-{% endif %}
+<div class="mt-4 ml-3">
+    <a class="big-button primary" href="{% url 'books:modify_book' book.id %}">Modify</a>
+    <a class="big-button good" href="{% url 'books:update_book_progress' book.id %}">Update</a>
+    {% if not book.owned %}
+    <a class="big-button good" href="{% url 'books:mark_book_owned' book.id %}">Mark owned</a>
+    {% endif %}
+</div>
 
 {% for plot in plotly_plots %}
 <div class="book-progress-plot">
