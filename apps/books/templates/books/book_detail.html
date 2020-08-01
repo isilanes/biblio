@@ -1,9 +1,7 @@
-{% extends "books/base.html" %}
+{% extends "books/base_books.html" %}
 
-{% block content %}
-{% include "books/top_menu.html" %}
-
-<div class="book-detail-grid mt-1 ml-3" style="width: 800px">
+{% block body %}
+<div class="book-detail-grid mt-3 ml-3" style="width: 800px">
     <div class="two-col-grid-text">Title:</div><div class="two-col-grid-text">{{ book.title }}</div>
     <div class="two-col-grid-text">Author:</div>
     <div class="two-col-grid-text">

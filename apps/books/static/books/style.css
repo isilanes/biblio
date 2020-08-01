@@ -82,7 +82,7 @@ label {
     background-color: #eaeaff;
 }
 
-input.submit {
+.big-button {
     border: none;
     color: white;
     text-align: center;
@@ -93,7 +93,18 @@ input.submit {
     line-height: 100px;
     font-size: 40px;
     border-radius: 8px;
+}
+
+input.submit {
     background-color: #34aa66;
+}
+
+.mark-read {
+    background-color: #d9534f;
+}
+
+.cancel {
+    background-color: #f0ad4e;
 }
 
 .stats-book-grid {

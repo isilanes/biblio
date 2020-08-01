@@ -70,6 +70,7 @@ def book_detail(request, book_id):
     longest += timedelta(hours=12)
 
     context = {
+        "banner": book.title,
         "book": book,
         "plotly_plots": [core.get_book_progress_plot(r, book.pages, longest, pages_per_day) for r in readings],
     }
@@ -100,6 +101,7 @@ def update_book_progress(request, book_id):
     form = BookForm(initial=initial)
 
     context = {
+        "banner": f"Modify book: {book.title}",
         "form": form,
         "book": book,
     }
