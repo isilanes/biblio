@@ -1,11 +1,10 @@
 {% extends "books/base_books.html" %}
 
 {% block body %}
-
 <form action="{% url 'books:start_book' %}" method="post" class="ml-3">
     {% csrf_token %}
     {{ form }}
-    <input type="submit" class="submit" value="Submit">
+    <input type="submit" class="big-button good" value="Submit">
 </form>
 
 <div class="saga-grid mt-2 ml-2 mr-2">
