@@ -72,7 +72,7 @@ def book_detail(request, book_id):
     context = {
         "banner": book.title,
         "book": book,
-        "plotly_plots": [core.get_book_progress_plot(r, book.pages, longest, pages_per_day) for r in readings],
+        "plotly_plots": [core.get_book_progress_plot(r, book.pages, longest, pages_per_day) for r in readings],  # NOQA
     }
 
     return render(request, "books/book_detail.html", context)
@@ -135,12 +135,11 @@ def add_book(request):
                     try:
                         book.saga = Saga.objects.get(name=saga_name)
                     except ObjectDoesNotExist:
-                        # Horrible hack to assign to new Saga object the first available id, because PostgreSQL
-                        # at Heroku fails to assign an automatic one that is not duplicated if we simply do:
-                        # saga = Saga(name=saga_name)
+                        # Horrible hack to assign to new Saga object the first available id,
+                        # because PostgreSQL at Heroku fails to assign an automatic one that
+                        # is not duplicated if we simply do saga = Saga(name=saga_name)
                         saga_id = 1
                         for saga_id in range(1, 10000):  # max try 10000 sagas
-                            print("DEBUG105", saga_id)
                             if not Saga.objects.filter(id=saga_id):
                                 break
                         saga = Saga(name=saga_name, id=saga_id)

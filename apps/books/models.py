@@ -1,12 +1,9 @@
-# Django libs:
 from django.db import models
 from django.utils import timezone
 
-# Our libs:
 from .managers import EventManager
 
 
-# Classes:
 class Author(models.Model):
     name = models.CharField('Name', max_length=200)
 
@@ -20,7 +17,6 @@ class Author(models.Model):
 class Saga(models.Model):
     name = models.CharField('Name', max_length=300)
 
-    # Public properties:
     @property
     def books(self):
         """Return sorted list of books in saga."""
@@ -47,7 +43,6 @@ class Saga(models.Model):
 
         return True
 
-    # Special methods:
     def __str__(self):
         return self.name
 
@@ -65,7 +60,6 @@ class Book(models.Model):
     owned = models.BooleanField("Owned", default=True)
     ordered = models.BooleanField("Ordered", default=False)
 
-    # Public methods:
     def mark_read(self):
         """Mark self as read."""
 
@@ -85,7 +79,6 @@ class Book(models.Model):
             event = PageUpdateEvent(book=self, when=timezone.now(), pages_read=pages)
             event.save()
 
-    # Public properties:
     @property
     def events(self):
         """List of events regarding book, sorted by date."""
@@ -163,7 +156,6 @@ class Book(models.Model):
 
         return [a.name for a in self.authors.all()]
 
-    # Special properties:
     def __str__(self):
         return self.title
 
@@ -182,7 +174,6 @@ class PageUpdateEvent(Event):
 
     pages_read = models.IntegerField("Pages read", default=0)
 
-    # Public properties:
     @property
     def page_equivalent(self):
         return self.pages_read
@@ -191,7 +182,6 @@ class PageUpdateEvent(Event):
     def progress_percent(self):
         return 100. * self.pages_read / self.book.pages
 
-    # Special methods:
     def __str__(self):
         return f"{self.pages_read} pages read on '{self.book}'"
 
@@ -202,11 +192,9 @@ class PageUpdateEvent(Event):
 class BookStartEvent(Event):
     """The event of starting reading a book."""
 
-    # Class properties:
     page_equivalent = 0
     progress_percent = 0
 
-    # Special methods:
     def __str__(self):
         return f"'{self.book}' started"
 
@@ -217,19 +205,14 @@ class BookStartEvent(Event):
 class BookEndEvent(Event):
     """The event of finishing reading a book."""
 
-    # Class properties:
     progress_percent = 100
 
-    # Public properties:
     @property
     def page_equivalent(self):
         return self.book.pages
 
-    # Special methods:
     def __str__(self):
         return f"'{self.book}' finished"
 
     def __unicode__(self):
         return self.__str__()
-
-

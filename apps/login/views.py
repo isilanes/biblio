@@ -38,4 +38,3 @@ def signup(request):
         }
 
         return render(request, "login/signup.html", context)
-

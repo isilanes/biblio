@@ -33,7 +33,9 @@ def get_book_progress_plot(points, total_pages, longest=0, pages_per_day=None):
         x_wish, y_wish, labels = [], [], []
         for i in range(1, len(scatter_x)):
             x_wish.append(scatter_x[i])
-            new_y = scatter_y[i-1] + pages_per_day * (scatter_x[i] - scatter_x[i-1]).total_seconds() / 86400.
+            elapsed_days = (scatter_x[i] - scatter_x[i - 1]).total_seconds() / 86400.
+            expected_new_pages_read = pages_per_day * elapsed_days
+            new_y = scatter_y[i - 1] + expected_new_pages_read
             y_wish.append(new_y)
             labels.append(f"{new_y:.1f}")
 

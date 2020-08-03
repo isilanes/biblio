@@ -5,14 +5,11 @@ from django.db.models import Sum
 from .models import Book, BookEndEvent, BookStartEvent
 
 
-# Classes:
 class State(object):
     """Encapsulate all State stuff."""
 
-    # Class variables:
     GOAL = 36  # how many books I want to read, per year
 
-    # Constructor:
     def __init__(self, year):
         self.year = year
 
@@ -20,7 +17,6 @@ class State(object):
         self._books_read = None
         self._pages_read = None
 
-    # Public properties:
     @property
     def pages_per_book(self):
         try:
@@ -141,7 +137,6 @@ class State(object):
 
         return self.year_fraction_passed * 365
 
-    # Private methods:
     def _books_and_pages_so_far(self):
         """Number of books and pages read during year."""
 
@@ -149,7 +144,7 @@ class State(object):
         end_events_query_set = BookEndEvent.objects.filter(when__year=self.year)
         finished_books_query_set = Book.objects.filter(event__in=end_events_query_set)
         books_this_year = finished_books_query_set.count()
-        pages_this_year = finished_books_query_set.aggregate(Sum('pages'))["pages__sum"] or 0  # 0 if None
+        pages_this_year = finished_books_query_set.aggregate(Sum('pages'))["pages__sum"] or 0
 
         # Stats from books currently being read:
         start_events_query_set = BookStartEvent.objects.filter(when__year=self.year)
