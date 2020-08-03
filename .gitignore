@@ -8,3 +8,4 @@ backup
 *nonfree*
 uwsgi/progress_rpi.ini
 utils/*.json
+.coverage
