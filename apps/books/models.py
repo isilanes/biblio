@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 from .managers import EventManager
 
@@ -164,6 +165,7 @@ class Book(models.Model):
 
 
 class Event(models.Model):
+    user = models.ForeignKey(User, blank=False, on_delete=models.CASCADE, default=1)
     book = models.ForeignKey(Book, blank=True, on_delete=models.CASCADE)
     when = models.DateTimeField("When", blank=True, default=timezone.now)
     objects = EventManager()

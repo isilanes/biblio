@@ -1,11 +1,8 @@
-# Django libs:
 from django.contrib import admin
 
-# Our libs:
 from .models import Author, Book, PageUpdateEvent, BookStartEvent, BookEndEvent, Saga
 
 
-# Classes:
 class PageUpdateInline(admin.StackedInline):
     model = PageUpdateEvent
     extra = 0
