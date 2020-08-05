@@ -6,8 +6,80 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 
 from . import core, statistics
-from .models import Book, Author, BookStartEvent, Saga, BookEndEvent
+from .models import Book, Author, BookStartEvent, Saga
 from .forms import BookForm, AddBookForm, SearchBookForm
+
+
+@login_required
+def stats(request, year=timezone.now().year):
+    """View with statistics for 'year' (default: current year)."""
+
+    state = statistics.State(year, request.user)
+
+    pages_per_day = state.pages_per_day
+    required_pages_per_day = state.required_pages_per_day
+
+    try:
+        ppd_perc = 100. * pages_per_day / (pages_per_day + required_pages_per_day)
+    except ZeroDivisionError:
+        ppd_perc = 0.0
+
+    total_pages = 15000
+    pages_per_book = 600
+    perc_total_pages = 100. * state.pages_read / total_pages
+    perc_ppb = 100. * state.pages_per_book / pages_per_book
+
+    # Books read bar:
+    blue_bar = state.book_percent_read
+    if blue_bar >= 100.0:
+        blue_bar = 100.0
+        red_bar = 0
+        green_bar = 0
+    elif state.book_superavit > 0:
+        red_bar = 0
+        green_bar = state.book_superavit_percent
+        blue_bar = blue_bar - green_bar
+    else:
+        red_bar = state.book_deficit_percent
+        green_bar = 0
+
+    books_read_bar = {
+        "blue_bar": blue_bar,
+        "red_bar": red_bar,
+        "green_bar": green_bar,
+    }
+
+    # Expected books bar:
+    if state.expected_books_by_end_of_year > state.GOAL:
+        green_bar = 100. * state.expected_books_by_end_of_year / (2. * state.GOAL)
+        blue_bar = 0
+        red_bar = 0
+    else:
+        red_bar = 100. * state.expected_books_by_end_of_year / (2. * state.GOAL)
+        blue_bar = 50. - red_bar
+        green_bar = 0
+
+    expected_books_bar = {
+        "blue_bar": blue_bar,
+        "red_bar": red_bar,
+        "green_bar": green_bar,
+    }
+
+    context = {
+        "banner": "Stats",
+        "books_active": "active",
+        "books_stats_active": True,
+        "year": year,
+        "state": state,
+        "books_read_bar": books_read_bar,
+        "expected_books_bar": expected_books_bar,
+        "currently_reading_books": core.currently_reading_books(request.user),
+        "pages_per_day": [pages_per_day, required_pages_per_day, ppd_perc, 100. - ppd_perc],
+        "perc_total_pages": perc_total_pages,
+        "perc_ppb": perc_ppb,
+    }
+
+    return render(request, "books/stats.html", context)
 
 
 @login_required
@@ -17,7 +89,7 @@ def index(request):
     context = {
         "banner": "Index",
         "books_index_active": True,
-        "currently_reading_books": currently_reading_books(),
+        "currently_reading_books": core.currently_reading_books(request.user),
         "currently_ordered_books": currently_ordered_books(),
         "already_read_books": already_read_books(),
     }
@@ -41,6 +113,7 @@ def sagas(request):
     return render(request, "books/sagas.html", context)
 
 
+@login_required
 def book_detail(request, book_id):
     """Detail view for a book."""
 
@@ -78,6 +151,7 @@ def book_detail(request, book_id):
     return render(request, "books/book_detail.html", context)
 
 
+@login_required
 def update_book_progress(request, book_id):
     """Form to modify state of book."""
 
@@ -96,7 +170,7 @@ def update_book_progress(request, book_id):
                 return redirect("books:book_detail", book_id=book_id)
 
     initial = {
-        "pages_read": book.pages_read,
+        "pages_read": book.pages_read_by(request.user),
     }
     form = BookForm(initial=initial)
 
@@ -280,103 +354,7 @@ def author_detail(request, author_id=None):
     return render(request, "books/author_detail.html", context)
 
 
-@login_required
-def stats(request, year=None):
-    """View with statistics for 'year'."""
-
-    # If no year given, use current:
-    if year is None:
-        year = timezone.now().year
-
-    state = statistics.State(year)
-
-    pages_per_day = state.pages_per_day
-    required_pages_per_day = state.required_pages_per_day
-
-    try:
-        ppd_perc = 100. * pages_per_day / (pages_per_day + required_pages_per_day)
-    except ZeroDivisionError:
-        ppd_perc = 0.0
-
-    total_pages = 15000
-    pages_per_book = 600
-    perc_total_pages = 100. * state.pages_read / total_pages
-    perc_ppb = 100. * state.pages_per_book / pages_per_book
-
-    # Books read bar:
-    blue_bar = state.book_percent_read
-    if blue_bar >= 100.0:
-        blue_bar = 100.0
-        red_bar = 0
-        green_bar = 0
-    elif state.book_superavit > 0:
-        red_bar = 0
-        green_bar = state.book_superavit_percent
-        blue_bar = blue_bar - green_bar
-    else:
-        red_bar = state.book_deficit_percent
-        green_bar = 0
-
-    books_read_bar = {
-        "blue_bar": blue_bar,
-        "red_bar": red_bar,
-        "green_bar": green_bar,
-    }
-
-    # Expected books bar:
-    if state.expected_books_by_end_of_year > state.GOAL:
-        green_bar = 100. * state.expected_books_by_end_of_year / (2. * state.GOAL)
-        blue_bar = 0
-        red_bar = 0
-    else:
-        red_bar = 100. * state.expected_books_by_end_of_year / (2. * state.GOAL)
-        blue_bar = 50. - red_bar
-        green_bar = 0
-
-    expected_books_bar = {
-        "blue_bar": blue_bar,
-        "red_bar": red_bar,
-        "green_bar": green_bar,
-    }
-
-    context = {
-        "banner": "Stats",
-        "books_active": "active",
-        "books_stats_active": True,
-        "year": year,
-        "state": state,
-        "books_read_bar": books_read_bar,
-        "expected_books_bar": expected_books_bar,
-        "currently_reading_books": currently_reading_books(),
-        "pages_per_day": [pages_per_day, required_pages_per_day, ppd_perc, 100. - ppd_perc],
-        "perc_total_pages": perc_total_pages,
-        "perc_ppb": perc_ppb,
-    }
-
-    return render(request, "books/stats.html", context)
-
-
 # Helper functions:
-def currently_reading_books():
-    """Return list of Books currently being read, unsorted."""
-
-    book_states = {}
-
-    start_events_query_set = BookStartEvent.objects.filter()
-    started_books_query_set = Book.objects.filter(event__in=start_events_query_set)
-
-    for book in started_books_query_set:
-        book_states[book] = book_states.get(book, 0) + 1
-
-    end_events_query_set = BookEndEvent.objects.all()
-    finished_books_query_set = Book.objects.filter(event__in=end_events_query_set)
-
-    for book in finished_books_query_set:
-        book_states[book] = book_states.get(book, 0) - 1
-
-    return [book for book, state in book_states.items() if state > 0]
-
-
 def already_read_books():
     """Return list of books already read, sorted by finish date."""
 

@@ -1,9 +1,10 @@
 from datetime import timedelta
 
 from django.utils import timezone
-
 import plotly.graph_objects as go
 from plotly.offline import plot as offplot
+
+from .models import Book, BookStartEvent, BookEndEvent
 
 
 def get_book_progress_plot(points, total_pages, longest=0, pages_per_day=None):
@@ -78,3 +79,25 @@ def get_book_progress_plot(points, total_pages, longest=0, pages_per_day=None):
     }
 
     return offplot(figure, output_type="div", include_plotlyjs=False, config=config)
+
+
+def currently_reading_books(user):
+    """Return list of Books currently being read by 'user', unsorted."""
+
+    book_states = {}
+
+    start_events_query_set = BookStartEvent.objects.filter(user=user)
+    started_books_query_set = Book.objects.filter(event__in=start_events_query_set)
+
+    for book in started_books_query_set:
+        book_states[book] = book_states.get(book, 0) + 1
+
+    end_events_query_set = BookEndEvent.objects.filter(user=user)
+    finished_books_query_set = Book.objects.filter(event__in=end_events_query_set)
+
+    for book in finished_books_query_set:
+        book_states[book] = book_states.get(book, 0) - 1
+
+    return [book for book, state in book_states.items() if state > 0]
+
+

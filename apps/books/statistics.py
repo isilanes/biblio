@@ -10,8 +10,9 @@ class State(object):
 
     GOAL = 36  # how many books I want to read, per year
 
-    def __init__(self, year):
+    def __init__(self, year, user):
         self.year = year
+        self.user = user
 
         # Helpers for properties:
         self._books_read = None
@@ -141,17 +142,17 @@ class State(object):
         """Number of books and pages read during year."""
 
         # Stats from finished books:
-        end_events_query_set = BookEndEvent.objects.filter(when__year=self.year)
+        end_events_query_set = BookEndEvent.objects.filter(when__year=self.year, user=self.user)
         finished_books_query_set = Book.objects.filter(event__in=end_events_query_set)
         books_this_year = finished_books_query_set.count()
         pages_this_year = finished_books_query_set.aggregate(Sum('pages'))["pages__sum"] or 0
 
         # Stats from books currently being read:
-        start_events_query_set = BookStartEvent.objects.filter(when__year=self.year)
+        start_events_query_set = BookStartEvent.objects.filter(when__year=self.year, user=self.user)
         started_books_query_set = Book.objects.filter(event__in=start_events_query_set)
         reading_books_query_set = started_books_query_set.difference(finished_books_query_set)
         for book in reading_books_query_set:
-            pages_this_year += book.pages_read
-            books_this_year += book.pages_read / book.pages
+            pages_this_year += book.pages_read_by(self.user)
+            books_this_year += book.pages_read_by(self.user) / book.pages
 
         return books_this_year, pages_this_year
