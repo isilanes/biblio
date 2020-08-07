@@ -99,5 +99,3 @@ def currently_reading_books(user):
         book_states[book] = book_states.get(book, 0) - 1
 
     return [book for book, state in book_states.items() if state > 0]
-
-
