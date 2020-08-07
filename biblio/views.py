@@ -1,8 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
+
+from .handle_views.user import handle_user_get
 
 
 def user(request):
-    return render(request, "user.html", {})
+    if request.method == "POST":
+        return handle_user_post(request)
+
+    return handle_user_get(request)
 
 
 def main_index(request):

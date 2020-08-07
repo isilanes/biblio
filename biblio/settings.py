@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap4',
+    PROJECT_NAME,
 ]
 
 # Get extra apps either from JSON config (local), or from env variable (heroku):

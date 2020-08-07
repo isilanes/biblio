@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "books/base_books.html" %}
 
 {% load login_filters %}
 
@@ -11,8 +11,17 @@ User
 <p>An error happened. Please try again.</p>
 {% endif %}
 
-<div>
-    <a class="btn btn-lg mt-3 btn-warning" href="/">Cancel</a>
-    <a class="btn btn-lg mt-3 btn-danger" href="{% url 'login:logout' %}">Log out</a>
-</div>
+<form class="mt-4" method="POST" action="{% url 'user' %}">
+    {% csrf_token %}
+
+    <div>
+    {{form}}
+    </div>
+
+    <div class="mt-5">
+        <button class="big-button good" type="submit">Save</button>
+        <a class="big-button cancel" href="{% url 'main_index' %}">Cancel</a>
+        <a class="big-button bad" href="{% url 'login:logout' %}">Log out</a>
+    </div>
+</form>
 {% endblock %}
