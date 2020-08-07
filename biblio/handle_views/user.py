@@ -20,3 +20,11 @@ def handle_user_get(request):
     }
 
     return render(request, "user.html", context)
+
+
+def handle_user_post(request):
+    form = UserPreferencesForm(request.POST)
+    if form.is_valid():
+        form.save(request.user.pk)
+
+    return handle_user_get(request)
