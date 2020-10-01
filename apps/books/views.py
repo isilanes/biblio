@@ -6,7 +6,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 
 from . import core, statistics
-from biblio.models import UserPreferences
 from .models import Book, Author, BookStartEvent, Saga
 from .forms import BookForm, AddBookForm, SearchBookForm
 
@@ -17,67 +16,14 @@ def stats(request, year=timezone.now().year):
 
     state = statistics.State(year, request.user)
 
-    pages_per_day = state.pages_per_day
-    required_pages_per_day = state.required_pages_per_day
-
-    try:
-        ppd_perc = 100. * pages_per_day / (pages_per_day + required_pages_per_day)
-    except ZeroDivisionError:
-        ppd_perc = 0.0
-
-    total_pages = 15000
-    pages_per_book = 600
-    perc_total_pages = 100. * state.pages_read / total_pages
-    perc_ppb = 100. * state.pages_per_book / pages_per_book
-
-    # Books read bar:
-    blue_bar = state.book_percent_read
-    if blue_bar >= 100.0:
-        blue_bar = 100.0
-        red_bar = 0
-        green_bar = 0
-    elif state.book_superavit > 0:
-        red_bar = 0
-        green_bar = state.book_superavit_percent
-        blue_bar = blue_bar - green_bar
-    else:
-        red_bar = state.book_deficit_percent
-        green_bar = 0
-
-    books_read_bar = {
-        "blue_bar": blue_bar,
-        "red_bar": red_bar,
-        "green_bar": green_bar,
-    }
-
-    # Expected books bar:
-    if state.expected_books_by_end_of_year > state.goal:
-        green_bar = 100. * state.expected_books_by_end_of_year / (2. * state.goal)
-        blue_bar = 0
-        red_bar = 0
-    else:
-        red_bar = 100. * state.expected_books_by_end_of_year / (2. * state.goal)
-        blue_bar = 50. - red_bar
-        green_bar = 0
-
-    expected_books_bar = {
-        "blue_bar": blue_bar,
-        "red_bar": red_bar,
-        "green_bar": green_bar,
-    }
-
     context = {
         "banner": "Stats",
         "books_active": "active",
         "books_stats_active": True,
         "year": year,
         "state": state,
-        "books_read_bar": books_read_bar,
-        "expected_books_bar": expected_books_bar,
         "currently_reading_books": core.currently_reading_books(request.user),
-        "pages_per_day": [pages_per_day, required_pages_per_day, ppd_perc, 100. - ppd_perc],
-        "perc_total_pages": perc_total_pages,
-        "perc_ppb": perc_ppb,
+        "pages_per_day": state.pages_per_day,
     }
 
     return render(request, "books/stats.html", context)

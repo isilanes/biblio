@@ -318,15 +318,15 @@ button.toggle {
     grid-template-columns: 1fr;
 }
 
-.card-green {
+.card-success {
     background-color: #50ee50;
 }
 
-.card-red {
+.card-fail {
     background-color: #ee5050;
 }
 
-.card-blue {
+.card-info {
     background-color: #a0a0ff;
 }
 
