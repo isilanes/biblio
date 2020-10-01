@@ -12,7 +12,10 @@ class State(object):
     def __init__(self, year, user):
         self.year = year
         self.user = user
-        self.goal = UserPreferences.objects.get(user=user).books_per_year
+        try:
+            self.goal = UserPreferences.objects.get(user=user).books_per_year
+        except UserPreferences.DoesNotExist:
+            self.goal = 1
 
         # Helpers for properties:
         self._books_read = None

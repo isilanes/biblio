@@ -66,7 +66,7 @@ def book_detail(request, book_id):
 
     # Calculate pages_per_day so far:
     year = timezone.now().year
-    state = statistics.State(year)
+    state = statistics.State(year, request.user)
     pages_per_day = state.pages_per_day
 
     book = Book.objects.get(pk=book_id)
