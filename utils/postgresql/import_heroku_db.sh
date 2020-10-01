@@ -34,15 +34,15 @@ if [[ "x$DB_USER" == "xnull" ]]; then
   exit
 fi
 
-# Drop existing db:
-sudo -u postgres psql -c "DROP DATABASE $DB_NAME;"
+# Drop existing db (must connect to some db to execute SQL commands, so we choose 'postgres'. This is irrelevant):
+psql -U "$DB_USER" -d postgres -c "DROP DATABASE $DB_NAME;"
 echo "Database $DB_NAME dropped"
 
 # Create empty db:
-sudo -u postgres psql -c "CREATE DATABASE $DB_NAME WITH OWNER $DB_USER;"
-echo "Database $DB_NAME re-created"
+psql -U "$DB_USER" -d postgres -c "CREATE DATABASE $DB_NAME WITH OWNER $DB_USER;"
+echo "Database $DB_NAME re-created (empty)"
 
 # Load db dump:
-pg_restore --verbose --clean --no-acl --no-owner -h localhost -U "$DB_USER" -d "$DB_NAME" $DUMP_FILE
+pg_restore --verbose --clean --no-acl --no-owner -h localhost -U "$DB_USER" -d "$DB_NAME" "$DUMP_FILE"
 echo "Database $DB_NAME re-populated"
 
