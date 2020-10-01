@@ -2,17 +2,17 @@ from datetime import datetime
 
 from django.db.models import Sum
 
+from biblio.models import UserPreferences
 from .models import Book, BookEndEvent, BookStartEvent
 
 
 class State(object):
     """Encapsulate all State stuff."""
 
-    GOAL = 36  # how many books I want to read, per year
-
     def __init__(self, year, user):
         self.year = year
         self.user = user
+        self.goal = UserPreferences.objects.get(user=user).books_per_year
 
         # Helpers for properties:
         self._books_read = None
@@ -47,7 +47,7 @@ class State(object):
     def expected_books_so_far(self):
         """How many books we should have read so far in the year."""
 
-        return self.GOAL * self.year_fraction_passed
+        return self.goal * self.year_fraction_passed
 
     @property
     def expected_books_by_end_of_year(self):
@@ -66,13 +66,13 @@ class State(object):
         """How many books ahead we are in the book count up to now in the year,
         as a percent of total books to read."""
 
-        return 100. * self.book_superavit / self.GOAL
+        return 100. * self.book_superavit / self.goal
 
     @property
     def book_percent_read(self):
         """Percentage of books read, out of total books to read."""
 
-        return 100. * self.books_read / self.GOAL
+        return 100. * self.books_read / self.goal
 
     @property
     def book_deficit_percent(self):
@@ -94,7 +94,7 @@ class State(object):
     def required_books(self):
         """How many books left to read this year."""
 
-        return self.GOAL - self.books_read
+        return self.goal - self.books_read
 
     @property
     def required_pages_per_day(self):

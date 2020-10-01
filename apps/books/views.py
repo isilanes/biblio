@@ -6,6 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 
 from . import core, statistics
+from biblio.models import UserPreferences
 from .models import Book, Author, BookStartEvent, Saga
 from .forms import BookForm, AddBookForm, SearchBookForm
 
@@ -13,6 +14,9 @@ from .forms import BookForm, AddBookForm, SearchBookForm
 @login_required
 def stats(request, year=timezone.now().year):
     """View with statistics for 'year' (default: current year)."""
+
+    prefs = UserPreferences.objects.get(user=request.user)
+    goal = prefs.books_per_year
 
     state = statistics.State(year, request.user)
 
@@ -50,12 +54,12 @@ def stats(request, year=timezone.now().year):
     }
 
     # Expected books bar:
-    if state.expected_books_by_end_of_year > state.GOAL:
-        green_bar = 100. * state.expected_books_by_end_of_year / (2. * state.GOAL)
+    if state.expected_books_by_end_of_year > state.goal:
+        green_bar = 100. * state.expected_books_by_end_of_year / (2. * state.goal)
         blue_bar = 0
         red_bar = 0
     else:
-        red_bar = 100. * state.expected_books_by_end_of_year / (2. * state.GOAL)
+        red_bar = 100. * state.expected_books_by_end_of_year / (2. * state.goal)
         blue_bar = 50. - red_bar
         green_bar = 0
 
