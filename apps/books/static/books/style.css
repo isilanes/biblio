@@ -300,3 +300,40 @@ button.toggle {
 .book-progress-plot {
     height: 500px;
 }
+
+.card-grid {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 300px 300px 300px 1fr;
+    justify-items: center;
+    grid-gap: 50px;
+}
+
+.card {
+    display: grid;
+    width: 100%;
+    padding: 10px;
+    height: 150px;
+    justify-items: center;
+    grid-template-columns: 1fr;
+}
+
+.card-green {
+    background-color: #50ee50;
+}
+
+.card-red {
+    background-color: #ee5050;
+}
+
+.card-blue {
+    background-color: #a0a0ff;
+}
+
+.card-title {
+    font-size: 30px;
+}
+
+.card-value {
+    font-size: 40px;
+}

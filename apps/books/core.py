@@ -82,7 +82,7 @@ def get_book_progress_plot(points, total_pages, longest=0, pages_per_day=None):
 
 
 def currently_reading_books(user):
-    """Return list of Books currently being read by 'user', unsorted."""
+    """Return list of info about Books currently being read by 'user', unsorted."""
 
     book_states = {}
 
@@ -98,4 +98,4 @@ def currently_reading_books(user):
     for book in finished_books_query_set:
         book_states[book] = book_states.get(book, 0) - 1
 
-    return [book for book, state in book_states.items() if state > 0]
+    return [(b, b.pages_read_by(user), b.percent_read_by(user)) for b, s in book_states.items() if s > 0]

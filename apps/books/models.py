@@ -158,9 +158,6 @@ class Book(models.Model):
     def __str__(self):
         return self.title
 
-    def __unicode__(self):
-        return self.__str__()
-
 
 class Event(models.Model):
     user = models.ForeignKey(User, blank=False, on_delete=models.CASCADE, default=1)

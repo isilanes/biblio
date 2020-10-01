@@ -15,9 +15,6 @@ from .forms import BookForm, AddBookForm, SearchBookForm
 def stats(request, year=timezone.now().year):
     """View with statistics for 'year' (default: current year)."""
 
-    prefs = UserPreferences.objects.get(user=request.user)
-    goal = prefs.books_per_year
-
     state = statistics.State(year, request.user)
 
     pages_per_day = state.pages_per_day
