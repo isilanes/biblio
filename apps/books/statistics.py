@@ -1,6 +1,7 @@
 from datetime import datetime
 
-from django.db.models import Sum
+from django.db.models.functions import Cast
+from django.db.models import Sum, Subquery, OuterRef, F, FloatField
 
 from biblio.models import UserPreferences
 from .models import Book, BookEndEvent, BookStartEvent, Reading, ReadingUpdate
@@ -144,9 +145,6 @@ class State(object):
     def _books_and_pages_so_far(self):
         """Number of books and pages read during year."""
 
-        import time
-        t0 = time.time()
-
         # Stats from finished books:
         end_events_query_set = BookEndEvent.objects.filter(when__year=self.year, user=self.user)
         finished_books_query_set = Book.objects.filter(event__in=end_events_query_set)
@@ -160,9 +158,6 @@ class State(object):
         for book in reading_books_query_set:
             pages_this_year += book.pages_read_by(self.user)
             books_this_year += book.pages_read_by(self.user) / book.pages
-
-        dt = time.time() - t0
-        print(f"Old _books_and_pages_so_far: {dt * 1000:.1f} ms")
 
         return books_this_year, pages_this_year
 
@@ -305,9 +300,6 @@ class StateNew(object):
     def _books_and_pages_so_far(self):
         """Number of books and pages read during year."""
 
-        import time
-        t0 = time.time()
-
         # Stats from finished books:
         finished_readings_qs = Reading.objects.filter(end__year=self.year, reader=self.user)
 
@@ -315,18 +307,18 @@ class StateNew(object):
         pages_this_year = finished_readings_qs.aggregate(Sum('book__pages')).get('book__pages__sum', 0)
 
         # Stats from books currently being read:
-        started_readings_qs = Reading.objects.filter(start__year=self.year, end=None, reader=self.user)
-        for reading in started_readings_qs:
-            print(reading, "|", reading.readingupdate_set.order_by("page").first())
+        latest_ru_subquery = ReadingUpdate.objects.filter(reading=OuterRef('id')).order_by("-date")[:1]
 
-        #start_events_query_set = BookStartEvent.objects.filter(when__year=self.year, user=self.user)
-        #started_books_query_set = Book.objects.filter(event__in=start_events_query_set)
-        #reading_books_query_set = started_books_query_set.difference(finished_books_query_set)
-        #for book in reading_books_query_set:
-            #pages_this_year += book.pages_read_by(self.user)
-            #books_this_year += book.pages_read_by(self.user) / book.pages
+        started_readings_qs = Reading.objects.filter(start__year=self.year, end=None, reader=self.user)\
+            .annotate(pages=Subquery(latest_ru_subquery.values('page')))\
+            .annotate(fraction=as_float(F('pages')) / as_float(F('book__pages')))
 
-        dt = time.time() - t0
-        print(f"New _books_and_pages_so_far: {dt * 1000:.1f} ms")
+        data = started_readings_qs.aggregate(total_pages=Sum('pages'), total_fraction=Sum('fraction'))
+        books_this_year += data["total_fraction"]
+        pages_this_year += data["total_pages"]
 
         return books_this_year, pages_this_year
+
+
+def as_float(x):
+    return Cast(x, FloatField())

@@ -24,7 +24,7 @@ def page_update(user, event):
         return
 
     reading = Reading.objects.get(end=None, reader=user, book=event.book)
-    reading_update = ReadingUpdate(reading=reading, page=event.pages_read)
+    reading_update = ReadingUpdate(reading=reading, page=event.pages_read, date=event.when)
     reading_update.save()
     print(f"[DONE] {event}")
 
