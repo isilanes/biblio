@@ -24,14 +24,14 @@ Stats
     <div class="card-grid">
         <div></div>
         <div class="card card-info">
-            <div class="card-title">Read</div>
-            <div class="card-value">{{state.books_read|floatformat:1}}</div>
+            <div class="card-title">Expected</div>
+            <div class="card-value">{{state.expected_books_so_far|floatformat:1}}</div>
         </div>
 
         <div class="card
         {% if state.expected_books_by_end_of_year < state.goal %} card-fail {% else %} card-success {% endif %}">
-            <div class="card-title">Expected</div>
-            <div class="card-value">{{state.expected_books_so_far|floatformat:1}}</div>
+            <div class="card-title">Read</div>
+            <div class="card-value">{{state.books_read|floatformat:1}}</div>
         </div>
 
         <div class="card
