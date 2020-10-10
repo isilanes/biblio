@@ -213,3 +213,24 @@ class BookEndEvent(Event):
 
     def __unicode__(self):
         return self.__str__()
+
+
+class Reading(models.Model):
+    reader = models.ForeignKey(User, blank=False, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, blank=True, on_delete=models.CASCADE)
+    start = models.DateTimeField("Start", blank=False, default=timezone.now)
+    end = models.DateTimeField("End", blank=True, default=None, null=True)
+
+    def __str__(self):
+        if self.end is None:
+            return f"{self.book} started on {self.start} by {self.reader}"
+        else:
+            return f"{self.book} ended on {self.end} by {self.reader}"
+
+
+class ReadingUpdate(models.Model):
+    reading = models.ForeignKey(Reading, blank=False, on_delete=models.CASCADE)
+    page = models.IntegerField("Page", default=0)
+
+    def __str__(self):
+        return f"{self.page} pages on {self.reading}"
