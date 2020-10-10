@@ -1,6 +1,10 @@
 from django.contrib import admin
 
-from .models import Author, Book, PageUpdateEvent, BookStartEvent, BookEndEvent, Saga
+from .models import Author, Book, PageUpdateEvent, BookStartEvent, BookEndEvent, Saga, Reading, ReadingUpdate
+
+
+admin.site.register(Reading)
+admin.site.register(ReadingUpdate)
 
 
 class PageUpdateInline(admin.StackedInline):
