@@ -22,7 +22,7 @@ def stats(request, year=timezone.now().year):
         "books_stats_active": True,
         "year": year,
         "state": state,
-        "currently_reading_books": core.currently_reading_books(request.user),
+        "currently_reading_books": core.currently_reading_books_by(request.user),
     }
 
     return render(request, "books/stats.html", context)
@@ -35,9 +35,9 @@ def index(request):
     context = {
         "banner": "Index",
         "books_index_active": True,
-        "currently_reading_books": core.currently_reading_books(request.user),
+        "currently_reading_books": core.currently_reading_books_by(request.user),
+        "completed_readings": core.completed_readings_by(request.user),
         "currently_ordered_books": currently_ordered_books(),
-        "already_read_books": already_read_books(),
     }
 
     return render(request, "books/index.html", context)
@@ -301,13 +301,6 @@ def author_detail(request, author_id=None):
 
 
 # Helper functions:
-def already_read_books():
-    """Return list of books already read, sorted by finish date."""
-
-    return [y for x, y in sorted([(book.date_read, book) for book in Book.objects.all()
-                                  if book.is_already_read], reverse=True)]
-
-
 def currently_ordered_books():
     """Return list of books currently ordered, but not yet received, unsorted."""
 

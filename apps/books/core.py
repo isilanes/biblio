@@ -4,7 +4,7 @@ from django.utils import timezone
 import plotly.graph_objects as go
 from plotly.offline import plot as offplot
 
-from .models import Book, BookStartEvent, BookEndEvent
+from .models import Book, BookStartEvent, BookEndEvent, Reading
 
 
 def get_book_progress_plot(points, total_pages, longest=0, pages_per_day=None):
@@ -81,7 +81,7 @@ def get_book_progress_plot(points, total_pages, longest=0, pages_per_day=None):
     return offplot(figure, output_type="div", include_plotlyjs=False, config=config)
 
 
-def currently_reading_books(user):
+def currently_reading_books_by(user):
     """Return list of info about Books currently being read by 'user', unsorted."""
 
     book_states = {}
@@ -98,4 +98,15 @@ def currently_reading_books(user):
     for book in finished_books_query_set:
         book_states[book] = book_states.get(book, 0) - 1
 
-    return [(b, b.pages_read_by(user), b.percent_read_by(user)) for b, s in book_states.items() if s > 0]
+    p = [(b, b.pages_read_by(user), b.percent_read_by(user)) for b, s in book_states.items() if s > 0]
+
+    print(p)
+
+    return p
+
+
+def completed_readings_by(user):
+    """Return list of books already read, sorted by finish date."""
+
+    return Reading.objects.exclude(end=None).order_by("-end")
+

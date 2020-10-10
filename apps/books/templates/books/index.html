@@ -11,9 +11,9 @@ Index
 <div class="index-grid" style="width: 800px">
     <div class="two-col-grid-text button-books">Currently reading</div>
     <div class="two-col-grid-text button-books">Pages read</div>
-    {% for book in currently_reading_books %}
+    {% for book, pages_read, percent_read in currently_reading_books %}
         <div class="two-col-grid-text"><a href="{% url 'books:book_detail' book.id %}">{{book.title}}</a></div>
-        <div class="two-col-grid-number">{{book.pages_read}}</div>
+        <div class="two-col-grid-number">{{pages_read}}</div>
     {% endfor %}
 </div>
 <br><br>
@@ -24,7 +24,7 @@ Index
     <div class="two-col-grid-text button-books">Currently ordered</div>
     <div></div>
     {% for book in currently_ordered_books %}
-    <div class="two-col-grid-text"><a href="{% url 'books:book_detail' book.id %}">{{book.title}}</a></div>
+    <div class="two-col-grid-text"><a href="{% url 'books:stats' %}">{{book.title}}</a></div>
     <div></div>
     {% endfor %}
 </div>
@@ -34,9 +34,9 @@ Index
 <div class="index-grid" style="width: 800px">
     <div class="two-col-grid-text button-books">Already read</div>
     <div class="two-col-grid-text button-books">Date finished</div>
-    {% for book in already_read_books %}
-        <div class="two-col-grid-text"><a href="{% url 'books:book_detail' book.id %}">{{book.title}}</a></div>
-        <div>{{book.date_read|date:"Y-m-d H:i"}}</div>
+    {% for reading in completed_readings %}
+        <div class="two-col-grid-text"><a href="{% url 'books:book_detail' reading.book.id %}">{{reading.book.title}}</a></div>
+        <div>{{reading.end|date:"Y-m-d H:i"}}</div>
     {% endfor %}
 </div>
 {% endblock %}
