@@ -152,13 +152,8 @@ class State(object):
         pages_this_year = finished_readings_qs.aggregate(total_pages=Sum('book__pages')).get('total_pages', 0)
 
         # Stats from books currently being read:
-        latest_ru_subquery = ReadingUpdate.objects.filter(reading=OuterRef('id')).order_by("-date")[:1]
-
-        started_readings_qs = Reading.objects.filter(start__year=self.year, end=None, reader=self.user)\
-            .annotate(pages=Subquery(latest_ru_subquery.values('page')))\
-            .annotate(fraction=core.as_float(F('pages')) / core.as_float(F('book__pages')))
-
-        data = started_readings_qs.aggregate(total_pages=Sum('pages'), total_fraction=Sum('fraction'))
+        current_readings_qs = core.current_readings_by(self.user)
+        data = current_readings_qs.aggregate(total_pages=Sum('pages_read'), total_fraction=Sum('fraction_read'))
         books_this_year += data["total_fraction"]
         pages_this_year += data["total_pages"]
 
