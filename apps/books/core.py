@@ -1,10 +1,11 @@
 from datetime import timedelta
 
 from django.utils import timezone
+from django.db.models import Subquery, OuterRef
 import plotly.graph_objects as go
 from plotly.offline import plot as offplot
 
-from .models import Book, BookStartEvent, BookEndEvent, Reading
+from .models import Book, BookStartEvent, BookEndEvent, Reading, ReadingUpdate
 
 
 def get_book_progress_plot(points, total_pages, longest=0, pages_per_day=None):
@@ -98,15 +99,19 @@ def currently_reading_books_by(user):
     for book in finished_books_query_set:
         book_states[book] = book_states.get(book, 0) - 1
 
-    p = [(b, b.pages_read_by(user), b.percent_read_by(user)) for b, s in book_states.items() if s > 0]
+    return [(b, b.pages_read_by(user), b.percent_read_by(user)) for b, s in book_states.items() if s > 0]
 
-    print(p)
 
-    return p
+def current_readings_by(user):
+    latest_ru_subquery = ReadingUpdate.objects.filter(reading=OuterRef('id')).order_by("-date")[:1]
+
+    return Reading.objects.filter(reader=user, end=None)\
+        .annotate(pages_read=Subquery(latest_ru_subquery.values('page')))\
+        .order_by("-start")
 
 
 def completed_readings_by(user):
     """Return list of books already read, sorted by finish date."""
 
-    return Reading.objects.exclude(end=None).order_by("-end")
+    return Reading.objects.filter(reader=user).exclude(end=None).order_by("-end")
 

@@ -7,13 +7,13 @@ Index
 {% endblock %}
 
 {% block body %}
-{% if currently_reading_books %}
+{% if current_readings %}
 <div class="index-grid" style="width: 800px">
     <div class="two-col-grid-text button-books">Currently reading</div>
     <div class="two-col-grid-text button-books">Pages read</div>
-    {% for book, pages_read, percent_read in currently_reading_books %}
-        <div class="two-col-grid-text"><a href="{% url 'books:book_detail' book.id %}">{{book.title}}</a></div>
-        <div class="two-col-grid-number">{{pages_read}}</div>
+    {% for reading in current_readings %}
+        <div class="two-col-grid-text"><a href="{% url 'books:book_detail' reading.book.id %}">{{reading.book.title}}</a></div>
+        <div class="two-col-grid-number">{{reading.pages_read}}</div>
     {% endfor %}
 </div>
 <br><br>
