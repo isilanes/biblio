@@ -231,6 +231,7 @@ class Reading(models.Model):
 class ReadingUpdate(models.Model):
     reading = models.ForeignKey(Reading, blank=False, on_delete=models.CASCADE)
     page = models.IntegerField("Page", default=0)
+    date = models.DateTimeField("Date", blank=True, default=timezone.now)
 
     def __str__(self):
-        return f"{self.page} pages on {self.reading}"
+        return f"{self.page} pages on {self.reading} at {self.date}"

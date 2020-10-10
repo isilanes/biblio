@@ -41,13 +41,35 @@ Stats
         </div>
     </div>
 
+    <h2 class="mt-4">BooksNew</h2>
+
+    <div class="card-grid">
+        <div></div>
+        <div class="card card-info">
+            <div class="card-title">Expected</div>
+            <div class="card-value">{{state.expected_books_so_far|floatformat:1}}</div>
+        </div>
+
+        <div class="card
+        {% if state.expected_books_by_end_of_year < state.goal %} card-fail {% else %} card-success {% endif %}">
+            <div class="card-title">Read</div>
+            <div class="card-value">{{state_new.books_read|floatformat:1}}</div>
+        </div>
+
+        <div class="card
+        {% if state.expected_books_by_end_of_year < state.goal %} card-fail {% else %} card-success {% endif %}">
+            <div class="card-title">By end of year</div>
+            <div class="card-value">{{state.expected_books_by_end_of_year|floatformat:1}}</div>
+        </div>
+    </div>
+
     <h2 class="mt-5">Pages</h2>
 
     <div class="card-grid">
         <div></div>
         <div class="card card-info">
             <div class="card-title">pages/day</div>
-            <div class="card-value">{{pages_per_day|floatformat:1}}</div>
+            <div class="card-value">{{state.pages_per_day|floatformat:1}}</div>
         </div>
 
         <div class="card card-info">
