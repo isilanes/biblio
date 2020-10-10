@@ -9,13 +9,14 @@ Stats
 {% block body %}
 <div class="stats-style" style="margin-top: 35px; margin-left: 10px; margin-right: 10px;">
     <div class="stats-book-line" style="margin-top: 35px; margin-left: 10px; margin-right: 10px;">
-        {% for book, pages_read, percent_read in currently_reading_books %}
+        {% for reading in current_readings %}
         <div class="progress bg-secondary" style="width: 100%; height: 50px; font-size: 30px;">
             <div class="progress-bar bg-primary pl-3 text-white" role="progressbar"
-                 style="width: {{percent_read}}%;">{{book.title}} ({{pages_read}} / {{book.pages}})</div>
+                 style="width: {{reading.percent_read}}%;">
+                {{reading.book.title}} ({{reading.pages_read}} / {{reading.book.pages}})</div>
         </div>
-        <a class="modify-condensed" href="{% url 'books:book_detail' book.id %}">Details</a>
-        <a class="modify-condensed" href="{% url 'books:update_book_progress' book.id %}">Update</a>
+        <a class="modify-condensed" href="{% url 'books:book_detail' reading.book.id %}">Details</a>
+        <a class="modify-condensed" href="{% url 'books:update_book_progress' reading.book.id %}">Update</a>
         {% endfor %}
     </div>
 

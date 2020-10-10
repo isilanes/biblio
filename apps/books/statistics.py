@@ -1,8 +1,8 @@
 from datetime import datetime
 
-from django.db.models.functions import Cast
-from django.db.models import Sum, Subquery, OuterRef, F, FloatField
+from django.db.models import Sum, Subquery, OuterRef, F
 
+from . import core
 from biblio.models import UserPreferences
 from .models import Reading, ReadingUpdate
 
@@ -156,7 +156,7 @@ class State(object):
 
         started_readings_qs = Reading.objects.filter(start__year=self.year, end=None, reader=self.user)\
             .annotate(pages=Subquery(latest_ru_subquery.values('page')))\
-            .annotate(fraction=as_float(F('pages')) / as_float(F('book__pages')))
+            .annotate(fraction=core.as_float(F('pages')) / core.as_float(F('book__pages')))
 
         data = started_readings_qs.aggregate(total_pages=Sum('pages'), total_fraction=Sum('fraction'))
         books_this_year += data["total_fraction"]
@@ -165,5 +165,3 @@ class State(object):
         return books_this_year, pages_this_year
 
 
-def as_float(x):
-    return Cast(x, FloatField())

@@ -23,7 +23,6 @@ def stats(request, year=timezone.now().year):
         "year": year,
         "state": state,
         "current_readings": core.current_readings_by(request.user),
-        "currently_reading_books": core.currently_reading_books_by(request.user),
     }
 
     return render(request, "books/stats.html", context)

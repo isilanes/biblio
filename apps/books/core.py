@@ -1,7 +1,8 @@
 from datetime import timedelta
 
 from django.utils import timezone
-from django.db.models import Subquery, OuterRef
+from django.db.models.functions import Cast
+from django.db.models import Subquery, OuterRef, FloatField, F
 import plotly.graph_objects as go
 from plotly.offline import plot as offplot
 
@@ -82,31 +83,13 @@ def get_book_progress_plot(points, total_pages, longest=0, pages_per_day=None):
     return offplot(figure, output_type="div", include_plotlyjs=False, config=config)
 
 
-def currently_reading_books_by(user):
-    """Return list of info about Books currently being read by 'user', unsorted."""
-
-    book_states = {}
-
-    start_events_query_set = BookStartEvent.objects.filter(user=user)
-    started_books_query_set = Book.objects.filter(event__in=start_events_query_set)
-
-    for book in started_books_query_set:
-        book_states[book] = book_states.get(book, 0) + 1
-
-    end_events_query_set = BookEndEvent.objects.filter(user=user)
-    finished_books_query_set = Book.objects.filter(event__in=end_events_query_set)
-
-    for book in finished_books_query_set:
-        book_states[book] = book_states.get(book, 0) - 1
-
-    return [(b, b.pages_read_by(user), b.percent_read_by(user)) for b, s in book_states.items() if s > 0]
-
-
 def current_readings_by(user):
     latest_ru_subquery = ReadingUpdate.objects.filter(reading=OuterRef('id')).order_by("-date")[:1]
 
     return Reading.objects.filter(reader=user, end=None)\
         .annotate(pages_read=Subquery(latest_ru_subquery.values('page')))\
+        .annotate(fraction_read=as_float(F('pages_read')) / as_float(F('book__pages'))) \
+        .annotate(percent_read=as_float(F('fraction_read')) * 100.)\
         .order_by("-start")
 
 
@@ -115,3 +98,6 @@ def completed_readings_by(user):
 
     return Reading.objects.filter(reader=user).exclude(end=None).order_by("-end")
 
+
+def as_float(x):
+    return Cast(x, FloatField())
