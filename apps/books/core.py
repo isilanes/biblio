@@ -6,7 +6,7 @@ from django.db.models import Subquery, OuterRef, FloatField, F
 import plotly.graph_objects as go
 from plotly.offline import plot as offplot
 
-from .models import Book, BookStartEvent, BookEndEvent, Reading, ReadingUpdate
+from .models import Reading, ReadingUpdate
 
 
 def get_book_progress_plot(points, total_pages, longest=0, pages_per_day=None):

@@ -72,12 +72,12 @@ class Book(models.Model):
 
         Reading(book=self, reader=user, start=timezone.now()).save()
 
-    def set_pages(self, pages=None):
+    def set_pages_for(self, user=None, pages=None):
         """Mark 'pages' as pages read. Do nothing if 'None'."""
 
         if pages is not None:
-            event = PageUpdateEvent(book=self, when=timezone.now(), pages_read=pages)
-            event.save()
+            reading = Reading.objects.get(reader=user, book=self, end=None)
+            ReadingUpdate(reading=reading, page=pages, date=timezone.now()).save()
 
     @property
     def events(self):

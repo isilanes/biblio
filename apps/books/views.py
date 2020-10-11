@@ -111,7 +111,7 @@ def update_book_progress(request, book_id):
                 if not book.is_currently_being_read_by(request.user):
                     book.mark_started_by(request.user)
                 if pages_read > 0:
-                    book.set_pages(pages_read)
+                    book.set_pages_for(request.user, pages_read)
 
                 return redirect("books:book_detail", book_id=book_id)
 
