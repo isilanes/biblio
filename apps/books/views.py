@@ -109,7 +109,7 @@ def update_book_progress(request, book_id):
             pages_read = form.cleaned_data.get("pages_read")
             if pages_read is not None:
                 if not book.is_currently_being_read_by(request.user):
-                    book.mark_started()
+                    book.mark_started_by(request.user)
                 if pages_read > 0:
                     book.set_pages(pages_read)
 

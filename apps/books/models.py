@@ -2,7 +2,6 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
-from biblio import core
 from .managers import EventManager
 
 
@@ -68,11 +67,10 @@ class Book(models.Model):
         end = BookEndEvent(book=self, when=timezone.now())
         end.save()
 
-    def mark_started(self):
+    def mark_started_by(self, user):
         """Mark self as started to read."""
 
-        start = BookStartEvent(book=self, when=timezone.now())
-        start.save()
+        Reading(book=self, reader=user, start=timezone.now()).save()
 
     def set_pages(self, pages=None):
         """Mark 'pages' as pages read. Do nothing if 'None'."""
@@ -87,8 +85,7 @@ class Book(models.Model):
 
         return Event.objects.filter(book=self).order_by("when").select_subclasses()
 
-    @property
-    def status(self):
+    def status(self, user):
         """Whether book is not owned, owned but not read, reading, or read."""
 
         if self.ordered:
@@ -97,7 +94,7 @@ class Book(models.Model):
         if self.is_already_read:
             return "read"
 
-        if self.is_currently_being_read:
+        if self.is_currently_being_read_by(user):
             return "reading"
 
         if self.owned:

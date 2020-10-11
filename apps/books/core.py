@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 from django.utils import timezone
-from django.db.models.functions import Cast
+from django.db.models.functions import Cast, Coalesce
 from django.db.models import Subquery, OuterRef, FloatField, F
 import plotly.graph_objects as go
 from plotly.offline import plot as offplot
@@ -87,7 +87,7 @@ def current_readings_by(user):
     latest_ru_subquery = ReadingUpdate.objects.filter(reading=OuterRef('id')).order_by("-date")[:1]
 
     return Reading.objects.filter(reader=user, end=None)\
-        .annotate(pages_read=Subquery(latest_ru_subquery.values('page')))\
+        .annotate(pages_read=Coalesce(Subquery(latest_ru_subquery.values('page')), 0))\
         .annotate(fraction_read=as_float(F('pages_read')) / as_float(F('book__pages'))) \
         .annotate(percent_read=as_float(F('fraction_read')) * 100.)\
         .order_by("-start")

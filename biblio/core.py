@@ -16,15 +16,17 @@ def save_user_preferences(data, user):
 class TicToc:
 
     def __init__(self):
-        self.t0 = None
-        self.tic()
+        self.t0 = self._now()
 
     def tic(self):
-        self.t0 = time.time()
+        self.t0 = self._now()
 
     def toc(self, msg=None):
-        t1 = time.time()
+        t1 = self._now()
         dt = (t1 - self.t0) * 1000
         print(f"{msg}: {dt:.1f} ms")
         self.t0 = t1
 
+    @staticmethod
+    def _now():
+        return time.time()
