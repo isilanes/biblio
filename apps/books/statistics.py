@@ -1,10 +1,10 @@
 from datetime import datetime
 
-from django.db.models import Sum, Subquery, OuterRef, F
+from django.db.models import Sum
 
 from . import core
+from .models import Reading
 from biblio.models import UserPreferences
-from .models import Reading, ReadingUpdate
 
 
 class State(object):
@@ -154,8 +154,8 @@ class State(object):
         # Stats from books currently being read:
         current_readings_qs = core.current_readings_by(self.user)
         data = current_readings_qs.aggregate(total_pages=Sum('pages_read'), total_fraction=Sum('fraction_read'))
-        books_this_year += data["total_fraction"]
-        pages_this_year += data["total_pages"]
+        books_this_year += data.get("total_fraction") or 0  # for when "total_fraction" exists, but is None
+        pages_this_year += data.get("total_pages") or 0  # for when "total_pages" exists, but is None
 
         return books_this_year, pages_this_year
 
