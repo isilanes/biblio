@@ -127,9 +127,7 @@ USE_TZ = True
 # Static files:
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, PROJECT_NAME, "static"),
-]
+STATICFILES_DIRS = []  # leave empty if static files only within apps (automatically found)
 
 # Other:
 LOGIN_URL = "/login"
