@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+from biblio import core
 from .managers import EventManager
 
 
@@ -104,14 +105,10 @@ class Book(models.Model):
 
         return "not-owned"
 
-    @property
-    def is_currently_being_read(self):
+    def is_currently_being_read_by(self, user):
         """Returns True if it is currently being read. False otherwise."""
 
-        starts = BookStartEvent.objects.filter(book=self)
-        ends = BookEndEvent.objects.filter(book=self)
-
-        return starts.count() > ends.count()
+        return Reading.objects.filter(book=self, reader=user, end=None).exists()
 
     @property
     def is_already_read(self):
