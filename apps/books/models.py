@@ -69,8 +69,9 @@ class Book(models.Model):
     def mark_read(self):
         """Mark self as read."""
 
-        end = BookEndEvent(book=self, when=timezone.now())
-        end.save()
+        reading = Reading.objects.get(book=self, end=None)
+        reading.end = timezone.now()
+        reading.save()
 
     def mark_started_by(self, user):
         """Mark self as started to read."""

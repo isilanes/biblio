@@ -270,8 +270,7 @@ def start_book(request):
 def mark_book_read(request, book_id):
     """Come here with a GET to mark a book read."""
 
-    book = Book.objects.get(pk=book_id)
-    book.mark_read()
+    Book.objects.get(pk=book_id).mark_read()
 
     return redirect("books:book_detail", book_id=book_id)
 
