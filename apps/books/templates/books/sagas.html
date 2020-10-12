@@ -8,12 +8,12 @@ Sagas
 
 {% block body %}
 <div class="header">
-    {{new_sagas.completed|length}} sagas completed
+    {{sagas.completed|length}} sagas completed
     <button class="toggle" onclick="mytoggle('show_saga_completed')">[toggle show]</button>
 </div>
 
 <div id="show_saga_completed" style="display: none;">
-    {% for completed_saga in new_sagas.completed %}
+    {% for completed_saga in sagas.completed %}
     <div class="saga-head">
         {{completed_saga}} <button class="toggle" onclick="mytoggle('{{completed_saga}}')">[toggle show]</button>
     </div>
@@ -49,7 +49,6 @@ Sagas
     </div>
 {% endfor %}
 </div>
-
 
 <div class="header">
     {{sagas.missing|length}} sagas missing one or more books

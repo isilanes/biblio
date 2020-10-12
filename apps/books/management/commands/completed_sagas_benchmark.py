@@ -43,7 +43,7 @@ class Command(BaseCommand):
         for saga in Saga.objects.all():
             completed = True
             for book in saga.books:
-                if not book.is_already_read_by(user):
+                if Reading.objects.filter(book=book, reader=user).exclude(end=None).exists():
                     completed = False
                     break
             if completed:
