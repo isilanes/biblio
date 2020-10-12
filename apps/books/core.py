@@ -1,12 +1,13 @@
 from datetime import timedelta
 
 from django.utils import timezone
-from django.db.models.functions import Cast, Coalesce
-from django.db.models import Subquery, OuterRef, FloatField, F
+from django.db.models.functions import Coalesce
+from django.db.models import Subquery, OuterRef, F, Case, When, Value, BooleanField
 import plotly.graph_objects as go
 from plotly.offline import plot as offplot
 
-from .models import Reading, ReadingUpdate
+from biblio.core import as_float, TicToc
+from .models import Reading, ReadingUpdate, Saga, Book
 
 
 def get_book_progress_plot(points, total_pages, longest=0, pages_per_day=None):
@@ -99,5 +100,17 @@ def completed_readings_by(user):
     return Reading.objects.filter(reader=user).exclude(end=None).order_by("-end")
 
 
-def as_float(x):
-    return Cast(x, FloatField())
+def get_saga_data_for(user):
+    catch_unreads_sq = Book.objects.filter(saga=OuterRef("id"))\
+        .exclude(reading__reader=user, reading__end__isnull=False)\
+        .annotate(is_unread=Case(When(title__isnull=False,  # in other words, always
+                                      then=Value(True)), output_field=BooleanField()))[:1]
+
+    sagas = Saga.objects\
+        .annotate(has_unreads=Subquery(catch_unreads_sq.values('is_unread')))
+
+    data = {
+        "completed": sagas.filter(has_unreads__isnull=True),  # the ones with no unread
+    }
+
+    return data

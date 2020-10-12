@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from . import core, statistics
 from .models import Book, Author, BookStartEvent, Saga
 from .forms import BookForm, AddBookForm, SearchBookForm
+from biblio.core import TicToc
 
 
 @login_required
@@ -47,13 +48,22 @@ def index(request):
 def sagas(request):
     """Saga view."""
 
-    context = {
-        "banner": "Sagas",
-        "books_sagas_active": True,
-        "sagas": Saga.objects.all(),
+    tt = TicToc()
+    saga_data = {
         "completed": completed_sagas(),
         "owned": owned_sagas(),
         "missing": missing_sagas(),
+    }
+    tt.toc("old saga")
+
+    saga_data_new = core.get_saga_data_for(request.user)
+    tt.toc("new saga")
+
+    context = {
+        "banner": "Sagas",
+        "books_sagas_active": True,
+        "sagas": saga_data,
+        "new_sagas": saga_data_new,
     }
 
     return render(request, "books/sagas.html", context)

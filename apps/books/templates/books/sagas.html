@@ -8,34 +8,34 @@ Sagas
 
 {% block body %}
 <div class="header">
-    {{completed|length}} sagas completed
+    {{new_sagas.completed|length}} sagas completed
     <button class="toggle" onclick="mytoggle('show_saga_completed')">[toggle show]</button>
 </div>
 
 <div id="show_saga_completed" style="display: none;">
-    {% for saga in completed %}
+    {% for completed_saga in new_sagas.completed %}
     <div class="saga-head">
-        {{saga}} <button class="toggle" onclick="mytoggle('{{saga}}')">[toggle show]</button>
+        {{completed_saga}} <button class="toggle" onclick="mytoggle('{{completed_saga}}')">[toggle show]</button>
     </div>
 
-    <div class="saga-grid" id="{{saga}}" style="display: none;">
-        {% for book in saga.books %}
+    <div class="saga-grid" id="{{completed_saga}}" style="display: none;">
+        {% for book in completed_saga.books %}
         <div class="{{book.status}}">
-            <a href="{% url 'books:book_detail' book.id %}" style="color: #111111;">#{{book.index_in_saga}} {{book}}</a>
+            <a href="{% url 'books:book_detail' book.id %}" style="color: #111111;">
+                #{{book.index_in_saga}} {{book}}</a>
         </div>
         {% endfor %}
     </div>
     {% endfor %}
 </div>
 
-
 <div class="header">
-    {{owned|length}} sagas owned
+    {{sagas.owned|length}} sagas owned
     <button class="toggle" onclick="mytoggle('show_saga_owned')">[toggle show]</button>
 </div>
 
 <div id="show_saga_owned" style="display: none;">
-    {% for saga in owned %}
+    {% for saga in sagas.owned %}
     <div class="saga-head">
         {{saga}} <button class="toggle" onclick="mytoggle('{{saga}}')">[toggle show]</button>
     </div>
@@ -52,12 +52,12 @@ Sagas
 
 
 <div class="header">
-    {{missing|length}} sagas missing one or more books
+    {{sagas.missing|length}} sagas missing one or more books
     <button class="toggle" onclick="mytoggle('show_saga_missing')">[toggle show]</button>
 </div>
 
 <div id="show_saga_missing" style="display: none;">
-    {% for saga in missing %}
+    {% for saga in sagas.missing %}
     <div class="saga-head">
         {{saga}} <button class="toggle" onclick="mytoggle('{{saga}}')">[toggle show]</button>
     </div>
@@ -72,6 +72,5 @@ Sagas
     {% endfor %}
 
 </div>
-
 {% endblock %}
 

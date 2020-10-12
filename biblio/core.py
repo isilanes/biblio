@@ -1,5 +1,8 @@
 import time
 
+from django.db.models import FloatField
+from django.db.models.functions import Cast
+
 from .models import UserPreferences
 
 
@@ -11,6 +14,10 @@ def save_user_preferences(data, user):
     prefs.books_per_year = data["books_per_year"]
     prefs.pages_per_year = data["pages_per_year"]
     prefs.save()
+
+
+def as_float(x):
+    return Cast(x, FloatField())
 
 
 class TicToc:

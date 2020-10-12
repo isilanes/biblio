@@ -34,6 +34,11 @@ class Saga(models.Model):
 
         return True
 
+    def completed_by(self, user):
+        """True if all books in saga read by user. False otherwise."""
+
+        return not Book.objects.filter(saga=self).exclude(reading__reader=user, reading__end__isnull=False).exists()
+
     @property
     def owned(self):
         """True if all books in saga owned (read or not). False otherwise."""
@@ -119,6 +124,11 @@ class Book(models.Model):
                 read = True
 
         return read
+
+    def is_already_read_by(self, user):
+        """Returns True if it has already been read by user. False otherwise."""
+
+        return Reading.objects.filter(book=self, reader=user).exclude(end=None).exists()
 
     def pages_read_by(self, user):
         """How many pages read so far. Only interesting for books currently being read."""
