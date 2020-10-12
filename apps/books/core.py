@@ -115,13 +115,13 @@ def get_saga_data_for(user):
                                        then=Value(True)), output_field=BooleanField()))[:1]
 
     sagas = Saga.objects\
-        .annotate(has_unreads=Subquery(catch_unreads_sq.values('is_unread')))\
-        .annotate(has_unowneds=Subquery(catch_unowneds_sq.values('is_unowned')))
+        .annotate(has_unreads=Coalesce(Subquery(catch_unreads_sq.values('is_unread')), False))\
+        .annotate(has_unowneds=Coalesce(Subquery(catch_unowneds_sq.values('is_unowned')), False))
 
     data = {
-        "completed": sagas.filter(has_unreads__isnull=True),  # sagas with no unread book
-        "owned": sagas.filter(has_unowneds__isnull=True,
-                              has_unreads__isnull=False),  # sagas with no unowned AND at least 1 unread book
+        "completed": sagas.filter(has_unreads=False),  # sagas with no unread book
+        "owned": sagas.filter(has_unowneds=False, has_unreads=True),  # no unowned AND at least some unread book
+        "missing": sagas.filter(has_unreads=True, has_unowneds=True),  # at least some unowned AND some unread books
     }
 
     return data

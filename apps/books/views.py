@@ -48,26 +48,10 @@ def index(request):
 def sagas(request):
     """Saga view."""
 
-    tt = TicToc()
-    saga_data_old = {
-        #"completed": completed_sagas(),
-        "owned": owned_sagas(),
-        #"missing": missing_sagas(),
-    }
-    tt.toc("old saga")
-
-    saga_data_new = core.get_saga_data_for(request.user)
-    tt.toc("new saga")
-
-    saga_data = {
-        "completed": saga_data_new["completed"],
-        "owned": saga_data_new["owned"],
-    }
-
     context = {
         "banner": "Sagas",
         "books_sagas_active": True,
-        "sagas": saga_data,
+        "sagas": core.get_saga_data_for(request.user),
     }
 
     return render(request, "books/sagas.html", context)
