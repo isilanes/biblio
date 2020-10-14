@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from django.utils import timezone
 from django.db.models.functions import Coalesce
-from django.db.models import Subquery, OuterRef, F, Case, When, Value, BooleanField
+from django.db.models import Subquery, OuterRef, F, Case, When, Value, BooleanField, Count
 import plotly.graph_objects as go
 from plotly.offline import plot as offplot
 
@@ -94,10 +94,23 @@ def current_readings_by(user):
         .order_by("-start")
 
 
-def completed_readings_by(user):
-    """Return list of books already read, sorted by finish date."""
+def completed_readings_by_year_for(user):
+    """Return list of books already read, sorted by finish date and grouped by year (recent first)."""
 
-    return Reading.objects.filter(reader=user).exclude(end=None).order_by("-end")
+    years_with_readings_qs = Reading.objects.filter(reader=user).exclude(end=None)\
+        .order_by("-end__year")\
+        .values("end__year")\
+        .distinct()
+
+    data = []
+    for year in [v["end__year"] for v in years_with_readings_qs]:
+        year_data = {
+            "year": year,
+            "readings": Reading.objects.filter(reader=user, end__year=year).order_by("-end"),
+        }
+        data.append(year_data)
+
+    return data
 
 
 def get_saga_data_for(user):

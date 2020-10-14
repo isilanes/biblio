@@ -36,8 +36,7 @@ def index(request):
         "banner": "Index",
         "books_index_active": True,
         "current_readings": core.current_readings_by(request.user),
-        "completed_readings": core.completed_readings_by(request.user),
-        "currently_ordered_books": currently_ordered_books(),
+        "completed_readings": core.completed_readings_by_year_for(request.user),
     }
 
     return render(request, "books/index.html", context)
@@ -297,22 +296,6 @@ def author_detail(request, author_id=None):
 
 
 # Helper functions:
-def currently_ordered_books():
-    """Return list of books currently ordered, but not yet received, unsorted."""
-
-    return Book.objects.filter(ordered=True)
-
-
-def owned_sagas():
-    return [s for s in Saga.objects.all() if not s.completed and s.owned]
-
-
-def missing_sagas():
-    """Sagas with one or more books missing."""
-
-    return [s for s in Saga.objects.all() if not s.completed and not s.owned]
-
-
 def handle_start_reading_post(request):
     form = SearchBookForm(request.POST or None)
 

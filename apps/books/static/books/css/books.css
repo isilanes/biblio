@@ -283,20 +283,6 @@ button.toggle {
     background-color: transparent;
 }
 
-.header {
-    justify-self: stretch;
-    border-radius: 12px;
-    font-weight: bold;
-    font-size: 30px;
-    background-color: #7766ff;
-    color: white;
-    margin-bottom: 10;
-    padding: 5;
-    padding-left: 15;
-    margin-left: 10;
-    margin-right: 10;
-}
-
 .book-progress-plot {
     height: 500px;
 }
