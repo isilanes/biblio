@@ -223,24 +223,6 @@ label {
     //line-height: 50px;
 }
 
-.saga-head {
-    border: none;
-    color: #ffffff;
-    background-color: #304b8e;
-    text-align: left;
-    text-decoration: none;
-    display: inline-block;
-    width: 50%;
-    font-size: 25;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
-    padding-left: 15;
-    padding-top: 5;
-    padding-bottom: 5;
-}
-
 .saga-grid div {
     border: none;
     color: white;

@@ -7,14 +7,14 @@ Sagas
 {% endblock %}
 
 {% block body %}
-<div class="header">
+<div class="block-1 w-100">
     {{sagas.completed|length}} sagas completed
     <button class="toggle" onclick="mytoggle('show_saga_completed')">[toggle show]</button>
 </div>
 
 <div id="show_saga_completed" style="display: none;">
     {% for completed_saga in sagas.completed %}
-    <div class="saga-head">
+    <div class="block-2 w-50">
         {{completed_saga}} <button class="toggle" onclick="mytoggle('{{completed_saga}}')">[toggle show]</button>
     </div>
 
@@ -29,14 +29,14 @@ Sagas
     {% endfor %}
 </div>
 
-<div class="header">
+<div class="block-1 w-100">
     {{sagas.owned|length}} sagas owned
     <button class="toggle" onclick="mytoggle('show_saga_owned')">[toggle show]</button>
 </div>
 
 <div id="show_saga_owned" style="display: none;">
     {% for saga in sagas.owned %}
-    <div class="saga-head">
+    <div class="block-2 w-50">
         {{saga}} <button class="toggle" onclick="mytoggle('{{saga}}')">[toggle show]</button>
     </div>
 
@@ -50,14 +50,14 @@ Sagas
 {% endfor %}
 </div>
 
-<div class="header">
+<div class="block-1 w-100">
     {{sagas.missing|length}} sagas missing one or more books
     <button class="toggle" onclick="mytoggle('show_saga_missing')">[toggle show]</button>
 </div>
 
 <div id="show_saga_missing" style="display: none;">
     {% for saga in sagas.missing %}
-    <div class="saga-head">
+    <div class="block-2 w-50">
         {{saga}} <button class="toggle" onclick="mytoggle('{{saga}}')">[toggle show]</button>
     </div>
 
