@@ -8,7 +8,6 @@ from django.contrib.auth.decorators import login_required
 from . import core, statistics
 from .models import Book, Author, BookStartEvent, Saga
 from .forms import BookForm, AddBookForm, SearchBookForm
-from biblio.core import TicToc
 
 
 @login_required
@@ -302,10 +301,6 @@ def currently_ordered_books():
     """Return list of books currently ordered, but not yet received, unsorted."""
 
     return Book.objects.filter(ordered=True)
-
-
-def completed_sagas():
-    return [s for s in Saga.objects.all() if s.completed]
 
 
 def owned_sagas():

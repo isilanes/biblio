@@ -11,3 +11,6 @@ whitenoise==5.0.1
 dj-database-url==0.5.0
 psycopg2==2.8.4
 plotly
+coverage==5.3
+radon==4.3.2
+flake8==3.7.9
