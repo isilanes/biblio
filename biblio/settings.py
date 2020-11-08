@@ -88,6 +88,7 @@ AVAILABLE_DATABASES = {
         'NAME': conf.get("DB_NAME", PROJECT_NAME),
         'USER': conf.get("DB_USER"),
         'PASSWORD': conf.get("DB_PASSWORD"),
+        'HOST': conf.get("DB_HOST", ""),  # leave it empty for local connection
     },
 }
 DATABASES = {}
