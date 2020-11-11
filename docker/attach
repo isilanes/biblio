@@ -1,5 +1,0 @@
-# Get ID:
-PID=$(docker ps | awk '/django-progress/{print $1}')
-
-# Attach to ID:
-docker exec -i -t $PID /bin/bash
