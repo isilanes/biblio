@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from .models import Author, Book, PageUpdateEvent, BookStartEvent, BookEndEvent, Saga, Reading, ReadingUpdate
+from .models import Author, Book, Saga, Reading, ReadingUpdate
+from .models import PageUpdateEvent, BookStartEvent, BookEndEvent
 
 
 admin.site.register(Reading)
