@@ -272,9 +272,16 @@ button.toggle {
 .card-grid {
     display: grid;
     width: 100%;
-    grid-template-columns: 1fr 300px 300px 300px 1fr;
     justify-items: center;
     grid-gap: 50px;
+}
+
+.card-grid-3 {
+    grid-template-columns: 1fr repeat(3, 300px) 1fr;
+}
+
+.card-grid-4 {
+    grid-template-columns: 1fr repeat(4, 300px) 1fr;
 }
 
 .card {

@@ -142,6 +142,16 @@ class State(object):
 
         return self.year_fraction_passed * 365
 
+    @property
+    def pages_superavit(self) -> int:
+        """
+        How many pages ahead (or behind, if negative) of where we should be, we are.
+
+        :return: int
+        """
+
+        return self.book_superavit * self.pages_per_book
+
     def _books_and_pages_so_far(self):
         """Number of books and pages read during year."""
 

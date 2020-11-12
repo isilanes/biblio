@@ -22,7 +22,7 @@ Stats
 
     <h2 class="mt-4">Books</h2>
 
-    <div class="card-grid">
+    <div class="card-grid card-grid-3">
         <div></div>
         <div class="card card-info">
             <div class="card-title">Expected</div>
@@ -44,7 +44,7 @@ Stats
 
     <h2 class="mt-5">Pages</h2>
 
-    <div class="card-grid">
+    <div class="card-grid card-grid-4">
         <div></div>
         <div class="card card-info">
             <div class="card-title">pages/day</div>
@@ -59,6 +59,18 @@ Stats
         <div class="card card-info">
             <div class="card-title">pages/book</div>
             <div class="card-value">{{state.pages_per_book|floatformat:1}}</div>
+        </div>
+
+        <div class="card
+            {% if state.pages_superavit > 0 %} card-success {% else %} card-fail {% endif %}">
+            <div class="card-title">
+                {% if state.pages_superavit > 0 %}
+                    pages ahead
+                {% else %}
+                    pages behind
+                {% endif %}
+            </div>
+            <div class="card-value">{{state.pages_superavit|floatformat:1}}</div>
         </div>
     </div>
 </div>
