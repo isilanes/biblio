@@ -1,4 +1,4 @@
-a.modify-condensed {
+a.condensed-btn {
     border: none;
     color: white;
     text-align: center;
@@ -9,6 +9,13 @@ a.modify-condensed {
     line-height: 50px;
     font-size: 25px;
     border-radius: 5px;
+}
+
+a.details-btn {
+    background-color: #6634aa;
+}
+
+a.update-btn {
     background-color: #34aa66;
 }
 

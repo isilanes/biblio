@@ -149,7 +149,6 @@ class State(object):
 
         :return: int
         """
-
         return self.book_superavit * self.pages_per_book
 
     def _books_and_pages_so_far(self):

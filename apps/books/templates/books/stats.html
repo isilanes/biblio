@@ -15,8 +15,8 @@ Stats
                  style="width: {{reading.percent_read}}%;">
                 {{reading.book.title}} ({{reading.pages_read}} / {{reading.book.pages}})</div>
         </div>
-        <a class="modify-condensed" href="{% url 'books:book_detail' reading.book.id %}">Details</a>
-        <a class="modify-condensed" href="{% url 'books:update_book_progress' reading.book.id %}">Update</a>
+        <a class="condensed-btn details-btn" href="{% url 'books:book_detail' reading.book.id %}">Details</a>
+        <a class="condensed-btn update-btn" href="{% url 'books:update_book_progress' reading.book.id %}">Update</a>
         {% endfor %}
     </div>
 
@@ -47,13 +47,13 @@ Stats
     <div class="card-grid card-grid-4">
         <div></div>
         <div class="card card-info">
-            <div class="card-title">pages/day</div>
-            <div class="card-value">{{state.pages_per_day|floatformat:1}}</div>
+            <div class="card-title">Total</div>
+            <div class="card-value">{{state.pages_read|floatformat:0}}</div>
         </div>
 
         <div class="card card-info">
-            <div class="card-title">Total</div>
-            <div class="card-value">{{state.pages_read|floatformat:0}}</div>
+            <div class="card-title">pages/day</div>
+            <div class="card-value">{{state.pages_per_day|floatformat:1}}</div>
         </div>
 
         <div class="card card-info">
