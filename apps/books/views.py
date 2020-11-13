@@ -101,10 +101,8 @@ def update_book_progress(request, book_id):
 
     if request.method == "POST":
         form = BookForm(request.POST or None)
-        print("DEBUG104", form, form.is_valid())
         if form.is_valid():
             pages_read = form.cleaned_data.get("pages_read")
-            print("DEBUG107", pages_read)
             if pages_read is None and not book.is_currently_being_read_by(request.user):
                 book.mark_started_by(request.user)
             elif pages_read > 0:

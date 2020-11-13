@@ -134,12 +134,14 @@ class Book(models.Model):
     def pages_read_by(self, user):
         """How many pages read so far. Only interesting for books currently being read."""
 
-        last_event = PageUpdateEvent.objects.filter(book=self, user=user).order_by("when").last()
+        last_update = ReadingUpdate.objects\
+            .filter(reading__book=self, reading__end=None)\
+            .order_by("date").last()
 
-        if last_event is not None:
-            return last_event.pages_read
-
-        return 0
+        if last_update is None:
+            return 0
+        else:
+            return last_update.page
 
     def percent_read_by(self, user):
 
