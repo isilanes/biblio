@@ -1,16 +1,29 @@
 {% extends "books/base_books.html" %}
 
 {% block body %}
-<form class="mt-5" action="{% url 'books:update_book_progress' book.id %}" method="post" style="margin-left: 10px;">
-    {% csrf_token %}
-    <div>
-        {{ form }}
-    </div>
+{% if book_is_being_read %}
+<div class="mt-3">
+    <button class="big-button good" onclick="mytoggle('show_page_update')">Update</button>
+    <a class="big-button bad" href="{% url 'books:mark_book_read' book.id %}">Mark read</a>
+    <a class="big-button cancel" href="{% url 'books:book_detail' book.id %}">Cancel</a>
+</div>
 
-    <div class="mt-3">
+<div id="show_page_update" style="display: none;">
+    <form class="mt-5" action="{% url 'books:update_book_progress' book.id %}"
+          method="post" style="margin-left: 10px;">
+        {% csrf_token %}
+        {{ form }}
+
         <input type="submit" class="big-button good" value="Submit">
-        <a class="big-button bad" href="{% url 'books:mark_book_read' book.id %}">Mark read</a>
-        <a class="big-button cancel" href="{% url 'books:book_detail' book.id %}">Cancel</a>
-    </div>
+    </form>
+</div>
+{% else %}
+<form class="mt-5" action="{% url 'books:update_book_progress' book.id %}"
+      method="post" style="margin-left: 10px;">
+    {% csrf_token %}
+
+    <input type="submit" class="big-button good" value="Start book">
+    <a class="big-button cancel" href="{% url 'books:book_detail' book.id %}">Cancel</a>
 </form>
+{% endif %}
 {% endblock %}

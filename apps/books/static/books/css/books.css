@@ -106,8 +106,20 @@ label {
     background-color: #34aa66;
 }
 
+.good:hover {
+    color: white;
+    background-color: #54ca86;
+    text-decoration: none;
+}
+
 .bad {
     background-color: #d9534f;
+}
+
+.bad:hover {
+    color: white;
+    background-color: #f9736f;
+    text-decoration: none;
 }
 
 .cancel {

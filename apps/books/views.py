@@ -101,15 +101,16 @@ def update_book_progress(request, book_id):
 
     if request.method == "POST":
         form = BookForm(request.POST or None)
+        print("DEBUG104", form, form.is_valid())
         if form.is_valid():
             pages_read = form.cleaned_data.get("pages_read")
-            if pages_read is not None:
-                if not book.is_currently_being_read_by(request.user):
-                    book.mark_started_by(request.user)
-                if pages_read > 0:
-                    book.set_pages_for(request.user, pages_read)
+            print("DEBUG107", pages_read)
+            if pages_read is None and not book.is_currently_being_read_by(request.user):
+                book.mark_started_by(request.user)
+            elif pages_read > 0:
+                book.set_pages_for(request.user, pages_read)
 
-                return redirect("books:book_detail", book_id=book_id)
+            return redirect("books:book_detail", book_id=book_id)
 
     initial = {
         "pages_read": book.pages_read_by(request.user),
@@ -120,6 +121,7 @@ def update_book_progress(request, book_id):
         "banner": f"Modify book: {book.title}",
         "form": form,
         "book": book,
+        "book_is_being_read": book.is_currently_being_read_by(request.user),
     }
 
     return render(request, 'books/update_book_progress.html', context)
