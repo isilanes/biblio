@@ -141,26 +141,6 @@ class Event(models.Model):
     objects = EventManager()
 
 
-class PageUpdateEvent(Event):
-    """The event of updating the pages of a book I have already read."""
-
-    pages_read = models.IntegerField("Pages read", default=0)
-
-    @property
-    def page_equivalent(self):
-        return self.pages_read
-
-    @property
-    def progress_percent(self):
-        return 100. * self.pages_read / self.book.pages
-
-    def __str__(self):
-        return f"{self.pages_read} pages read on '{self.book}'"
-
-    def __unicode__(self):
-        return self.__str__()
-
-
 class Reading(models.Model):
     reader = models.ForeignKey(User, blank=False, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, blank=True, on_delete=models.CASCADE)
