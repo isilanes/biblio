@@ -161,19 +161,6 @@ class PageUpdateEvent(Event):
         return self.__str__()
 
 
-class BookStartEvent(Event):
-    """The event of starting reading a book."""
-
-    page_equivalent = 0
-    progress_percent = 0
-
-    def __str__(self):
-        return f"'{self.book}' started"
-
-    def __unicode__(self):
-        return self.__str__()
-
-
 class Reading(models.Model):
     reader = models.ForeignKey(User, blank=False, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, blank=True, on_delete=models.CASCADE)

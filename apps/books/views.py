@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 
 from . import core, statistics
-from .models import Book, Author, BookStartEvent, Saga
+from .models import Book, Author, Saga
 from .forms import BookForm, AddBookForm, SearchBookForm
 
 
@@ -138,12 +138,7 @@ def add_book(request):
                 book.title = title
                 book.pages = form.cleaned_data.get("pages")
                 book.year = form.cleaned_data.get("year")
-
-                if "acquired" not in request.POST and "reading" not in request.POST:
-                    book.owned = False
-
-                if "ordered" in request.POST:
-                    book.ordered = True
+                book.owned = False
 
                 # Saga info:
                 saga_name = form.cleaned_data.get("saga")
@@ -173,13 +168,6 @@ def add_book(request):
                         author = Author(name=author_name)
                         author.save()
                     book.authors.add(author)
-
-                # Add started reading:
-                if "reading" in request.POST:
-                    start = BookStartEvent()
-                    start.book = book
-                    start.when = timezone.now()
-                    start.save()
 
                 return redirect("books:book_detail", book_id=book.id)
 

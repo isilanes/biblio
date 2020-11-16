@@ -1,20 +1,15 @@
 {% extends "books/base_books.html" %}
 
-{% load bootstrap4 %}
-
 {% block body %}
 <form action="" method="post" class="ml-3 mt-4">
     {% csrf_token %}
     <div class="add-book-form">
-    {% bootstrap_form form layout="vertical" %}
+    {{ form }}
     </div>
 
     <div class="mt-3">
         {% if action == "add" %}
-        <input type="submit" class="big-button primary" name="wished" value="Wished">
-        <input type="submit" class="big-button primary" name="ordered" value="Ordered">
-        <input type="submit" class="big-button primary" name="acquired" value="Acquired">
-        <input type="submit" class="big-button primary" name="reading" value="Reading">
+        <input type="submit" class="big-button primary" name="add" value="Add">
         <a class="big-button cancel" href="{% url 'books:stats' %}">Cancel</a>
         {% endif %}
 

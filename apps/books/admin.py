@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import Author, Book, Saga, Reading, ReadingUpdate
-from .models import PageUpdateEvent, BookStartEvent
+from .models import PageUpdateEvent
 
 
 admin.site.register(Reading)
@@ -10,11 +10,6 @@ admin.site.register(ReadingUpdate)
 
 class PageUpdateInline(admin.StackedInline):
     model = PageUpdateEvent
-    extra = 0
-
-
-class BookStartInline(admin.StackedInline):
-    model = BookStartEvent
     extra = 0
 
 
@@ -33,11 +28,6 @@ class BookAdmin(admin.ModelAdmin):
     fields = ["title", "authors", "pages", "year", "saga", "index_in_saga", "owned", "ordered"]
     list_display = ("title", "year")
     search_fields = ["title"]
-
-
-@admin.register(BookStartEvent)
-class BookStartEventAdmin(admin.ModelAdmin):
-    pass
 
 
 @admin.register(PageUpdateEvent)
