@@ -125,15 +125,6 @@ class Book(models.Model):
         return 100. * self.pages_read_by(user) / self.pages
 
     @property
-    def date_read(self):
-        """Return date of most recent time we finished reading it. None if never."""
-
-        try:
-            return BookEndEvent.objects.filter(book=self).order_by("-when")[0].when
-        except IndexError:
-            return None
-
-    @property
     def list_of_authors(self):
         """Return Authors as a list of strings."""
 
