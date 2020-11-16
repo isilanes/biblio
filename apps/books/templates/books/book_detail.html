@@ -35,7 +35,7 @@
 <div class="book-detail-grid mt-5 ml-3" style="width: 900px; font-size: 25px">
     <div class="two-col-grid-text">Date</div><div class="two-col-grid-text">Event</div>
 
-    {% for event in book.events %}
+    {% for event in nothing %}
     <div class="two-col-grid-text">{{event.when|date:"Y-m-d H:i" }}</div>
     {% if event.page_equivalent == 0 %}
     <div class="two-col-grid-text">

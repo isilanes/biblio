@@ -68,7 +68,7 @@ def book_detail(request, book_id):
 
     reading = []  # list of (when, pages) for a time read
     readings = []  # one reading per time read
-    for event in book.events:
+    for event in []:  # FIXTHIS
         reading.append((event.when, event.page_equivalent))
         if event.page_equivalent == book.pages:
             readings.append(reading)
