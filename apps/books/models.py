@@ -2,8 +2,6 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
-from .managers import EventManager
-
 
 class Author(models.Model):
     name = models.CharField('Name', max_length=200)
@@ -75,12 +73,6 @@ class Book(models.Model):
             reading = Reading.objects.get(reader=user, book=self, end=None)
             ReadingUpdate(reading=reading, page=pages, date=timezone.now()).save()
 
-    @property
-    def events(self):
-        """List of events regarding book, sorted by date."""
-
-        return Event.objects.filter(book=self).order_by("when").select_subclasses()
-
     def status(self, user):
         """Whether book is not owned, owned but not read, reading, or read."""
 
@@ -132,13 +124,6 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
-
-
-class Event(models.Model):
-    user = models.ForeignKey(User, blank=False, on_delete=models.CASCADE, default=1)
-    book = models.ForeignKey(Book, blank=True, on_delete=models.CASCADE)
-    when = models.DateTimeField("When", blank=True, default=timezone.now)
-    objects = EventManager()
 
 
 class Reading(models.Model):
