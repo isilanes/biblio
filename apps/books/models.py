@@ -24,16 +24,6 @@ class Saga(models.Model):
 
         return self.book_set.all().order_by("index_in_saga")
 
-    @property
-    def completed(self):
-        """True if all books in saga read. False otherwise."""
-
-        for book in self.books:
-            if not book.is_already_read:
-                return False
-
-        return True
-
     def completed_by(self, user):
         """True if all books in saga read by user. False otherwise."""
 
@@ -97,7 +87,7 @@ class Book(models.Model):
         if self.ordered:
             return "ordered"
 
-        if self.is_already_read:
+        if self.is_already_read_by(user):
             return "read"
 
         if self.is_currently_being_read_by(user):
@@ -112,19 +102,6 @@ class Book(models.Model):
         """Returns True if it is currently being read. False otherwise."""
 
         return Reading.objects.filter(book=self, reader=user, end=None).exists()
-
-    @property
-    def is_already_read(self):
-        """Returns True if it is already read. False otherwise."""
-
-        read = False
-        for event in self.events:
-            if isinstance(event, BookStartEvent):
-                read = False
-            elif isinstance(event, BookEndEvent):
-                read = True
-
-        return read
 
     def is_already_read_by(self, user):
         """Returns True if it has already been read by user. False otherwise."""
@@ -201,22 +178,6 @@ class BookStartEvent(Event):
 
     def __str__(self):
         return f"'{self.book}' started"
-
-    def __unicode__(self):
-        return self.__str__()
-
-
-class BookEndEvent(Event):
-    """The event of finishing reading a book."""
-
-    progress_percent = 100
-
-    @property
-    def page_equivalent(self):
-        return self.book.pages
-
-    def __str__(self):
-        return f"'{self.book}' finished"
 
     def __unicode__(self):
         return self.__str__()
