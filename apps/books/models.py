@@ -122,6 +122,17 @@ class Book(models.Model):
         return self.title
 
 
+class Edition(models.Model):
+    book = models.ForeignKey(Book, blank=True, on_delete=models.CASCADE)
+    isbn = models.CharField("ISBN", max_length=16)
+    title = models.CharField("Title", max_length=300)
+    year = models.IntegerField("Year", default=1)
+    pages = models.IntegerField("Pages", default=1)
+
+    def __str__(self):
+        return f"{self.year} edition of {self.book} ({self.isbn})"
+
+
 class Reading(models.Model):
     reader = models.ForeignKey(User, blank=False, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, blank=True, on_delete=models.CASCADE)

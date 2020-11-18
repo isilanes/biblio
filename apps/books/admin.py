@@ -3,18 +3,10 @@ from django.contrib import admin
 from .models import Author, Book, Saga, Reading, ReadingUpdate
 
 
+admin.site.register(Author)
+admin.site.register(Saga)
 admin.site.register(Reading)
 admin.site.register(ReadingUpdate)
-
-
-@admin.register(Author)
-class AuthorAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(Saga)
-class SagaAdmin(admin.ModelAdmin):
-    pass
 
 
 @admin.register(Book)
