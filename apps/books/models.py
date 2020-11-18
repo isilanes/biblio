@@ -130,7 +130,7 @@ class Edition(models.Model):
     pages = models.IntegerField("Pages", default=1)
 
     def __str__(self):
-        return f"{self.year} edition of {self.book} ({self.isbn})"
+        return f"{self.year} edition of '{self.book}' ({self.isbn})"
 
 
 class Reading(models.Model):

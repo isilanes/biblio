@@ -1,9 +1,10 @@
 from django.contrib import admin
 
-from .models import Author, Book, Saga, Reading, ReadingUpdate
+from .models import Author, Book, Saga, Reading, ReadingUpdate, Edition
 
 
 admin.site.register(Author)
+admin.site.register(Edition)
 admin.site.register(Saga)
 admin.site.register(Reading)
 admin.site.register(ReadingUpdate)
