@@ -114,32 +114,11 @@ def completed_readings_by_year_for(user):
 
 
 def get_saga_data_for(user):
-    tt = TicToc()
-    catch_unreads_sq = Book.objects\
-        .filter(saga=OuterRef("id"))\
-        .exclude(reading__reader=user, reading__end__isnull=False)\
-        .annotate(is_unread=Case(When(title__isnull=False,  # in other words, always
-                                      then=Value(True)), output_field=BooleanField()))[:1]
-
-    # This is wrong. Must change to "owned by user", not just "owned". Requires rewriting elsewhere.
-    catch_unowneds_sq = Book.objects\
-        .filter(saga=OuterRef("id"))\
-        .filter(owned=False)\
-        .annotate(is_unowned=Case(When(title__isnull=False,  # in other words, always
-                                       then=Value(True)), output_field=BooleanField()))[:1]
-
-    sagas = Saga.objects\
-        .annotate(has_unreads=Coalesce(Subquery(catch_unreads_sq.values('is_unread')), False))\
-        .annotate(has_unowneds=Coalesce(Subquery(catch_unowneds_sq.values('is_unowned')), False))
-
-    data = {
-        "completed": sagas.filter(has_unreads=False),  # sagas with no unread book
-        "owned": sagas.filter(has_unowneds=False, has_unreads=True),  # no unowned AND at least some unread book
-        "missing": sagas.filter(has_unreads=True, has_unowneds=True),  # at least some unowned AND some unread books
+    sagas = {
+        "read": [],
+        "owned": [],
+        "not_owned": [],
     }
-    tt.toc("data")
-
-    sagas = []
     for saga in Saga.objects.order_by("name"):
         saga_item = {
             "name": saga.name,
@@ -167,8 +146,11 @@ def get_saga_data_for(user):
             book_item = (book, status)
             saga_item["books"].append(book_item)
 
-        sagas.append(saga_item)
+        if saga_item["is_completed"]:
+            sagas["read"].append(saga_item)
+        elif saga_item["is_owned"]:
+            sagas["owned"].append(saga_item)
+        else:
+            sagas["not_owned"].append(saga_item)
 
-    tt.toc("data2")
-
-    return data, sagas
+    return sagas

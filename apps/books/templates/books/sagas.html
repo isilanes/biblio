@@ -8,19 +8,20 @@ Sagas
 
 {% block body %}
 <div class="block-1 w-100">
-    {{sagas.completed|length}} sagas completed
-    <button class="toggle" onclick="mytoggle('show_saga_completed')">[toggle show]</button>
+    {{sagas.read|length}} sagas completed
+    <button class="toggle" onclick="mytoggle('show_completed_sagas')">[toggle show]</button>
 </div>
 
-<div id="show_saga_completed" style="display: none;">
-    {% for completed_saga in sagas.completed %}
+<div id="show_completed_sagas" style="display: none;">
+    {% for completed_saga in sagas.read %}
     <div class="block-2 w-50">
-        {{completed_saga}} <button class="toggle" onclick="mytoggle('{{completed_saga}}')">[toggle show]</button>
+        {{completed_saga.name}} <button class="toggle" onclick="mytoggle('{{completed_saga.name}}')">
+        [toggle show]</button>
     </div>
 
-    <div class="saga-grid" id="{{completed_saga}}" style="display: none;">
-        {% for book in completed_saga.books %}
-        <div class="{{book.status}}">
+    <div class="saga-grid" id="{{completed_saga.name}}" style="display: none;">
+        {% for book, status in completed_saga.books %}
+        <div class="status-{{status}}">
             <a href="{% url 'books:book_detail' book.id %}" style="color: #111111;">
                 #{{book.index_in_saga}} {{book}}</a>
         </div>
@@ -31,63 +32,41 @@ Sagas
 
 <div class="block-1 w-100">
     {{sagas.owned|length}} sagas owned
-    <button class="toggle" onclick="mytoggle('show_saga_owned')">[toggle show]</button>
+    <button class="toggle" onclick="mytoggle('show_owned_sagas')">[toggle show]</button>
 </div>
 
-<div id="show_saga_owned" style="display: none;">
-    {% for saga in sagas.owned %}
+<div id="show_owned_sagas" style="display: none;">
+    {% for owned_saga in sagas.owned %}
     <div class="block-2 w-50">
-        {{saga}} <button class="toggle" onclick="mytoggle('{{saga}}')">[toggle show]</button>
+        {{owned_saga.name}} <button class="toggle"
+                                    onclick="mytoggle('{{owned_saga.name}}')">[toggle show]</button>
     </div>
 
-    <div class="saga-grid" id="{{saga}}" style="display: none;">
-        {% for book in saga.books %}
-        <div class="{{book.status}}">
-            <a href="{% url 'books:book_detail' book.id %}" style="color: #111111;">#{{book.index_in_saga}} {{book}}</a>
-        </div>
-        {% endfor %}
-    </div>
-{% endfor %}
-</div>
-
-<div class="block-1 w-100">
-    {{sagas.missing|length}} sagas missing one or more books
-    <button class="toggle" onclick="mytoggle('show_saga_missing')">[toggle show]</button>
-</div>
-
-<div id="show_saga_missing" style="display: none;">
-    {% for saga in sagas.missing %}
-    <div class="block-2 w-50">
-        {{saga}} <button class="toggle" onclick="mytoggle('{{saga}}')">[toggle show]</button>
-    </div>
-
-    <div class="saga-grid" id="{{saga}}" style="display: none;">
-        {% for book in saga.books %}
-        <div class="{{book.status}}">
-            <a href="{% url 'books:book_detail' book.id %}" style="color: #111111;">#{{book.index_in_saga}} {{book}}</a>
+    <div class="saga-grid" id="{{owned_saga.name}}" style="display: none;">
+        {% for book, status in owned_saga.books %}
+        <div class="status-{{status}}">
+            <a href="{% url 'books:book_detail' book.id %}" style="color: #111111;">
+                #{{book.index_in_saga}} {{book}}</a>
         </div>
         {% endfor %}
     </div>
     {% endfor %}
-
 </div>
-
-<hr>
 
 <div class="block-1 w-100">
-    {{sagas2|length}} sagas2
-    <button class="toggle" onclick="mytoggle('show_sagas2')">[toggle show]</button>
+    {{sagas.not_owned|length}} sagas not owned
+    <button class="toggle" onclick="mytoggle('show_not_owned_sagas')">[toggle show]</button>
 </div>
 
-<div id="show_sagas2" style="display: none;">
-    {% for completed_saga in sagas2 %}
+<div id="show_not_owned_sagas" style="display: none;">
+    {% for not_owned_saga in sagas.not_owned %}
     <div class="block-2 w-50">
-        {{completed_saga.name}} <button class="toggle" onclick="mytoggle('{{completed_saga}}')">
-        [toggle show]</button>
+        {{not_owned_saga.name}}
+        <button class="toggle" onclick="mytoggle('{{not_owned_saga.name}}')">[toggle show]</button>
     </div>
 
-    <div class="saga-grid" id="{{completed_saga}}" style="display: true;">
-        {% for book, status in completed_saga.books %}
+    <div class="saga-grid" id="{{not_owned_saga.name}}" style="display: none;">
+        {% for book, status in not_owned_saga.books %}
         <div class="status-{{status}}">
             <a href="{% url 'books:book_detail' book.id %}" style="color: #111111;">
                 #{{book.index_in_saga}} {{book}}</a>
