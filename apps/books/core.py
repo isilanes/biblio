@@ -121,11 +121,15 @@ def get_saga_data_for(user):
                                       then=Value(True)), output_field=BooleanField()))[:1]
 
     # This is wrong. Must change to "owned by user", not just "owned". Requires rewriting elsewhere.
+    tt = TicToc()
     catch_unowneds_sq = Book.objects\
         .filter(saga=OuterRef("id"))\
         .filter(owned=False)\
         .annotate(is_unowned=Case(When(title__isnull=False,  # in other words, always
                                        then=Value(True)), output_field=BooleanField()))[:1]
+    tt.toc("unowned")
+
+    tt.toc("new unowned")
 
     sagas = Saga.objects\
         .annotate(has_unreads=Coalesce(Subquery(catch_unreads_sq.values('is_unread')), False))\

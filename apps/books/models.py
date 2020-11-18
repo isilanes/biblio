@@ -133,6 +133,15 @@ class Edition(models.Model):
         return f"{self.year} edition of '{self.book}' ({self.isbn})"
 
 
+class BookCopy(models.Model):
+    """A copy of a Book, i.e. an Edition+Owner combination."""
+    edition = models.ForeignKey(Edition, blank=True, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, blank=True, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Copy of {self.edition}, owned by {self.owner}"
+
+
 class Reading(models.Model):
     reader = models.ForeignKey(User, blank=False, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, blank=True, on_delete=models.CASCADE)
