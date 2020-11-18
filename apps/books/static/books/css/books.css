@@ -256,19 +256,19 @@ label {
     background-color: #ff44aa;
 }
 
-div.read {
+div.status-read {
     background-color: #59cb92;
 }
 
-div.reading {
+div.status-reading {
     background-color: #95b8d1;
 }
 
-div.owned {
+div.status-owned {
     background-color: #88a9e6;
 }
 
-div.not-owned {
+div.status-not-owned {
     color: #666666;
     background-color: #feeeee;
 }

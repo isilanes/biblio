@@ -97,6 +97,9 @@ class Book(models.Model):
 
         return Reading.objects.filter(book=self, reader=user).exclude(end=None).exists()
 
+    def is_owned_by(self, user):
+        return BookCopy.objects.filter(edition__book=self, owner=user).exists()
+
     def pages_read_by(self, user):
         """How many pages read so far. Only interesting for books currently being read."""
 

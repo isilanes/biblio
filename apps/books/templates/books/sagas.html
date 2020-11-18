@@ -88,7 +88,7 @@ Sagas
 
     <div class="saga-grid" id="{{completed_saga}}" style="display: true;">
         {% for book, status in completed_saga.books %}
-        <div class="{{status}}">
+        <div class="status-{{status}}">
             <a href="{% url 'books:book_detail' book.id %}" style="color: #111111;">
                 #{{book.index_in_saga}} {{book}}</a>
         </div>

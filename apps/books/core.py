@@ -150,7 +150,7 @@ def get_saga_data_for(user):
 
         for book in saga.books:
             book_read = book.is_already_read_by(user)
-            book_owned = True
+            book_owned = book.is_owned_by(user)
 
             if not book_read:
                 saga_item["is_completed"] = False
