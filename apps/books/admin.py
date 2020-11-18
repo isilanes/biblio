@@ -19,6 +19,6 @@ class SagaAdmin(admin.ModelAdmin):
 
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
-    fields = ["title", "authors", "pages", "year", "saga", "index_in_saga", "owned", "ordered"]
+    fields = ["title", "authors", "pages", "year", "saga", "index_in_saga", "owned"]
     list_display = ("title", "year")
     search_fields = ["title"]

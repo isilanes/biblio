@@ -52,7 +52,6 @@ class Book(models.Model):
     year = models.IntegerField("Year", default=1)
     index_in_saga = models.IntegerField("Index in saga", default=1)
     owned = models.BooleanField("Owned", default=True)
-    ordered = models.BooleanField("Ordered", default=False)
 
     def mark_read(self):
         """Mark self as read."""
@@ -75,9 +74,6 @@ class Book(models.Model):
 
     def status(self, user):
         """Whether book is not owned, owned but not read, reading, or read."""
-
-        if self.ordered:
-            return "ordered"
 
         if self.is_already_read_by(user):
             return "read"
