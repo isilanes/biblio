@@ -1,12 +1,10 @@
-from datetime import timedelta
-
 from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 
 from . import core, statistics
-from .models import Book, Author, Saga
+from .models import Book, Author, Saga, Edition
 from .forms import BookForm, AddBookForm, SearchBookForm
 
 
@@ -59,35 +57,13 @@ def sagas(request):
 def book_detail(request, book_id):
     """Detail view for a book."""
 
-    # Calculate pages_per_day so far:
-    year = timezone.now().year
-    state = statistics.State(year, request.user)
-    pages_per_day = state.pages_per_day
-
     book = Book.objects.get(pk=book_id)
-
-    reading = []  # list of (when, pages) for a time read
-    readings = []  # one reading per time read
-    for event in []:  # FIXTHIS
-        reading.append((event.when, event.page_equivalent))
-        if event.page_equivalent == book.pages:
-            readings.append(reading)
-            reading = []
-    if reading:
-        readings.append(reading)
-
-    # Longest reading:
-    longest = timedelta(hours=0)
-    for reading in readings:
-        dt = reading[-1][0] - reading[0][0]
-        if dt >= longest:
-            longest = dt
-    longest += timedelta(hours=12)
+    editions = Edition.objects.filter(book=book)
 
     context = {
         "banner": book.title,
         "book": book,
-        "plotly_plots": [core.get_book_progress_plot(r, book.pages, longest, pages_per_day) for r in readings],  # NOQA
+        "editions": editions,
     }
 
     return render(request, "books/book_detail.html", context)
