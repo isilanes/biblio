@@ -44,10 +44,13 @@ def index(request):
 def sagas(request):
     """Saga view."""
 
+    saga_list, saga_list2 = core.get_saga_data_for(request.user)
+
     context = {
         "banner": "Sagas",
         "books_sagas_active": True,
-        "sagas": core.get_saga_data_for(request.user),
+        "sagas": saga_list,
+        "sagas2": saga_list2,
     }
 
     return render(request, "books/sagas.html", context)

@@ -71,5 +71,30 @@ Sagas
     {% endfor %}
 
 </div>
+
+<hr>
+
+<div class="block-1 w-100">
+    {{sagas2|length}} sagas2
+    <button class="toggle" onclick="mytoggle('show_sagas2')">[toggle show]</button>
+</div>
+
+<div id="show_sagas2" style="display: none;">
+    {% for completed_saga in sagas2 %}
+    <div class="block-2 w-50">
+        {{completed_saga.name}} <button class="toggle" onclick="mytoggle('{{completed_saga}}')">
+        [toggle show]</button>
+    </div>
+
+    <div class="saga-grid" id="{{completed_saga}}" style="display: true;">
+        {% for book, status in completed_saga.books %}
+        <div class="{{status}}">
+            <a href="{% url 'books:book_detail' book.id %}" style="color: #111111;">
+                #{{book.index_in_saga}} {{book}}</a>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}
 

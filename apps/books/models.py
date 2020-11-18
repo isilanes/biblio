@@ -25,11 +25,12 @@ class Saga(models.Model):
     def completed_by(self, user):
         """True if all books in saga read by user. False otherwise."""
 
-        return not Book.objects.filter(saga=self).exclude(reading__reader=user, reading__end__isnull=False).exists()
+        return not Book.objects.filter(saga=self).\
+            exclude(reading__reader=user, reading__end__isnull=False).exists()
 
-    @property
-    def owned(self):
-        """True if all books in saga owned (read or not). False otherwise."""
+    def owned_by(self, user):
+        """TODO
+        True if all books in saga owned (read or not) by user. False otherwise."""
 
         for book in self.books:
             if not book.owned:

@@ -114,6 +114,7 @@ def completed_readings_by_year_for(user):
 
 
 def get_saga_data_for(user):
+    tt = TicToc()
     catch_unreads_sq = Book.objects\
         .filter(saga=OuterRef("id"))\
         .exclude(reading__reader=user, reading__end__isnull=False)\
@@ -121,15 +122,11 @@ def get_saga_data_for(user):
                                       then=Value(True)), output_field=BooleanField()))[:1]
 
     # This is wrong. Must change to "owned by user", not just "owned". Requires rewriting elsewhere.
-    tt = TicToc()
     catch_unowneds_sq = Book.objects\
         .filter(saga=OuterRef("id"))\
         .filter(owned=False)\
         .annotate(is_unowned=Case(When(title__isnull=False,  # in other words, always
                                        then=Value(True)), output_field=BooleanField()))[:1]
-    tt.toc("unowned")
-
-    tt.toc("new unowned")
 
     sagas = Saga.objects\
         .annotate(has_unreads=Coalesce(Subquery(catch_unreads_sq.values('is_unread')), False))\
@@ -140,5 +137,38 @@ def get_saga_data_for(user):
         "owned": sagas.filter(has_unowneds=False, has_unreads=True),  # no unowned AND at least some unread book
         "missing": sagas.filter(has_unreads=True, has_unowneds=True),  # at least some unowned AND some unread books
     }
+    tt.toc("data")
 
-    return data
+    sagas = []
+    for saga in Saga.objects.order_by("name"):
+        saga_item = {
+            "name": saga.name,
+            "books": [],
+            "is_completed": True,
+            "is_owned": True,
+        }
+
+        for book in saga.books:
+            book_read = book.is_already_read_by(user)
+            book_owned = True
+
+            if not book_read:
+                saga_item["is_completed"] = False
+
+            if not book_owned:
+                saga_item["is_owned"] = False
+
+            status = "not-owned"
+            if book_read:
+                status = "read"
+            elif book_owned:
+                status = "owned"
+
+            book_item = (book, status)
+            saga_item["books"].append(book_item)
+
+        sagas.append(saga_item)
+
+    tt.toc("data2")
+
+    return data, sagas
