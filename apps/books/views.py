@@ -120,7 +120,6 @@ def add_book(request):
                 book.title = title
                 book.pages = form.cleaned_data.get("pages")
                 book.year = form.cleaned_data.get("year")
-                book.owned = False
 
                 # Saga info:
                 saga_name = form.cleaned_data.get("saga")

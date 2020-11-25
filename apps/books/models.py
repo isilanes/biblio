@@ -151,7 +151,6 @@ class BookCopy(models.Model):
 
 class Reading(models.Model):
     reader = models.ForeignKey(User, blank=False, on_delete=models.CASCADE)
-    book = models.ForeignKey(Book, blank=True, on_delete=models.CASCADE)
     edition = models.ForeignKey(Edition,
                                 blank=True, on_delete=models.CASCADE, default=1)
     start = models.DateTimeField("Start", blank=False, default=timezone.now)
