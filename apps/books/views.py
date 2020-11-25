@@ -179,7 +179,6 @@ def modify_book(request, book_id=None):
             if title is not None:
                 book = Book.objects.get(id=book_id)  # book to modify
                 book.title = title
-                book.pages = form.cleaned_data.get("pages")
                 book.year = form.cleaned_data.get("year")
 
                 # Saga info:
@@ -210,7 +209,6 @@ def modify_book(request, book_id=None):
     initial = {
         "title": book.title,
         "author": ", ".join(book.list_of_authors),
-        "pages": book.pages,
         "year": book.year,
         "saga": book.saga,
         "index": book.index_in_saga,
