@@ -158,9 +158,9 @@ class Reading(models.Model):
 
     def __str__(self):
         if self.end is None:
-            return f"'{self.book}' started on {self.start} by {self.reader}"
+            return f"'{self.edition}' started on {self.start} by {self.reader}"
         else:
-            return f"'{self.book}' ended on {self.end} by {self.reader}"
+            return f"'{self.edition}' ended on {self.end} by {self.reader}"
 
 
 class ReadingUpdate(models.Model):
