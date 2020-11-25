@@ -28,6 +28,6 @@ urlpatterns = [
     path('update_book_progress/<int:book_id>',
          views.update_book_progress,
          name='update_book_progress'),
-    path('mark_book_read/<int:book_id>', views.mark_book_read, name='mark_book_read'),
-    path('mark_book_owned/<int:book_id>', views.mark_book_owned, name='mark_book_owned'),
+    #path('mark_book_read/<int:book_id>', views.mark_book_read, name='mark_book_read'),
+    path('mark_edition_owned/<int:edition_id>', views.mark_edition_owned, name='mark_edition_owned'),
 ]

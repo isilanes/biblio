@@ -4,7 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 
 from . import core, statistics
-from .models import Book, Author, Saga, Edition
+from .models import Book, Author, Saga, Edition, BookCopy
 from .forms import BookForm, AddBookForm, SearchBookForm, AddEditionForm
 
 
@@ -310,14 +310,13 @@ def mark_book_read(request, book_id):
     return redirect("books:book_detail", book_id=book_id)
 
 
-def mark_book_owned(request, book_id):
-    """Come here with a GET to mark a Book as owned."""
+def mark_edition_owned(request, edition_id):
+    """Come here with a GET to mark a copy of an Edition of a Book as owned."""
 
-    book = Book.objects.get(pk=book_id)
-    book.owned = True
-    book.save()
+    edition = Edition.objects.get(pk=edition_id)
+    BookCopy(edition=edition, owner=request.user).save()
 
-    return redirect("books:book_detail", book_id=book_id)
+    return redirect("books:book_detail", book_id=edition.book.id)
 
 
 def author_detail(request, author_id=None):

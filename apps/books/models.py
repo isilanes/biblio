@@ -132,6 +132,10 @@ class Edition(models.Model):
     year = models.IntegerField("Year", default=1)
     pages = models.IntegerField("Pages", default=1)
 
+    @property
+    def owned(self):
+        return BookCopy.objects.filter(edition=self).exists()
+
     def __str__(self):
         return f"{self.year} edition of '{self.book}' ({self.isbn})"
 

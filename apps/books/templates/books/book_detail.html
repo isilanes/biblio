@@ -20,9 +20,6 @@
     <a class="big-button primary" href="{% url 'books:modify_book' book.id %}">Modify</a>
     <a class="big-button primary" href="{% url 'books:add_edition' book.id %}">Add Edition</a>
     <a class="big-button good" href="{% url 'books:update_book_progress' book.id %}">Update</a>
-    {% if not book.owned %}
-    <a class="big-button good" href="{% url 'books:mark_book_owned' book.id %}">Mark owned</a>
-    {% endif %}
 </div>
 
 <hr>
@@ -30,6 +27,9 @@
 {% for edition in editions %}
 <h2>ISBN: {{edition.isbn}}
     <a class="btn btn-primary" href="{% url 'books:modify_edition' edition.id %}">Modify Edition</a>
+    {% if not edition.owned %}
+    <a class="btn btn-success" href="{% url 'books:mark_edition_owned' edition.id %}">Mark owned</a>
+    {% endif %}
 </h2>
 
 <div class="book-detail-grid mt-4 ml-3" style="width: 800px">
@@ -41,6 +41,7 @@
 
     <div class="two-col-grid-text">Published:</div>
     <div class="two-col-grid-text">{{ edition.year }}</div>
+
 </div>
 <hr>
 {% endfor %}
