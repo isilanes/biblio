@@ -13,7 +13,7 @@ Stats
         <div class="progress bg-secondary" style="width: 100%; height: 50px; font-size: 30px;">
             <div class="progress-bar bg-primary pl-3 text-white" role="progressbar"
                  style="width: {{reading.percent_read}}%;">
-                {{reading.book.title}} ({{reading.pages_read}} / {{reading.book.pages}})</div>
+                {{reading.edition.title}} ({{reading.pages_read}} / {{reading.edition.pages}})</div>
         </div>
         <a class="condensed-btn details-btn" href="{% url 'books:book_detail' reading.book.id %}">Details</a>
         <a class="condensed-btn update-btn" href="{% url 'books:update_book_progress' reading.book.id %}">Update</a>

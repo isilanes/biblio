@@ -89,7 +89,7 @@ def current_readings_by(user):
 
     return Reading.objects.filter(reader=user, end=None)\
         .annotate(pages_read=Coalesce(Subquery(latest_ru_subquery.values('page')), 0))\
-        .annotate(fraction_read=as_float(F('pages_read')) / as_float(F('book__pages'))) \
+        .annotate(fraction_read=as_float(F('pages_read')) / as_float(F('edition__pages'))) \
         .annotate(percent_read=as_float(F('fraction_read')) * 100.)\
         .order_by("-start")
 

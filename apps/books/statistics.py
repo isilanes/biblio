@@ -155,10 +155,12 @@ class State(object):
         """Number of books and pages read during year."""
 
         # Stats from finished books:
-        finished_readings_qs = Reading.objects.filter(end__year=self.year, reader=self.user)
+        finished_readings_qs = Reading.objects.filter(end__year=self.year,
+                                                      reader=self.user)
 
         books_this_year = finished_readings_qs.count()
-        pages_this_year = finished_readings_qs.aggregate(total_pages=Sum('book__pages')).get('total_pages') or 0
+        pages_this_year = finished_readings_qs.aggregate(
+            total_pages=Sum('edition__pages')).get('total_pages') or 0
 
         # Stats from books currently being read:
         current_readings_qs = core.current_readings_by(self.user)
