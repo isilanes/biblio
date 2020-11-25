@@ -159,10 +159,9 @@ def add_book(request):
         "saga": None,
         "index": None,
     }
-    form = AddBookForm(initial=initial)
     context = {
         "banner": "Add book",
-        "form": form,
+        "form": AddBookForm(initial=initial),
         "action": "add",
     }
 
@@ -225,7 +224,7 @@ def modify_book(request, book_id=None):
 
 
 def add_edition(request, book_id=None):
-    """Form to create/modify an Edition."""
+    """Form to create an Edition."""
 
     book = Book.objects.get(id=book_id)
 
@@ -254,6 +253,41 @@ def add_edition(request, book_id=None):
     context = {
         "form": AddEditionForm(initial=initial),
         "book": book,
+        "action": "add",
+    }
+
+    return render(request, 'books/add_or_modify_edition.html', context)
+
+
+def modify_edition(request, edition_id):
+    """Form to modify an Edition."""
+
+    edition = Edition.objects.get(id=edition_id)
+
+    if request.method == "POST":
+        form = AddEditionForm(request.POST or None)
+        if form.is_valid():
+            data = form.cleaned_data
+            title = data.get("title")
+            if title is not None:
+                edition.title = data["title"]
+                edition.year = data["year"]
+                edition.isbn = data["isbn"]
+                edition.pages = data["pages"]
+                edition.save()
+
+        return redirect("books:book_detail", book_id=edition.book.id)
+
+    initial = {
+        "title": edition.title,
+        "year": edition.year,
+        "isbn": edition.isbn,
+        "pages": edition.pages,
+    }
+    context = {
+        "form": AddEditionForm(initial=initial),
+        "book": edition.book,
+        "action": "modify",
     }
 
     return render(request, 'books/add_or_modify_edition.html', context)
