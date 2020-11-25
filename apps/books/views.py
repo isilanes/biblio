@@ -311,8 +311,7 @@ def mark_reading_done(request, reading_id):
     """Come here with a GET to mark a book read (a Reading done)."""
 
     reading = Reading.objects.get(pk=reading_id)
-    reading.end = timezone.now()
-    reading.save()
+    reading.mark_read()
 
     return redirect("books:book_detail", book_id=reading.edition.book.id)
 

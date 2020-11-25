@@ -160,6 +160,10 @@ class Reading(models.Model):
     def update_progress(self, pages):
         ReadingUpdate(reading=self, page=pages, date=timezone.now()).save()
 
+    def mark_read(self):
+        self.end = timezone.now()
+        self.save()
+
     def __str__(self):
         if self.end is None:
             return f"'{self.edition}' started on {self.start} by {self.reader}"
