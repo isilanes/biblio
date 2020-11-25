@@ -4,12 +4,12 @@
 {% if book_is_being_read %}
 <div class="mt-3">
     <button class="big-button good" onclick="mytoggle('show_page_update')">Update</button>
-    <a class="big-button bad" href="{% url 'books:mark_book_read' book.id %}">Mark read</a>
-    <a class="big-button cancel" href="{% url 'books:book_detail' book.id %}">Cancel</a>
+    <a class="big-button bad" href="{% url 'books:mark_reading_done' reading.id %}">Mark read</a>
+    <a class="big-button cancel" href="{% url 'books:book_detail' reading.edition.book.id %}">Cancel</a>
 </div>
 
 <div id="show_page_update" style="display: none;">
-    <form class="mt-5" action="{% url 'books:update_book_progress' book.id %}"
+    <form class="mt-5" action="{% url 'books:update_reading' reading.id %}"
           method="post" style="margin-left: 10px;">
         {% csrf_token %}
         {{ form }}
@@ -18,12 +18,11 @@
     </form>
 </div>
 {% else %}
-<form class="mt-5" action="{% url 'books:update_book_progress' book.id %}"
-      method="post" style="margin-left: 10px;">
+<form class="mt-5" action="" method="post" style="margin-left: 10px;">
     {% csrf_token %}
 
     <input type="submit" class="big-button good" value="Start book">
-    <a class="big-button cancel" href="{% url 'books:book_detail' book.id %}">Cancel</a>
+    <a class="big-button cancel" href="{% url 'books:book_detail' reading.edition.book.id %}">Cancel</a>
 </form>
 {% endif %}
 {% endblock %}

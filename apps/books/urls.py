@@ -25,9 +25,8 @@ urlpatterns = [
     path('add_edition/<int:book_id>', views.add_edition, name='add_edition'),
     path('modify_edition/<int:edition_id>', views.modify_edition, name='modify_edition'),
     path('start_book', views.start_book, name='start_book'),
-    path('update_book_progress/<int:book_id>',
-         views.update_book_progress,
-         name='update_book_progress'),
-    #path('mark_book_read/<int:book_id>', views.mark_book_read, name='mark_book_read'),
+    path('update_reading/<int:reading_id>', views.update_reading, name='update_reading'),
+    path('update_book_reading/<int:book_id>', views.update_book_reading, name='update_book_reading'),
+    path('mark_reading_done/<int:reading_id>', views.mark_reading_done, name='mark_reading_done'),
     path('mark_edition_owned/<int:edition_id>', views.mark_edition_owned, name='mark_edition_owned'),
 ]

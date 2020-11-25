@@ -4,8 +4,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 
 from . import core, statistics
-from .models import Book, Author, Saga, Edition, BookCopy
-from .forms import BookForm, AddBookForm, SearchBookForm, AddEditionForm
+from .models import Book, Author, Saga, Edition, BookCopy, Reading, ReadingUpdate
+from .forms import ReadingUpdateForm, AddBookForm, SearchBookForm, AddEditionForm
 
 
 @login_required
@@ -76,35 +76,41 @@ def book_detail(request, book_id):
 
 
 @login_required
-def update_book_progress(request, book_id):
-    """Form to modify state of book."""
+def update_reading(request, reading_id):
+    """Form to update progress of Reading."""
 
-    book = Book.objects.get(pk=book_id)
+    reading = Reading.objects.get(pk=reading_id)
 
     if request.method == "POST":
-        form = BookForm(request.POST or None)
+        form = ReadingUpdateForm(request.POST or None)
         if form.is_valid():
             pages_read = form.cleaned_data.get("pages_read")
-            if pages_read is None and not book.is_currently_being_read_by(request.user):
-                book.mark_started_by(request.user)
-            elif pages_read > 0:
-                book.set_pages_for(request.user, pages_read)
+            reading.update_progress(pages_read)
 
-            return redirect("books:book_detail", book_id=book_id)
+            return redirect("books:book_detail", book_id=reading.edition.book.id)
 
     initial = {
-        "pages_read": book.pages_read_by(request.user),
+        "pages_read": reading.page_progress,
     }
-    form = BookForm(initial=initial)
+    form = ReadingUpdateForm(initial=initial)
 
     context = {
-        "banner": f"Modify book: {book.title}",
+        "banner": f"Updating progress for {reading.edition.title}",
         "form": form,
-        "book": book,
-        "book_is_being_read": book.is_currently_being_read_by(request.user),
+        "reading": reading,
+        "book_is_being_read": True,
     }
 
-    return render(request, 'books/update_book_progress.html', context)
+    return render(request, 'books/update_reading.html', context)
+
+
+@login_required
+def update_book_reading(request, book_id):
+    """Update (current) Reading of a given Book."""
+
+    reading = Reading.objects.get(edition__book__pk=book_id)
+
+    return redirect("books:update_reading", reading_id=reading.id)
 
 
 def add_book(request):
@@ -301,12 +307,14 @@ def start_book(request):
     return handle_start_reading_get(request)
 
 
-def mark_book_read(request, book_id):
-    """Come here with a GET to mark a book read."""
+def mark_reading_done(request, reading_id):
+    """Come here with a GET to mark a book read (a Reading done)."""
 
-    Book.objects.get(pk=book_id).mark_read()
+    reading = Reading.objects.get(pk=reading_id)
+    reading.end = timezone.now()
+    reading.save()
 
-    return redirect("books:book_detail", book_id=book_id)
+    return redirect("books:book_detail", book_id=reading.edition.book.id)
 
 
 def mark_edition_owned(request, edition_id):

@@ -1,7 +1,7 @@
 from django import forms
 
 
-class BookForm(forms.Form):
+class ReadingUpdateForm(forms.Form):
     pages_read = forms.IntegerField(label="Pages read", max_value=10000, required=False)
 
 

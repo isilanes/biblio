@@ -53,13 +53,6 @@ class Book(models.Model):
     index_in_saga = models.IntegerField("Index in saga", default=1)
     owned = models.BooleanField("Owned", default=True)
 
-    def mark_read(self):
-        """Mark self as read."""
-
-        reading = Reading.objects.get(book=self, end=None)
-        reading.end = timezone.now()
-        reading.save()
-
     def mark_started_by(self, user):
         """Mark self as started to read."""
 
@@ -155,6 +148,17 @@ class Reading(models.Model):
                                 blank=True, on_delete=models.CASCADE, default=1)
     start = models.DateTimeField("Start", blank=False, default=timezone.now)
     end = models.DateTimeField("End", blank=True, default=None, null=True)
+
+    @property
+    def page_progress(self):
+        latest_update = ReadingUpdate.objects.filter(reading=self).order_by("date").last()
+        if latest_update is None:
+            return 0
+        else:
+            return latest_update.page
+
+    def update_progress(self, pages):
+        ReadingUpdate(reading=self, page=pages, date=timezone.now()).save()
 
     def __str__(self):
         if self.end is None:
