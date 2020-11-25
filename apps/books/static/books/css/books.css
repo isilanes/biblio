@@ -61,12 +61,20 @@ label {
     background-color: #ffffff;
 }
 
+.add-book-form {
+    display: grid;
+    grid-template-columns: 300px 900px;
+    justify-items: center;
+    grid-gap: 10px;
+}
+
 .add-book-form label {
     border: none;
     text-align: left;
     text-decoration: none;
     display: inline-block;
     height: 100px;
+    width: 100%;
     line-height: 100px;
     font-size: 40px;
     border-radius: 8px;
@@ -80,8 +88,8 @@ label {
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    width: 900px;
     height: 100px;
+    width: 100%;
     line-height: 100px;
     font-size: 40px;
     border-radius: 8px;

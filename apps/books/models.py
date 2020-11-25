@@ -49,7 +49,6 @@ class Book(models.Model):
     authors = models.ManyToManyField(Author)
     saga = models.ForeignKey(Saga, blank=True, on_delete=models.CASCADE, default=None, null=True)
     title = models.CharField("Title", max_length=300)
-    pages = models.IntegerField("Pages", default=1)
     year = models.IntegerField("Year", default=1)
     index_in_saga = models.IntegerField("Index in saga", default=1)
     owned = models.BooleanField("Owned", default=True)
