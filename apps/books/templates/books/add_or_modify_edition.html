@@ -1,0 +1,15 @@
+{% extends "books/base_books.html" %}
+
+{% block body %}
+<form action="" method="post" class="ml-3 mt-4">
+    {% csrf_token %}
+    <div class="add-book-form">
+    {{ form }}
+    </div>
+
+    <div class="mt-3">
+        <input type="submit" class="big-button good" name="add" value="OK">
+        <a class="big-button cancel" href="{% url 'books:book_detail' book.id %}">Cancel</a>
+    </div>
+</form>
+{% endblock %}

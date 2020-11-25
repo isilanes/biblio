@@ -13,5 +13,12 @@ class AddBookForm(forms.Form):
     index = forms.CharField(label="Index in saga", required=False)
 
 
+class AddEditionForm(forms.Form):
+    isbn = forms.CharField(label="ISBN", max_length=16)
+    title = forms.CharField(label="Title")
+    year = forms.IntegerField(label="Year")
+    pages = forms.IntegerField(label="Pages")
+
+
 class SearchBookForm(forms.Form):
     search_for = forms.CharField(label="Search for")

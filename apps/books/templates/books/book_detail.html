@@ -9,8 +9,7 @@
         <a href="{% url 'books:author_detail' author.id %}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
         {% endfor %}
     </div>
-    <div class="two-col-grid-text">Pages:</div><div class="two-col-grid-text">{{ book.pages }}</div>
-    <div class="two-col-grid-text">Published:</div><div class="two-col-grid-text">{{ book.year }}</div>
+    <div class="two-col-grid-text">First published:</div><div class="two-col-grid-text">{{ book.year }}</div>
 
     {% if book.saga %}
     <div class="two-col-grid-text">Saga:</div><div class="two-col-grid-text">{{ book.saga }} #{{book.index_in_saga}}</div>
@@ -19,6 +18,7 @@
 
 <div class="mt-4 ml-3">
     <a class="big-button primary" href="{% url 'books:modify_book' book.id %}">Modify</a>
+    <a class="big-button primary" href="{% url 'books:add_edition' book.id %}">Add Edition</a>
     <a class="big-button good" href="{% url 'books:update_book_progress' book.id %}">Update</a>
     {% if not book.owned %}
     <a class="big-button good" href="{% url 'books:mark_book_owned' book.id %}">Mark owned</a>
@@ -28,7 +28,10 @@
 <hr>
 
 {% for edition in editions %}
-<h2>{{edition.year}} edition (ISBN: {{edition.isbn}})</h2>
+<h2>{{edition.year}} edition (ISBN: {{edition.isbn}})
+    <a class="btn btn-primary" href="{% url 'books:update_book_progress' book.id %}">Modify Edition</a>
+</h2>
+
 <div class="book-detail-grid mt-4 ml-3" style="width: 800px">
     <div class="two-col-grid-text">Title:</div>
     <div class="two-col-grid-text">{{ edition.title }}</div>
@@ -41,6 +44,7 @@
 
     <div class="two-col-grid-text">ISBN:</div>
     <div class="two-col-grid-text">{{ edition.isbn }}</div>
+
 </div>
 <hr>
 {% endfor %}

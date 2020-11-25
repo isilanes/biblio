@@ -223,7 +223,7 @@ label {
 
 .book-detail-grid {
     display: grid;
-    grid-template-columns: 0.3fr 0.7fr;
+    grid-template-columns: 300px 900px;
     justify-items: center;
     grid-gap: 10px;
     font-size: 35px;

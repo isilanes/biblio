@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 
 from . import core, statistics
 from .models import Book, Author, Saga, Edition
-from .forms import BookForm, AddBookForm, SearchBookForm
+from .forms import BookForm, AddBookForm, SearchBookForm, AddEditionForm
 
 
 @login_required
@@ -222,6 +222,41 @@ def modify_book(request, book_id=None):
     }
 
     return render(request, 'books/add_or_modify_book.html', context)
+
+
+def add_edition(request, book_id=None):
+    """Form to create/modify an Edition."""
+
+    book = Book.objects.get(id=book_id)
+
+    if request.method == "POST":
+        form = AddEditionForm(request.POST or None)
+        if form.is_valid():
+            data = form.cleaned_data
+            title = data.get("title")
+            if title is not None:
+                Edition(
+                    book=book,
+                    title=data["title"],
+                    year=data["year"],
+                    isbn=data["isbn"],
+                    pages=data["pages"],
+                ).save()
+
+            return redirect("books:book_detail", book_id=book.id)
+
+    initial = {
+        "title": book.title,
+        "year": book.year,
+        "isbn": None,
+        "pages": 0,
+    }
+    context = {
+        "form": AddEditionForm(initial=initial),
+        "book": book,
+    }
+
+    return render(request, 'books/add_or_modify_edition.html', context)
 
 
 def start_book(request):
