@@ -15,9 +15,6 @@ def stats(request, year=timezone.now().year):
     state = statistics.State(year, request.user)
     current_readings = core.current_readings_by(request.user)
 
-    for r in current_readings:
-        print(r, r.edition)
-
     context = {
         "banner": "Stats",
         "books_active": "active",
@@ -84,19 +81,20 @@ def update_reading(request, reading_id):
     if request.method == "POST":
         form = ReadingUpdateForm(request.POST or None)
         if form.is_valid():
-            pages_read = form.cleaned_data.get("pages_read")
-            reading.update_progress(pages_read)
+            data = form.cleaned_data
+            pages_read = data.get("pages_read")
+            percent_read = data.get("percent_read")
+            reading.update_progress(pages_read, percent_read)
 
             return redirect("books:book_detail", book_id=reading.edition.book.id)
 
     initial = {
         "pages_read": reading.page_progress,
+        "percent_read": int(100. * reading.page_progress / reading.edition.pages),
     }
-    form = ReadingUpdateForm(initial=initial)
-
     context = {
         "banner": f"Updating progress for {reading.edition.title}",
-        "form": form,
+        "form": ReadingUpdateForm(initial=initial),
         "reading": reading,
         "book_is_being_read": True,
     }
@@ -108,7 +106,7 @@ def update_reading(request, reading_id):
 def update_book_reading(request, book_id):
     """Update (current) Reading of a given Book."""
 
-    reading = Reading.objects.get(edition__book__pk=book_id)
+    reading = Reading.objects.get(edition__book__pk=book_id, end__isnull=True)
 
     return redirect("books:update_reading", reading_id=reading.id)
 

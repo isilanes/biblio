@@ -157,8 +157,15 @@ class Reading(models.Model):
         else:
             return latest_update.page
 
-    def update_progress(self, pages):
-        ReadingUpdate(reading=self, page=pages, date=timezone.now()).save()
+    def update_progress(self, pages=None, percent=None):
+        max_pages = self.edition.pages
+        new_pages = 0
+        if percent is not None and percent <= 100:
+            new_pages = int(percent * max_pages / 100)
+        new_pages = max(pages, new_pages)
+
+        if self.page_progress < new_pages <= max_pages:  # only save if an update
+            ReadingUpdate(reading=self, page=new_pages, date=timezone.now()).save()
 
     def mark_read(self):
         self.end = timezone.now()
