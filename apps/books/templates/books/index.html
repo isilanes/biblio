@@ -15,7 +15,9 @@ Index
 
 <div class="index-grid" id="show_currently_reading" style="width: 800px; display: none;">
     {% for reading in current_readings %}
-        <div class="two-col-grid-text"><a href="{% url 'books:book_detail' reading.book.id %}">{{reading.book.title}}</a></div>
+        <div class="two-col-grid-text">
+            <a href="{% url 'books:book_detail' reading.edition.book.id %}">{{reading.edition.title}}</a>
+        </div>
         <div class="two-col-grid-number">{{reading.pages_read}} pages read</div>
     {% endfor %}
 </div>
@@ -36,7 +38,7 @@ Index
     <div class="index-grid" id="show_{{data.year}}" style="width: 800px; display: none;">
         {% for reading in data.readings %}
             <div class="two-col-grid-text">
-                <a href="{% url 'books:book_detail' reading.book.id %}">{{reading.book.title}}</a></div>
+                <a href="{% url 'books:book_detail' reading.edition.book.id %}">{{reading.edition.title}}</a></div>
             <div>{{reading.end|date:"Y-m-d H:i"}}</div>
         {% endfor %}
     </div>
