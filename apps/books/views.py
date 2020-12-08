@@ -300,13 +300,13 @@ def modify_edition(request, edition_id):
 
 
 @login_required
-def start_book(request):
-    """View to start reading a book."""
+def find_book(request):
+    """View to find a Book."""
 
     if request.method == "POST":
-        return handle_start_reading_post(request)
+        return handle_find_book_post(request)
 
-    return handle_start_reading_get(request)
+    return handle_find_book_get(request)
 
 
 @login_required
@@ -343,7 +343,7 @@ def author_detail(request, author_id=None):
 
 
 # Helper functions:
-def handle_start_reading_post(request):
+def handle_find_book_post(request):
     form = SearchBookForm(request.POST or None)
 
     if form.is_valid():
@@ -355,17 +355,17 @@ def handle_start_reading_post(request):
             "matching_books": matching_books,
         }
 
-        return render(request, "books/start_book.html", context)
+        return render(request, "books/find_book.html", context)
 
     else:
-        return handle_start_reading_get(request)
+        return handle_find_book_get(request)
 
 
-def handle_start_reading_get(request):
+def handle_find_book_get(request):
     context = {
-        "banner": "Start reading book",
+        "banner": "Find book",
         "form": SearchBookForm(initial={"search_for": ""}),
         "matching_books": Book.objects.none(),
     }
 
-    return render(request, "books/start_book.html", context)
+    return render(request, "books/find_book.html", context)

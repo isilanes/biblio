@@ -1,7 +1,7 @@
 {% extends "books/base_books.html" %}
 
 {% block body %}
-<form action="{% url 'books:start_book' %}" method="post" class="ml-3">
+<form action="" method="post" class="ml-3">
     {% csrf_token %}
     {{ form }}
     <input type="submit" class="big-button good" value="Submit">
