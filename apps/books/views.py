@@ -13,7 +13,6 @@ def stats(request, year=timezone.now().year):
     """View with statistics for 'year' (default: current year)."""
 
     state = statistics.State(year, request.user)
-    current_readings = core.current_readings_by(request.user)
 
     context = {
         "banner": "Stats",
