@@ -29,4 +29,7 @@ urlpatterns = [
     path('update_book_reading/<int:book_id>', views.update_book_reading, name='update_book_reading'),
     path('mark_reading_done/<int:reading_id>', views.mark_reading_done, name='mark_reading_done'),
     path('mark_edition_owned/<int:edition_id>', views.mark_edition_owned, name='mark_edition_owned'),
+    path('mark_reading_started/<int:edition_id>',
+         views.mark_reading_started,
+         name='mark_reading_started'),
 ]

@@ -66,6 +66,7 @@ def book_detail(request, book_id):
         "banner": book.title,
         "book": book,
         "editions": editions,
+        "is_being_read": book.is_currently_being_read_by(request.user),
     }
 
     return render(request, "books/book_detail.html", context)
@@ -325,6 +326,16 @@ def mark_edition_owned(request, edition_id):
 
     edition = Edition.objects.get(pk=edition_id)
     BookCopy(edition=edition, owner=request.user).save()
+
+    return redirect("books:book_detail", book_id=edition.book.id)
+
+
+@login_required
+def mark_reading_started(request, edition_id):
+    """Come here with a GET to mark an Edition of a Book as being started reading."""
+
+    edition = Edition.objects.get(pk=edition_id)
+    Reading(reader=request.user, edition=edition, start=timezone.now()).save()
 
     return redirect("books:book_detail", book_id=edition.book.id)
 

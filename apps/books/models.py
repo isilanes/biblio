@@ -82,7 +82,7 @@ class Book(models.Model):
     def is_currently_being_read_by(self, user):
         """Returns True if it is currently being read. False otherwise."""
 
-        return Reading.objects.filter(book=self, reader=user, end=None).exists()
+        return Reading.objects.filter(edition__book=self, reader=user, end=None).exists()
 
     def is_already_read_by(self, user):
         """Returns True if it has already been read by user. False otherwise."""
