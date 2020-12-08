@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from biblio.models import UserPreferences
 from biblio.forms import UserPreferencesForm
@@ -27,4 +27,4 @@ def handle_user_post(request):
     if form.is_valid():
         form.save(request.user.pk)
 
-    return handle_user_get(request)
+    return redirect("books:stats")
