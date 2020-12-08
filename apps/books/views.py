@@ -4,7 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 
 from . import core, statistics
-from .models import Book, Author, Saga, Edition, BookCopy, Reading, ReadingUpdate
+from .models import Book, Author, Saga, Edition, BookCopy, Reading
 from .forms import ReadingUpdateForm, AddBookForm, SearchBookForm, AddEditionForm
 
 
@@ -110,6 +110,7 @@ def update_book_reading(request, book_id):
     return redirect("books:update_reading", reading_id=reading.id)
 
 
+@login_required
 def add_book(request):
     """Form to add a new Book."""
 
@@ -170,6 +171,7 @@ def add_book(request):
     return render(request, 'books/add_or_modify_book.html', context)
 
 
+@login_required
 def modify_book(request, book_id=None):
     """Form to modify a Book."""
 
@@ -225,6 +227,7 @@ def modify_book(request, book_id=None):
     return render(request, 'books/add_or_modify_book.html', context)
 
 
+@login_required
 def add_edition(request, book_id=None):
     """Form to create an Edition."""
 
@@ -261,6 +264,7 @@ def add_edition(request, book_id=None):
     return render(request, 'books/add_or_modify_edition.html', context)
 
 
+@login_required
 def modify_edition(request, edition_id):
     """Form to modify an Edition."""
 
@@ -295,6 +299,7 @@ def modify_edition(request, edition_id):
     return render(request, 'books/add_or_modify_edition.html', context)
 
 
+@login_required
 def start_book(request):
     """View to start reading a book."""
 
@@ -304,6 +309,7 @@ def start_book(request):
     return handle_start_reading_get(request)
 
 
+@login_required
 def mark_reading_done(request, reading_id):
     """Come here with a GET to mark a book read (a Reading done)."""
 
@@ -313,6 +319,7 @@ def mark_reading_done(request, reading_id):
     return redirect("books:book_detail", book_id=reading.edition.book.id)
 
 
+@login_required
 def mark_edition_owned(request, edition_id):
     """Come here with a GET to mark a copy of an Edition of a Book as owned."""
 
@@ -322,6 +329,7 @@ def mark_edition_owned(request, edition_id):
     return redirect("books:book_detail", book_id=edition.book.id)
 
 
+@login_required
 def author_detail(request, author_id=None):
     """Detail view for an author."""
 
