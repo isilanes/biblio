@@ -106,7 +106,9 @@ def update_reading(request, reading_id):
 def update_book_reading(request, book_id):
     """Update (current) Reading of a given Book."""
 
-    reading = Reading.objects.get(edition__book__pk=book_id, end__isnull=True)
+    reading = Reading.objects.get(edition__book__pk=book_id,
+                                  reader=request.user,
+                                  end__isnull=True)
 
     return redirect("books:update_reading", reading_id=reading.id)
 
