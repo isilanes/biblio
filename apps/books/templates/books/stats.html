@@ -7,19 +7,36 @@ Stats
 {% endblock %}
 
 {% block body %}
-<div class="stats-style" style="margin-top: 35px; margin-left: 10px; margin-right: 10px;">
-    <div class="stats-book-line" style="margin-top: 35px; margin-left: 10px; margin-right: 10px;">
-        {% for reading in current_readings %}
-        <div class="progress bg-secondary" style="width: 100%; height: 50px; font-size: 30px;">
+<div class="only-desktop mt-3 ml-2 mr-2">
+    {% for reading in current_readings %}
+    <div class="stats-book-line ml-2 mr-2 mb-2">
+        <div class="progress bg-secondary w-100" style="height: 50px;">
             <div class="progress-bar bg-primary pl-3 text-white" role="progressbar"
-                 style="width: {{reading.percent_read}}%;">
+                 style="width: {{reading.percent_read}}%; font-size: 200%;">
                 {{reading.edition.title}} ({{reading.pages_read}} / {{reading.edition.pages}})</div>
         </div>
         <a class="condensed-btn details-btn" href="{% url 'books:book_detail' reading.edition.book.id %}">Details</a>
         <a class="condensed-btn update-btn" href="{% url 'books:update_reading' reading.id %}">Update</a>
-        {% endfor %}
+    </div>
+    {% endfor %}
+</div>
+
+<div class="only-mobile mt-3 ml-2 mr-2">
+    {% for reading in current_readings %}
+    <div class="stats-book-line-mobile ml-2 mr-2 mt-4 mb-1">
+        <div>{{reading.edition.title}}</div>
+        <div></div>
+        <a class="btn btn-sm btn-success h-auto" href="{% url 'books:update_reading' reading.id %}">Update</a>
     </div>
 
+    <div class="progress bg-secondary w-100" style="height: 15px;">
+        <div class="progress-bar bg-primary pl-3" role="progressbar"
+             style="width: {{reading.percent_read}}%;"></div>
+    </div>
+    {% endfor %}
+</div>
+
+<div>
     <h2 class="mt-4">Books</h2>
 
     <div class="card-grid card-grid-3">

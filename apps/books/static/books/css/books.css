@@ -1,9 +1,11 @@
 .only-desktop {
     display: "";
 }
+
 .only-mobile {
     display: none;
 }
+
 @media only screen and (max-width: 600px) {
     .only-desktop {
         display: none;
@@ -167,10 +169,6 @@ label {
 }
 
 .stats-style {
-    display: grid;
-    grid-template-columns: 1fr;
-    justify-items: center;
-    grid-gap: 10px;
     font-size: 35px;
 }
 
@@ -180,7 +178,16 @@ label {
     grid-template-columns: 1fr auto auto;
     justify-items: center;
     grid-gap: 10px;
-    font-size: 35px;
+}
+
+.stats-book-line-mobile {
+    display: grid;
+    width: 100%;
+    grid-template-columns: auto 1fr auto auto;
+    justify-items: center;
+    align-items: center;
+    grid-gap: 10px;
+    font-size: 150%;
 }
 
 .top-buttons-grid {
