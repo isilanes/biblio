@@ -32,7 +32,8 @@
         {% block top_top %}
         {% endblock %}
     </div>
-    <div class="top-menu-grid">
+
+    <div class="top-menu-grid only-desktop">
         {% block top_left %}
         {% endblock %}
 
@@ -44,6 +45,11 @@
         <div></div>
 
         {% block top_right %}
+        {% endblock %}
+    </div>
+
+    <div class="only-mobile w-100">
+        {% block top_mobile %}
         {% endblock %}
     </div>
 
