@@ -182,12 +182,28 @@ label {
 
 .stats-book-line-mobile {
     display: grid;
-    width: 100%;
-    grid-template-columns: auto 1fr auto auto;
+    grid-template-columns: auto 1fr auto;
     justify-items: center;
     align-items: center;
-    grid-gap: 10px;
+    grid-gap: 5px;
+    padding: 10px;
     font-size: 150%;
+    grid-template-areas:
+        "title .   buttons"
+        "bar   bar bar"
+}
+
+.sbl-mobile-title {
+    grid-area: title;
+}
+
+.sbl-mobile-buttons {
+    grid-area: buttons;
+}
+
+.sbl-mobile-bar {
+    grid-area: bar;
+    height: 10px;
 }
 
 .top-buttons-grid {
@@ -343,6 +359,21 @@ button.toggle {
     grid-template-columns: 1fr;
 }
 
+.card-stack-mobile {
+    display: grid;
+    padding: 5px;
+    grid-gap: 5px;
+    justify-items: center;
+    grid-template-columns: 1fr;
+}
+
+.card-mobile {
+    width: 100%;
+    padding: 1px;
+    padding-left: 10px;
+    font-size: 30px;
+}
+
 .card-success {
     background-color: #50ee50;
 }
@@ -352,6 +383,7 @@ button.toggle {
 }
 
 .card-info {
+    width: 100%;
     background-color: #a0a0ff;
 }
 
@@ -362,3 +394,4 @@ button.toggle {
 .card-value {
     font-size: 40px;
 }
+

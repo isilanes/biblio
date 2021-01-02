@@ -1,0 +1,43 @@
+{% for reading in current_readings %}
+<div class="stats-book-line-mobile mt-4 mb-1">
+    <div class="sbl-mobile-title">{{reading.edition.title}}</div>
+    <div class="sbl-mobile-buttons">
+        <a class="btn btn-sm btn-success h-auto" href="{% url 'books:update_reading' reading.id %}">Update</a>
+    </div>
+
+    <div class="sbl-mobile-bar progress w-100">
+        <div class="progress-bar bg-primary pl-3" role="progressbar"
+             style="width: {{reading.percent_read}}%;"></div>
+    </div>
+</div>
+{% endfor %}
+
+<div class="mt-4 mb-3">
+    <div class="card-stack-mobile">
+        <div class="card-mobile
+        {% if state.expected_books_by_end_of_year < state.goal %} card-fail {% else %} card-success {% endif %}">
+            {{state.books_read|floatformat:1}} books read
+        </div>
+
+        <div class="card-mobile
+        {% if state.expected_books_by_end_of_year < state.goal %} card-fail {% else %} card-success {% endif %}">
+            {{state.expected_books_by_end_of_year|floatformat:1}} books expected
+        </div>
+
+        <div class="card-mobile
+            {% if state.pages_superavit > 0 %} card-success {% else %} card-fail {% endif %}">
+            {{state.pages_superavit|floatformat:1}}
+            {% if state.pages_superavit > 0 %}
+            pages ahead
+            {% else %}
+            pages behind
+            {% endif %}
+        </div>
+
+        <div class="card-mobile card-info">{{state.pages_read|floatformat:0}} pages read</div>
+
+        <div class="card-mobile card-info">{{state.pages_per_day|floatformat:1}} pages/day</div>
+
+        <div class="card-mobile card-info">{{state.pages_per_book|floatformat:1}} pages/book</div>
+    </div>
+</div>

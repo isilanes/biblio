@@ -7,88 +7,11 @@ Stats
 {% endblock %}
 
 {% block body %}
-<div class="only-desktop mt-3 ml-2 mr-2">
-    {% for reading in current_readings %}
-    <div class="stats-book-line ml-2 mr-2 mb-2">
-        <div class="progress bg-secondary w-100" style="height: 50px;">
-            <div class="progress-bar bg-primary pl-3 text-white" role="progressbar"
-                 style="width: {{reading.percent_read}}%; font-size: 200%;">
-                {{reading.edition.title}} ({{reading.pages_read}} / {{reading.edition.pages}})</div>
-        </div>
-        <a class="condensed-btn details-btn" href="{% url 'books:book_detail' reading.edition.book.id %}">Details</a>
-        <a class="condensed-btn update-btn" href="{% url 'books:update_reading' reading.id %}">Update</a>
-    </div>
-    {% endfor %}
+<div class="only-desktop">
+    {% include "books/desktop/stats.html" %}
 </div>
 
-<div class="only-mobile mt-3 ml-2 mr-2">
-    {% for reading in current_readings %}
-    <div class="stats-book-line-mobile ml-2 mr-2 mt-4 mb-1">
-        <div>{{reading.edition.title}}</div>
-        <div></div>
-        <a class="btn btn-sm btn-success h-auto" href="{% url 'books:update_reading' reading.id %}">Update</a>
-    </div>
-
-    <div class="progress bg-secondary w-100" style="height: 15px;">
-        <div class="progress-bar bg-primary pl-3" role="progressbar"
-             style="width: {{reading.percent_read}}%;"></div>
-    </div>
-    {% endfor %}
-</div>
-
-<div>
-    <h2 class="mt-4">Books</h2>
-
-    <div class="card-grid card-grid-3">
-        <div></div>
-        <div class="card card-info">
-            <div class="card-title">Expected</div>
-            <div class="card-value">{{state.expected_books_so_far|floatformat:1}}</div>
-        </div>
-
-        <div class="card
-        {% if state.expected_books_by_end_of_year < state.goal %} card-fail {% else %} card-success {% endif %}">
-            <div class="card-title">Read</div>
-            <div class="card-value">{{state.books_read|floatformat:1}}</div>
-        </div>
-
-        <div class="card
-        {% if state.expected_books_by_end_of_year < state.goal %} card-fail {% else %} card-success {% endif %}">
-            <div class="card-title">By end of year</div>
-            <div class="card-value">{{state.expected_books_by_end_of_year|floatformat:1}}</div>
-        </div>
-    </div>
-
-    <h2 class="mt-5">Pages</h2>
-
-    <div class="card-grid card-grid-4">
-        <div></div>
-        <div class="card card-info">
-            <div class="card-title">Total</div>
-            <div class="card-value">{{state.pages_read|floatformat:0}}</div>
-        </div>
-
-        <div class="card card-info">
-            <div class="card-title">pages/day</div>
-            <div class="card-value">{{state.pages_per_day|floatformat:1}}</div>
-        </div>
-
-        <div class="card card-info">
-            <div class="card-title">pages/book</div>
-            <div class="card-value">{{state.pages_per_book|floatformat:1}}</div>
-        </div>
-
-        <div class="card
-            {% if state.pages_superavit > 0 %} card-success {% else %} card-fail {% endif %}">
-            <div class="card-title">
-                {% if state.pages_superavit > 0 %}
-                    pages ahead
-                {% else %}
-                    pages behind
-                {% endif %}
-            </div>
-            <div class="card-value">{{state.pages_superavit|floatformat:1}}</div>
-        </div>
-    </div>
+<div class="only-mobile">
+    {% include "books/mobile/stats.html" %}
 </div>
 {% endblock %}
