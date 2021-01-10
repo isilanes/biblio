@@ -1,28 +1,11 @@
 {% extends "books/base_books.html" %}
 
 {% block body %}
-{% if book_is_being_read %}
-<div class="mt-3">
-    <button class="big-button good" onclick="mytoggle('show_page_update')">Update</button>
-    <a class="big-button bad" href="{% url 'books:mark_reading_done' reading.id %}">Mark read</a>
-    <a class="big-button cancel" href="{% url 'books:book_detail' reading.edition.book.id %}">Cancel</a>
+<div class="only-desktop">
+    {% include "books/desktop/update_reading.html" %}
 </div>
 
-<div id="show_page_update" style="display: none;">
-    <form class="mt-5" action="{% url 'books:update_reading' reading.id %}"
-          method="post" style="margin-left: 10px;">
-        {% csrf_token %}
-        {{ form }}
-
-        <input type="submit" class="big-button good" value="Submit">
-    </form>
+<div class="only-mobile">
+    {% include "books/mobile/update_reading.html" %}
 </div>
-{% else %}
-<form class="mt-5" action="" method="post" style="margin-left: 10px;">
-    {% csrf_token %}
-
-    <input type="submit" class="big-button good" value="Start book">
-    <a class="big-button cancel" href="{% url 'books:book_detail' reading.edition.book.id %}">Cancel</a>
-</form>
-{% endif %}
 {% endblock %}
