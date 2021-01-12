@@ -86,7 +86,7 @@ def update_reading(request, reading_id):
             percent_read = data.get("percent_read")
             reading.update_progress(pages_read, percent_read)
 
-            return redirect("books:book_detail", book_id=reading.edition.book.id)
+            return redirect("books:stats")
 
     initial = {
         "pages_read": reading.page_progress,
