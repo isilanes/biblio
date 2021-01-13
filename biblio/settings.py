@@ -88,6 +88,7 @@ AVAILABLE_DATABASES = {
         'USER': conf.get("DB_USER"),
         'PASSWORD': conf.get("DB_PASSWORD"),
         'HOST': conf.get("DB_HOST", "localhost"),
+        'PORT': conf.get("DB_PORT", 5432),
     },
 }
 DATABASES = {}
