@@ -1,3 +1,5 @@
+{% load books_filters %}
+
 {% for reading in current_readings %}
 <div class="stats-book-line-mobile mt-4 mb-1">
     <div class="sbl-mobile-title">{{reading.edition.title}}</div>
@@ -26,12 +28,8 @@
 
         <div class="card-mobile
             {% if state.pages_superavit > 0 %} card-success {% else %} card-fail {% endif %}">
-            {{state.pages_superavit|floatformat:1}}
-            {% if state.pages_superavit > 0 %}
-            pages ahead
-            {% else %}
-            pages behind
-            {% endif %}
+            {{state.pages_superavit|floatformat:1|absolute}}
+            {% if state.pages_superavit > 0 %} pages ahead {% else %} pages behind {% endif %}
         </div>
     </div>
     <button class="btn btn-primary w-100" onclick="toggle_stats()">Show stats</button>
