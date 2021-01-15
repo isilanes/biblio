@@ -17,24 +17,27 @@
     <a class="btn btn-lg btn-primary w-100" href="{% url 'books:modify_book' book.id %}">Modify</a>
     <a class="btn btn-lg btn-primary w-100" href="{% url 'books:add_edition' book.id %}">+ Edition</a>
     {% if is_being_read %}
-    <a class="btn btn-lg btn-success w-100" href="{% url 'books:update_book_reading' book.id %}">Update</a>
+    <a class="btn btn-lg btn-primary w-100" href="{% url 'books:update_book_reading' book.id %}">Update</a>
     {% endif %}
 </div>
 
 <hr>
 
 {% for edition in editions %}
-<h2>ISBN: {{edition.isbn}}
-    <a class="btn btn-primary" href="{% url 'books:modify_edition' edition.id %}">Modify Edition</a>
+<div class="isbn-grid ml-2 mr-1">
+    <div class="w-100" style="background-color: white;">ISBN: {{edition.isbn}}</div>
+    <div class="w-100" style="background-color: white;">
+    <a class="btn btn-sm btn-primary" href="{% url 'books:modify_edition' edition.id %}">Modify</a>
     {% if not edition.owned %}
-    <a class="btn btn-success" href="{% url 'books:mark_edition_owned' edition.id %}">Mark owned</a>
+    <a class="btn btn-sm btn-success" href="{% url 'books:mark_edition_owned' edition.id %}">Own</a>
     {% endif %}
     {% if not is_being_read %}
-    <a class="btn btn-success" href="{% url 'books:mark_reading_started' edition.id %}">Start reading</a>
+    <a class="btn btn-sm btn-success" href="{% url 'books:mark_reading_started' edition.id %}">Start</a>
     {% endif %}
-</h2>
+    </div>
+</div>
 
-<div class="book-detail-grid mt-4 ml-3" style="width: 800px">
+<div class="book-detail-grid mt-4 ml-1 mr-1">
     <div class="two-col-grid-text">Title:</div>
     <div class="two-col-grid-text">{{ edition.title }}</div>
 
@@ -43,7 +46,6 @@
 
     <div class="two-col-grid-text">Published:</div>
     <div class="two-col-grid-text">{{ edition.year }}</div>
-
 </div>
 <hr>
 {% endfor %}

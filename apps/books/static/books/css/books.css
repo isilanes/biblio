@@ -406,3 +406,12 @@ button.toggle {
     font-size: 40px;
 }
 
+.isbn-grid {
+    display: grid;
+    grid-template-columns: 4fr 3fr;
+    justify-items: left;
+    align-items: center;
+    grid-gap: 0px;
+    font-size: large;
+}
+
