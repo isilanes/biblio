@@ -23,10 +23,9 @@ div.banner {
 
 .three-col-grid {
     display: grid;
-    grid-template-columns: 50% 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     justify-items: center;
-    grid-gap: 10px;
-    font-size: 35px;
+    grid-gap: 5px;
 }
 
 .three-col-grid-text {

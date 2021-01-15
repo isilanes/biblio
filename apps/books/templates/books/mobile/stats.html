@@ -2,7 +2,9 @@
 
 {% for reading in current_readings %}
 <div class="stats-book-line-mobile mt-4 mb-1">
-    <div class="sbl-mobile-title">{{reading.edition.title}}</div>
+    <div class="sbl-mobile-title">
+        <a href="{% url 'books:book_detail' reading.edition.book.id %}">{{reading.edition.title}}</a>
+    </div>
     <div class="sbl-mobile-buttons">
         <a class="btn btn-sm btn-success h-auto" href="{% url 'books:update_reading' reading.id %}">Update</a>
     </div>
