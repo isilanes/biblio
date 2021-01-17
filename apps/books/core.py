@@ -97,18 +97,16 @@ def current_readings_by(user):
 def completed_readings_by_year_for(user):
     """Return list of books already read, sorted by finish date and grouped by year (recent first)."""
 
-    years_with_readings_qs = Reading.objects.filter(reader=user).exclude(end=None)\
-        .order_by("-end__year")\
-        .values("end__year")\
-        .distinct()
+    my_readings = Reading.objects.filter(reader=user).exclude(end=None)
+
+    years_with_readings_qs = my_readings.order_by("-end__year").values_list("end__year", flat=True).distinct()
 
     data = []
-    for year in [v["end__year"] for v in years_with_readings_qs]:
-        year_data = {
-            "year": year,
-            "readings": Reading.objects.filter(reader=user, end__year=year).order_by("-end"),
-        }
-        data.append(year_data)
+    for year in years_with_readings_qs:
+        readings = my_readings.filter(end__year=year).order_by("-end")
+
+        if readings:
+            data.append({"year": year, "readings": readings})
 
     return data
 

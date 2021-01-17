@@ -43,6 +43,6 @@ psql -U "$DB_USER" -d postgres -c "CREATE DATABASE $DB_NAME WITH OWNER $DB_USER;
 echo "Database $DB_NAME re-created (empty)"
 
 # Load db dump:
-pg_restore --verbose --clean --no-acl --no-owner -U "$DB_USER" -d "$DB_NAME" "$DUMP_FILE"
+pg_restore --verbose --clean --no-acl --no-owner -h localhost -U "$DB_USER" -d "$DB_NAME" "$DUMP_FILE"
 echo "Database $DB_NAME re-populated"
 
