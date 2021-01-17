@@ -259,6 +259,7 @@ def add_edition(request, book_id=None):
         "pages": 0,
     }
     context = {
+        "banner": f"Edition of '{book}'",
         "form": AddEditionForm(initial=initial),
         "book": book,
         "action": "add",
@@ -294,6 +295,7 @@ def modify_edition(request, edition_id):
         "pages": edition.pages,
     }
     context = {
+        "banner": f"Edition of '{edition.book}'",
         "form": AddEditionForm(initial=initial),
         "book": edition.book,
         "action": "modify",
