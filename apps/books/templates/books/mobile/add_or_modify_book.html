@@ -1,0 +1,32 @@
+<form class="mt-3 ml-1 mr-1" action="" method="post">
+    {% csrf_token %}
+
+    <div class="form-two-col-grid">
+        <div class="span-two">{{form.title.label}}</div>
+        <div class="span-two">{{form.title}}</div>
+
+        <div class="span-two mt-1">{{form.author.label}}</div>
+        <div class="span-two mb-2">{{form.author}}</div>
+
+        <div>{{form.year.label}}</div>
+        <div>{{form.year}}</div>
+
+        <div class="span-two mt-1">{{form.saga.label}}</div>
+        <div class="span-two mb-2">{{form.saga}}</div>
+
+        <div>{{form.index.label}}</div>
+        <div>{{form.index}}</div>
+    </div>
+
+    <div class="form-two-col-grid mt-4">
+        {% if action == "add" %}
+        <input type="submit" class="btn btn-lg btn-primary w-100" name="add" value="Add">
+        <a class="btn btn-lg btn-warning w-100" href="{% url 'books:stats' %}">Cancel</a>
+        {% endif %}
+
+        {% if action == "modify" %}
+        <input type="submit" class="btn btn-lg btn-primary w-100" name="modify" value="Modify">
+        <a class="btn btn-lg btn-warning w-100" href="{% url 'books:book_detail' book.id %}">Cancel</a>
+        {% endif %}
+    </div>
+</form>

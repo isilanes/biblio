@@ -7,11 +7,10 @@ div.banner {
     left: 0;
     width: 100%;
     position: center;
-    margin-bottom: 10px;
-    padding: 10px 0px;
+    padding: 5px 0px;
     text-align: center;
-    font-size: 300%;
-    border-radius: 5px;
+    font-size: x-large;
+    border-radius: 0px;
 }
 
 .main-buttons-grid {

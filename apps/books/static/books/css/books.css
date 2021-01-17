@@ -56,10 +56,10 @@ input {
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 175%;
+    font-size: x-large;
     border-radius: 8px;
     color: black;
-    background-color: #ccddff;
+    background-color: #dcedff;
     width: 100%;
 }
 
@@ -291,13 +291,19 @@ label {
     //line-height: 50px;
 }
 
-.update-reading-grid {
+.form-two-col-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     justify-items: center;
     align-items: center;
     grid-gap: 5px;
     font-size: 175%;
+}
+
+.span-two {
+    width: 100%;
+    text-align: center;
+    grid-column: span 2;
 }
 
 .saga-grid div {

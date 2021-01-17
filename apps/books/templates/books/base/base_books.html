@@ -4,7 +4,7 @@
 
 {% block top_top %}
 {% if banner %}
-<div class="banner index-color">{{banner}}</div>
+<div class="banner index-color mb-2">{{banner}}</div>
 {% endif %}
 {% endblock %}
 
@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block top_left %}
-{% include "books/top_menu.html" %}
+{% include "books/base/top_menu.html" %}
 {% endblock %}
 
 {% block top_middle %}

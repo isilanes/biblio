@@ -1,22 +1,11 @@
-{% extends "books/base_books.html" %}
+{% extends "books/base/base_books.html" %}
 
 {% block body %}
-<form action="" method="post" class="ml-3 mt-4">
-    {% csrf_token %}
-    <div class="add-book-form">
-    {{ form }}
-    </div>
+<div class="only-desktop">
+    {% include "books/desktop/add_or_modify_book.html" %}
+</div>
 
-    <div class="mt-3">
-        {% if action == "add" %}
-        <input type="submit" class="big-button primary mt-2" name="add" value="Add">
-        <a class="big-button cancel" href="{% url 'books:stats' %}">Cancel</a>
-        {% endif %}
-
-        {% if action == "modify" %}
-        <input type="submit" class="big-button good mt-2" name="modify" value="Modify">
-        <a class="big-button cancel" href="{% url 'books:book_detail' book.id %}">Cancel</a>
-        {% endif %}
-    </div>
-</form>
+<div class="only-mobile">
+    {% include "books/mobile/add_or_modify_book.html" %}
+</div>
 {% endblock %}
