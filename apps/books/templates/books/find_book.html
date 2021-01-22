@@ -1,18 +1,12 @@
 {% extends "books/base/base_books.html" %}
 
 {% block body %}
-<form action="" method="post" class="ml-3">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" class="big-button good" value="Submit">
-</form>
+<div class="only-desktop">
+    {% include "books/desktop/find_book.html" %}
+</div>
 
-<div class="saga-grid mt-2 ml-2 mr-2">
-    {% for book in matching_books %}
-    <div class="{{book.status}}">
-        <a href="{% url 'books:book_detail' book.id %}" style="color: #111111;">{{book}}</a>
-    </div>
-    {% endfor %}
+<div class="only-mobile">
+    {% include "books/mobile/find_book.html" %}
 </div>
 {% endblock %}
 

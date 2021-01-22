@@ -366,6 +366,7 @@ def handle_find_book_post(request):
         matching_books = Book.objects.filter(title__icontains=search_for)
 
         context = {
+            "banner": "Find book",
             "form": SearchBookForm(initial={"search_for": ""}),
             "matching_books": matching_books,
         }
