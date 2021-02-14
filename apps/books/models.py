@@ -16,6 +16,8 @@ class Author(models.Model):
 class Saga(models.Model):
     name = models.CharField('Name', max_length=300)
 
+    objects = models.Manager()
+
     @property
     def books(self):
         """Return sorted list of books in saga."""
@@ -52,6 +54,8 @@ class Book(models.Model):
     year = models.IntegerField("Year", default=1)
     index_in_saga = models.IntegerField("Index in saga", default=1)
     owned = models.BooleanField("Owned", default=True)
+
+    objects = models.Manager()
 
     def mark_started_by(self, user):
         """Mark self as started to read."""
@@ -95,9 +99,7 @@ class Book(models.Model):
     def pages_read_by(self, user):
         """How many pages read so far. Only interesting for books currently being read."""
 
-        last_update = ReadingUpdate.objects\
-            .filter(reading__book=self, reading__end=None)\
-            .order_by("date").last()
+        last_update = self._last_update
 
         if last_update is None:
             return 0
@@ -106,7 +108,12 @@ class Book(models.Model):
 
     def percent_read_by(self, user):
 
-        return 100. * self.pages_read_by(user) / self.pages
+        return 100. * self.pages_read_by(user) / self._last_update_of(user).edition.pages
+
+    def _last_update_of(self, user):
+        return ReadingUpdate.objects.filter(reading__book=self,
+                                            reading__end=None,
+                                            reader=user).order_by("date").last()
 
     @property
     def list_of_authors(self):
@@ -125,6 +132,8 @@ class Edition(models.Model):
     year = models.IntegerField("Year", default=1)
     pages = models.IntegerField("Pages", default=1)
 
+    objects = models.Manager()
+
     @property
     def owned(self):
         return BookCopy.objects.filter(edition=self).exists()
@@ -138,6 +147,8 @@ class BookCopy(models.Model):
     edition = models.ForeignKey(Edition, blank=True, on_delete=models.CASCADE)
     owner = models.ForeignKey(User, blank=True, on_delete=models.CASCADE)
 
+    objects = models.Manager()
+
     def __str__(self):
         return f"Copy of {self.edition}, owned by {self.owner}"
 
@@ -148,6 +159,8 @@ class Reading(models.Model):
                                 blank=True, on_delete=models.CASCADE, default=1)
     start = models.DateTimeField("Start", blank=False, default=timezone.now)
     end = models.DateTimeField("End", blank=True, default=None, null=True)
+
+    objects = models.Manager()
 
     @property
     def page_progress(self):
@@ -182,6 +195,8 @@ class ReadingUpdate(models.Model):
     reading = models.ForeignKey(Reading, blank=False, on_delete=models.CASCADE)
     page = models.IntegerField("Page", default=0)
     date = models.DateTimeField("Date", blank=True, default=timezone.now)
+
+    objects = models.Manager()
 
     def __str__(self):
         return f"{self.page} pages on {self.reading} at {self.date}"

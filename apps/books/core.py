@@ -7,7 +7,7 @@ import plotly.graph_objects as go
 from plotly.offline import plot as offplot
 
 from biblio.core import as_float, TicToc
-from .models import Reading, ReadingUpdate, Saga, Book
+from .models import Reading, ReadingUpdate, Saga, Edition
 
 
 def get_book_progress_plot(points, total_pages, longest=0, pages_per_day=None):
@@ -87,9 +87,11 @@ def get_book_progress_plot(points, total_pages, longest=0, pages_per_day=None):
 def current_readings_by(user):
     latest_ru_subquery = ReadingUpdate.objects.filter(reading=OuterRef('id')).order_by("-date")[:1]
 
-    return Reading.objects.filter(reader=user, end=None)\
-        .annotate(pages_read=Coalesce(Subquery(latest_ru_subquery.values('page')), 0))\
-        .annotate(fraction_read=as_float(F('pages_read')) / as_float(F('edition__pages'))) \
+    open_readings = Reading.objects.filter(reader=user, end=None)
+    Edition.objects.filter(reading__in=open_readings, pages=0).update(pages=1)  # just in case
+
+    return open_readings.annotate(pages_read=Coalesce(Subquery(latest_ru_subquery.values('page')), 0))\
+        .annotate(fraction_read=as_float(F('pages_read')) / as_float(F('edition__pages')))\
         .annotate(percent_read=as_float(F('fraction_read')) * 100.)\
         .order_by("-start")
 
