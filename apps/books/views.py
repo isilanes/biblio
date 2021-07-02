@@ -9,8 +9,10 @@ from .forms import ReadingUpdateForm, AddBookForm, SearchBookForm, AddEditionFor
 
 
 @login_required
-def stats(request, year=timezone.now().year):
+def stats(request, year=None):
     """View with statistics for 'year' (default: current year)."""
+
+    year = year or timezone.now().year
 
     state = statistics.State(year, request.user)
 

@@ -380,21 +380,24 @@ button.toggle {
 .card-grid {
     display: grid;
     width: 100%;
+    max-width: 1800px;
     justify-items: center;
-    grid-gap: 50px;
+    margin: auto;
+    grid-gap: 20px;
 }
 
 .card-grid-3 {
-    grid-template-columns: 1fr repeat(3, 300px) 1fr;
+    grid-template-columns: 0.5fr repeat(3, 1fr) 0.5fr;
 }
 
 .card-grid-4 {
-    grid-template-columns: 1fr repeat(4, 300px) 1fr;
+    grid-template-columns: auto repeat(4, 1fr) auto;
 }
 
 .card {
     display: grid;
     width: 100%;
+    max-width: 400px;
     padding: 10px;
     height: 150px;
     justify-items: center;
@@ -425,7 +428,6 @@ button.toggle {
 }
 
 .card-info {
-    width: 100%;
     background-color: #a0a0ff;
 }
 
