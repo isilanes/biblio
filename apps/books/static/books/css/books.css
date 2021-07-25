@@ -1,5 +1,5 @@
 .only-desktop {
-    display: block;
+    display: grid;
 }
 
 .only-mobile {
@@ -12,7 +12,7 @@
     }
 
     .only-mobile {
-        display: block !important;
+        display: grid !important;
     }
 }
 
