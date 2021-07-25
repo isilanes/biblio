@@ -1,0 +1,16 @@
+div.banner {
+    top: 0;
+    left: 0;
+    width: 100%;
+    position: center;
+    padding: 5px 0px;
+    text-align: center;
+    font-size: x-large;
+    border-radius: 0px;
+}
+
+.login-color {
+    background: #bb1111;
+    color: #ffffff;
+    font-weight: bold;
+}

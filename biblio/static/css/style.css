@@ -1,3 +1,24 @@
+@import 'elements/banners.css';
+@import 'elements/forms.css';
+
+.only-desktop {
+    display: grid;
+}
+
+.only-mobile {
+    display: none;
+}
+
+@media only screen and (max-width: 600px) {
+    .only-desktop {
+        display: none;
+    }
+
+    .only-mobile {
+        display: grid !important;
+    }
+}
+
 a {
     text-decoration: none;
 }
@@ -180,3 +201,8 @@ div.banner {
     padding-bottom: 5;
 }
 
+.login-color {
+    background: #bb1111;
+    color: #ffffff;
+    font-weight: bold;
+}
