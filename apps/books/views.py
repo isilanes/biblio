@@ -2,6 +2,8 @@ from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 from . import core, statistics
 from .models import Book, Author, Saga, Edition, BookCopy, Reading
@@ -324,6 +326,21 @@ def mark_reading_done(request, reading_id):
     reading.mark_read()
 
     return redirect("books:book_detail", book_id=reading.edition.book.id)
+
+
+@csrf_exempt
+@login_required
+def mark_reading_pages(request, reading_id):
+    """Come here with a POST to mark 'pages' pages read on a book."""
+
+    reading = Reading.objects.get(pk=reading_id)
+    new_pages = request.POST.get("new_pages")
+
+    if new_pages is not None:
+        reading.update_progress(pages=int(new_pages))
+        print(new_pages, "->", reading.page_progress)
+
+    return JsonResponse({})
 
 
 @login_required

@@ -173,8 +173,10 @@ class Reading(models.Model):
     def update_progress(self, pages=None, percent=None):
         max_pages = self.edition.pages
         new_pages = 0
+
         if percent is not None and percent <= 100:
             new_pages = int(percent * max_pages / 100)
+
         new_pages = max(pages, new_pages)
 
         if self.page_progress < new_pages <= max_pages:  # only save if an update
