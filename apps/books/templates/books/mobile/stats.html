@@ -21,10 +21,14 @@
     </div>
 
     <div class="slidecontainer sbl-mobile-slider w-100" id="slider-block" style="display: none;">
+        <div id="pages-count"
+             data-current-pages="{{reading.page_progress}}"
+             data-total-pages="{{reading.edition.pages}}"
+        ></div>
+        <div id="percent-pages"></div>
         <div>
             <input type="range" min="0" max="{{reading.edition.pages}}" value="{{reading.page_progress}}" id="slider">
         </div>
-        <div id="pages-count">0</div>
     </div>
 </div>
 {% endfor %}

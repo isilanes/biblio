@@ -1,12 +1,15 @@
 $(document).ready(function() {
-    slider = document.getElementById("slider");
-    output = document.getElementById("pages-count");
+    let slider = document.getElementById("slider");
+    let pages_count_element = document.getElementById("pages-count");
+    let percent_pages_element = document.getElementById("percent-pages");
 
     slider.oninput = function() {
-        output.innerHTML = this.value;
+        let total_pages = pages_count_element.dataset.totalPages;
+        pages_count_element.innerHTML = this.value + " pages";
+        percent_pages_element.innerHTML = (100*this.value/total_pages).toFixed(1) + " %";
     };
 
-    output.innerHTML = slider.value;
+    pages_count_element.innerHTML = slider.value + " pages";
 });
 
 function mytoggle(id) {
@@ -24,6 +27,17 @@ function toggle_stats() {
 };
 
 function toggle_slider() {
+    let sliderBlock = document.getElementById("slider-block");
+    if (sliderBlock.style.display == "none") {
+        let slider = document.getElementById("slider");
+        let pages_count_element = document.getElementById("pages-count");
+        let percent_pages_element = document.getElementById("percent-pages");
+        let current_pages = pages_count_element.dataset.currentPages;
+        let total_pages = pages_count_element.dataset.totalPages;
+        slider.value = current_pages;
+        pages_count_element.innerHTML = slider.value + " pages";
+        percent_pages_element.innerHTML = (100*slider.value/total_pages).toFixed(1) + " %";
+    }
     mytoggle("slider-block");
     mytoggle("update-button-block");
     mytoggle("save-button-block");
