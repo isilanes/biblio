@@ -338,7 +338,6 @@ def mark_reading_pages(request, reading_id):
 
     if new_pages is not None:
         reading.update_progress(pages=int(new_pages))
-        print(new_pages, "->", reading.page_progress)
 
     return JsonResponse({})
 

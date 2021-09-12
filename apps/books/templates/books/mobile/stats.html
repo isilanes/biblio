@@ -5,13 +5,13 @@
     <div class="sbl-mobile-title">
         <a href="{% url 'books:book_detail' reading.edition.book.id %}">{{reading.edition.title}}</a>
     </div>
-    <div class="sbl-mobile-buttons" id="update-button-block">
-        <a class="btn btn-sm btn-success h-auto" href="{% url 'books:update_reading' reading.id %}">Update</a>
-        <button class="btn btn-sm btn-success h-auto" onclick="toggle_slider()">Inline</button>
+    <div class="sbl-mobile-buttons" id="update-button-block-{{reading.id}}">
+<!--        <a class="btn btn-sm btn-success h-auto" href="{% url 'books:update_reading' reading.id %}">Update</a>-->
+        <button class="btn btn-sm btn-success h-auto" onclick="toggle_slider('{{reading.id}}')">Update</button>
     </div>
-    <div class="sbl-mobile-buttons" id="save-button-block" style="display: none;">
+    <div class="sbl-mobile-buttons" id="save-button-block-{{reading.id}}" style="display: none;">
         <button class="btn btn-sm btn-success h-auto" onclick="save_reading_update('{{reading.id}}')">Save</button>
-        <button class="btn btn-sm btn-warning h-auto" onclick="toggle_slider()">Cancel</button>
+        <button class="btn btn-sm btn-warning h-auto" onclick="toggle_slider('{{reading.id}}')">Cancel</button>
     </div>
 
     <div class="w-100"></div>
@@ -20,14 +20,19 @@
              style="width: {{reading.percent_read}}%;"></div>
     </div>
 
-    <div class="slidecontainer sbl-mobile-slider w-100" id="slider-block" style="display: none;">
-        <div id="pages-count"
+    <div class="slidecontainer sbl-mobile-slider w-100" id="slider-block-{{reading.id}}" style="display: none;">
+        <div id="pages-count-{{reading.id}}"
              data-current-pages="{{reading.page_progress}}"
              data-total-pages="{{reading.edition.pages}}"
         ></div>
-        <div id="percent-pages"></div>
+        <div id="pages-percent-{{reading.id}}"></div>
         <div>
-            <input type="range" min="0" max="{{reading.edition.pages}}" value="{{reading.page_progress}}" id="slider">
+            <input type="range"
+                   min="0"
+                   max="{{reading.edition.pages}}"
+                   value="{{reading.page_progress}}"
+                   oninput="update_slider('{{reading.id}}')"
+                   id="slider-element-{{reading.id}}">
         </div>
     </div>
 </div>

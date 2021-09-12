@@ -1,18 +1,12 @@
-$(document).ready(function() {
-    let slider = document.getElementById("slider");
-    let pages_count_element = document.getElementById("pages-count");
-    let percent_pages_element = document.getElementById("percent-pages");
+function update_slider(reading_id) {
+    let slider = document.getElementById("slider-element-"+reading_id);
+    let pages_count_element = document.getElementById("pages-count-"+reading_id);
+    let pages_percent_element = document.getElementById("pages-percent-"+reading_id);
 
-    if (slider) {
-        slider.oninput = function() {
-            let total_pages = pages_count_element.dataset.totalPages;
-            pages_count_element.innerHTML = this.value + " pages";
-            percent_pages_element.innerHTML = (100*this.value/total_pages).toFixed(1) + " %";
-        };
-
-        pages_count_element.innerHTML = slider.value + " pages";
-    }
-});
+    let total_pages = pages_count_element.dataset.totalPages;
+    pages_count_element.innerHTML = slider.value + " pages";
+    pages_percent_element.innerHTML = (100*slider.value/total_pages).toFixed(1) + " %";
+};
 
 function mytoggle(id) {
     var x = document.getElementById(id);
@@ -23,25 +17,33 @@ function mytoggle(id) {
     }
 };
 
-function toggle_slider() {
-    let sliderBlock = document.getElementById("slider-block");
+function toggle_slider(reading_id) {
+    let slider_block_id = "slider-block-" + reading_id
+    let slider_id = "slider-element-" + reading_id
+    let pages_count_id = "pages-count-" + reading_id
+    let pages_percent_id = "pages-percent-" + reading_id
+    let update_button_block_id = "update-button-block-" + reading_id
+    let save_button_block_id = "save-button-block-" + reading_id
+
+    let sliderBlock = document.getElementById(slider_block_id);
+
     if (sliderBlock.style.display == "none") {
-        let slider = document.getElementById("slider");
-        let pages_count_element = document.getElementById("pages-count");
-        let percent_pages_element = document.getElementById("percent-pages");
+        let slider = document.getElementById(slider_id);
+        let pages_count_element = document.getElementById(pages_count_id);
+        let percent_pages_element = document.getElementById(pages_percent_id);
         let current_pages = pages_count_element.dataset.currentPages;
         let total_pages = pages_count_element.dataset.totalPages;
         slider.value = current_pages;
         pages_count_element.innerHTML = slider.value + " pages";
         percent_pages_element.innerHTML = (100*slider.value/total_pages).toFixed(1) + " %";
     }
-    mytoggle("slider-block");
-    mytoggle("update-button-block");
-    mytoggle("save-button-block");
+    mytoggle(slider_block_id);
+    mytoggle(update_button_block_id);
+    mytoggle(save_button_block_id);
 };
 
 async function save_reading_update(reading_id) {
-    let slider = document.getElementById("slider");
+    let slider = document.getElementById("slider-element");
     let new_pages = slider.value
     const payload = 'new_pages=' + new_pages
     let response = await fetch("/books/mark_reading_pages/" + reading_id,

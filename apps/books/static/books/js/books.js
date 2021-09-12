@@ -1,5 +1,4 @@
-$(document).ready(function() {
-});
+$(document).ready(function() {});
 
 function mytoggle(id) {
     var x = document.getElementById(id);
