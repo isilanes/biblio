@@ -43,7 +43,7 @@ function toggle_slider(reading_id) {
 };
 
 async function save_reading_update(reading_id) {
-    let slider = document.getElementById("slider-element");
+    let slider = document.getElementById("slider-element-"+reading_id);
     let new_pages = slider.value
     const payload = 'new_pages=' + new_pages
     let response = await fetch("/books/mark_reading_pages/" + reading_id,
