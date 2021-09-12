@@ -165,6 +165,19 @@ button.mark-read {
     grid-area: slider;
 }
 
+.sbl-mobile-slider-line {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-gap: 5px;
+    height: 15px;
+}
+
+.btn-slider {
+    width: 40px;
+    font-size: 100%;
+    font-weight: bold;
+}
+
 .top-buttons-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);

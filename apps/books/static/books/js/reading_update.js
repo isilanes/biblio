@@ -61,3 +61,10 @@ async function save_reading_update(reading_id) {
         location.reload();
     }
 };
+
+function add_pages_to_slider(reading_id, pages) {
+    let slider = document.getElementById("slider-element-"+reading_id);
+
+    slider.value = parseInt(slider.value) + parseInt(pages);
+    update_slider(reading_id);
+};

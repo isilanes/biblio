@@ -26,13 +26,17 @@
              data-total-pages="{{reading.edition.pages}}"
         ></div>
         <div id="pages-percent-{{reading.id}}"></div>
-        <div>
-            <input type="range"
-                   min="0"
-                   max="{{reading.edition.pages}}"
-                   value="{{reading.page_progress}}"
-                   oninput="update_slider('{{reading.id}}')"
-                   id="slider-element-{{reading.id}}">
+        <div class="sbl-mobile-slider-line">
+            <button class="btn btn-sm btn-primary btn-slider" onclick="add_pages_to_slider({{reading.id}}, -1)">-</button>
+            <div>
+                <input type="range"
+                       min="0"
+                       max="{{reading.edition.pages}}"
+                       value="{{reading.page_progress}}"
+                       oninput="update_slider('{{reading.id}}')"
+                       id="slider-element-{{reading.id}}">
+            </div>
+            <button class="btn btn-sm btn-primary btn-slider" onclick="add_pages_to_slider({{reading.id}}, 1)">+</button>
         </div>
     </div>
 </div>
