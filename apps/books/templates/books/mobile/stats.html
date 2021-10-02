@@ -6,7 +6,6 @@
         <a href="{% url 'books:book_detail' reading.edition.book.id %}">{{reading.edition.title}}</a>
     </div>
     <div class="sbl-mobile-buttons" id="update-button-block-{{reading.id}}">
-<!--        <a class="btn btn-sm btn-success h-auto" href="{% url 'books:update_reading' reading.id %}">Update</a>-->
         <button class="btn btn-sm btn-success h-auto" onclick="toggle_slider('{{reading.id}}')">Update</button>
     </div>
     <div class="sbl-mobile-buttons" id="save-button-block-{{reading.id}}" style="display: none;">
@@ -28,9 +27,9 @@
         <div id="pages-percent-{{reading.id}}"></div>
         <div class="sbl-mobile-slider-line">
             <button class="btn btn-sm btn-primary btn-slider" onclick="add_pages_to_slider({{reading.id}}, -1)">-</button>
-            <div>
+            <div style="margin-top: auto; margin-bottom: auto">
                 <input type="range"
-                       min="0"
+                       min="{{reading.page_progress}}"
                        max="{{reading.edition.pages}}"
                        value="{{reading.page_progress}}"
                        oninput="update_slider('{{reading.id}}')"

@@ -4,7 +4,7 @@ function update_slider(reading_id) {
     let pages_percent_element = document.getElementById("pages-percent-"+reading_id);
 
     let total_pages = pages_count_element.dataset.totalPages;
-    pages_count_element.innerHTML = slider.value + " pages";
+    pages_count_element.innerHTML = slider.value + " / " + total_pages + " pages";
     pages_percent_element.innerHTML = (100*slider.value/total_pages).toFixed(1) + " %";
 };
 
@@ -34,7 +34,7 @@ function toggle_slider(reading_id) {
         let current_pages = pages_count_element.dataset.currentPages;
         let total_pages = pages_count_element.dataset.totalPages;
         slider.value = current_pages;
-        pages_count_element.innerHTML = slider.value + " pages";
+        pages_count_element.innerHTML = slider.value + " / " + total_pages + " pages";
         percent_pages_element.innerHTML = (100*slider.value/total_pages).toFixed(1) + " %";
     }
     mytoggle(slider_block_id);
