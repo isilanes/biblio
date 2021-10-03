@@ -8,12 +8,12 @@ Index
 
 {% block body %}
 {% if current_readings %}
-<div class="block-1 w-100">
+<div class="block-1 w-100 mt-2">
     Currently reading
-    <button class="toggle" onclick="mytoggle('show_currently_reading')">[toggle show]</button>
+    <button class="toggle" onclick="mytoggle('show_currently_reading')">+</button>
 </div>
 
-<div class="index-grid" id="show_currently_reading" style="width: 800px; display: none;">
+<div class="index-grid" id="show_currently_reading" style="display: none;">
     {% for reading in current_readings %}
         <div class="two-col-grid-text">
             <a href="{% url 'books:book_detail' reading.edition.book.id %}">{{reading.edition.title}}</a>
@@ -23,19 +23,20 @@ Index
 </div>
 {% endif %}
 
-<div class="block-1 w-100 mt-3">
+<div class="block-1 w-100 mt-2">
     Already read
-    <button class="toggle" onclick="mytoggle('show_already_read')">[toggle show]</button>
+    <button class="toggle" onclick="mytoggle('show_already_read')">+</button>
 </div>
 
-<div class="mt-1" id="show_already_read" style="width: 800px; display: none;">
+<div class="mt-1" id="show_already_read" style="display: none;">
     {% for data in completed_readings %}
     <div class="block-2 w-100">
         {{data.readings|length}} books read in {{data.year}}
-        <button class="toggle" onclick="mytoggle('show_{{data.year}}')">[toggle show]</button>
+        <button class="toggle"
+                onclick="mytoggle('show_{{data.year}}')">+</button>
     </div>
 
-    <div class="index-grid" id="show_{{data.year}}" style="width: 800px; display: none;">
+    <div class="index-grid" id="show_{{data.year}}" style="display: none;">
         {% for reading in data.readings %}
             <div class="two-col-grid-text">
                 <a href="{% url 'books:book_detail' reading.edition.book.id %}">{{reading.edition.title}}</a></div>
