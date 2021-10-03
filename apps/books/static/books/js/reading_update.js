@@ -2,10 +2,21 @@ function update_slider(reading_id) {
     let slider = document.getElementById("slider-element-"+reading_id);
     let pages_count_element = document.getElementById("pages-count-"+reading_id);
     let pages_percent_element = document.getElementById("pages-percent-"+reading_id);
+    let save_button = document.getElementById("save-button-"+reading_id);
 
     let total_pages = pages_count_element.dataset.totalPages;
     pages_count_element.innerHTML = slider.value + " / " + total_pages + " pages";
     pages_percent_element.innerHTML = (100*slider.value/total_pages).toFixed(1) + " %";
+
+    if (slider.value == total_pages) {
+        save_button.innerHTML = "Finish";
+        save_button.classList.remove("btn-success");
+        save_button.classList.add("btn-danger");
+    } else {
+        save_button.innerHTML = "Save";
+        save_button.classList.remove("btn-danger");
+        save_button.classList.add("btn-success");
+    }
 };
 
 function mytoggle(id) {
@@ -44,17 +55,34 @@ function toggle_slider(reading_id) {
 
 async function save_reading_update(reading_id) {
     let slider = document.getElementById("slider-element-"+reading_id);
+    let pages_count_element = document.getElementById("pages-count-"+reading_id);
+
     let new_pages = slider.value
-    const payload = 'new_pages=' + new_pages
-    let response = await fetch("/books/mark_reading_pages/" + reading_id,
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": 'application/x-www-form-urlencoded',
-            },
-            body: payload,
-        }
-    );
+    let total_pages = pages_count_element.dataset.totalPages;
+
+    let response;
+    if (new_pages == total_pages) {
+        response = await fetch("/books/mark_reading_finished/" + reading_id,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": 'application/x-www-form-urlencoded',
+                },
+                body: {},
+            }
+        );
+    } else {
+        const payload = 'new_pages=' + new_pages
+        response = await fetch("/books/mark_reading_pages/" + reading_id,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": 'application/x-www-form-urlencoded',
+                },
+                body: payload,
+            }
+        );
+    }
     response = await response;
     console.log(response.status);
     if (response.status == 200) {

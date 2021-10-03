@@ -35,4 +35,5 @@ urlpatterns = [
 
     # Data endpoints:
     path('mark_reading_pages/<int:reading_id>', views.mark_reading_pages, name='mark_reading_pages'),
+    path('mark_reading_finished/<int:reading_id>', views.mark_reading_finished, name='mark_reading_finished'),
 ]

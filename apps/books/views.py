@@ -320,8 +320,10 @@ def find_book(request):
 
 @login_required
 def mark_reading_done(request, reading_id):
-    """Come here with a GET to mark a book read (a Reading done)."""
-
+    """
+    Come here with a GET to mark a book read (a Reading done).
+    DEPRECATE THIS?
+    """
     reading = Reading.objects.get(pk=reading_id)
     reading.mark_read()
 
@@ -338,6 +340,17 @@ def mark_reading_pages(request, reading_id):
 
     if new_pages is not None:
         reading.update_progress(pages=int(new_pages))
+
+    return JsonResponse({})
+
+
+@csrf_exempt
+@login_required
+def mark_reading_finished(request, reading_id):
+    """Come here with a POST to mark a book as read."""
+
+    reading = Reading.objects.get(pk=reading_id)
+    reading.mark_read()
 
     return JsonResponse({})
 
