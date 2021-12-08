@@ -171,6 +171,7 @@ def add_book(request):
     }
     context = {
         "banner": "Add book",
+        "add_book_active": True,
         "form": AddBookForm(initial=initial),
         "action": "add",
     }
@@ -398,6 +399,7 @@ def handle_find_book_post(request):
 
         context = {
             "banner": "Find book",
+            "find_book_active": True,
             "form": SearchBookForm(initial={"search_for": ""}),
             "matching_books": matching_books,
         }
@@ -411,6 +413,7 @@ def handle_find_book_post(request):
 def handle_find_book_get(request):
     context = {
         "banner": "Find book",
+        "find_book_active": True,
         "form": SearchBookForm(initial={"search_for": ""}),
         "matching_books": Book.objects.none(),
     }

@@ -1,16 +1,26 @@
+{% load static %}
+
 <div class="btn-group w-100" role="group">
     <a class="btn {% if books_stats_active %} btn-primary {% else %} btn-secondary {% endif %}"
-       href="{% url 'books:stats' %}">Stats</a>
+       href="{% url 'books:stats' %}">
+        <img src="{% static 'icons/stats_white.png'%}" height="24px">
+    </a>
 
     <a class="btn {% if books_index_active %} btn-primary {% else %} btn-secondary {% endif %}"
-       href="{% url 'books:index' %}">Index</a>
+       href="{% url 'books:index' %}">Read</a>
 
     <a class="btn {% if books_sagas_active %} btn-primary {% else %} btn-secondary {% endif %}"
        href="{% url 'books:sagas' %}">Sagas</a>
 
-    <a class="btn btn-secondary" href="{% url 'books:find_book' %}">Find</a>
+    <a class="btn {% if find_book_active %} btn-primary {% else %} btn-secondary {% endif %}"
+       href="{% url 'books:find_book' %}">
+        <img src="{% static 'icons/search_white.png'%}" height="24px">
+    </a>
 
-    <a class="btn btn-secondary" href="{% url 'books:add_book' %}">Add</a>
+    <a class="btn {% if add_book_active %} btn-primary {% else %} btn-secondary {% endif %}"
+       href="{% url 'books:add_book' %}">
+        <img src="{% static 'icons/plus_white.png'%}" height="20px">
+    </a>
 
     {% if user.is_authenticated %}
         <a class="btn btn-success" href="{% url 'user' %}">{{user.username}}</a>
