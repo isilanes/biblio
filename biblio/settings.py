@@ -131,3 +131,4 @@ STATICFILES_DIRS = []  # leave empty if static files only within apps (automatic
 # Other:
 LOGIN_URL = "/login"
 LOGIN_REDIRECT_URL = "/books"
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
