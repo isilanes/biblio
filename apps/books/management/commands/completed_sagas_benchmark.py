@@ -52,7 +52,10 @@ class Command(BaseCommand):
         print()
 
         for saga in Saga.objects.all():
-            unread = Book.objects.filter(saga=saga).exclude(reading__reader=user, reading__end__isnull=False).exists()
+            unread = Book.objects.filter(saga=saga).exclude(
+                reading__reader=user,
+                reading__end__isnull=False,
+            ).exists()
             if not unread:
                 print(saga)
         tt.toc("v2")
@@ -64,7 +67,9 @@ class Command(BaseCommand):
             .annotate(is_unread=Case(When(title__isnull=False,  # in other words, always
                                           then=Value(True)), output_field=BooleanField()))[:1]
 
-        sagas = Saga.objects.annotate(has_unreads=Subquery(sq.values('is_unread'))).filter(has_unreads__isnull=True)
+        sagas = Saga.objects.annotate(
+            has_unreads=Subquery(sq.values('is_unread')),
+        ).filter(has_unreads__isnull=True)
         for saga in sagas:
             print(saga)
         tt.toc("v3")

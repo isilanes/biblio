@@ -164,10 +164,11 @@ class State(object):
 
         # Stats from books currently being read:
         current_readings_qs = core.current_readings_by(self.user)
-        data = current_readings_qs.aggregate(total_pages=Sum('pages_read'), total_fraction=Sum('fraction_read'))
-        books_this_year += data.get("total_fraction") or 0  # for when "total_fraction" exists, but is None
-        pages_this_year += data.get("total_pages") or 0  # for when "total_pages" exists, but is None
+        data = current_readings_qs.aggregate(
+            total_pages=Sum('pages_read'),
+            total_fraction=Sum('fraction_read'),
+        )
+        books_this_year += data.get("total_fraction") or 0  # "total_fraction" exists, but is None
+        pages_this_year += data.get("total_pages") or 0  # "total_pages" exists, but is None
 
         return books_this_year, pages_this_year
-
-

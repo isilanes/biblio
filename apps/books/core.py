@@ -2,11 +2,11 @@ from datetime import timedelta
 
 from django.utils import timezone
 from django.db.models.functions import Coalesce
-from django.db.models import Subquery, OuterRef, F, Case, When, Value, BooleanField, Count
+from django.db.models import Subquery, OuterRef, F
 import plotly.graph_objects as go
 from plotly.offline import plot as offplot
 
-from biblio.core import as_float, TicToc
+from biblio.core import as_float
 from .models import Reading, ReadingUpdate, Saga, Edition
 
 
@@ -90,18 +90,25 @@ def current_readings_by(user):
     open_readings = Reading.objects.filter(reader=user, end=None)
     Edition.objects.filter(reading__in=open_readings, pages=0).update(pages=1)  # just in case
 
-    return open_readings.annotate(pages_read=Coalesce(Subquery(latest_ru_subquery.values('page')), 0))\
-        .annotate(fraction_read=as_float(F('pages_read')) / as_float(F('edition__pages')))\
-        .annotate(percent_read=as_float(F('fraction_read')) * 100.)\
-        .order_by("-start")
+    return open_readings.annotate(
+        pages_read=Coalesce(Subquery(latest_ru_subquery.values('page')), 0)
+    ).annotate(
+        fraction_read=as_float(F('pages_read')) / as_float(F('edition__pages'))
+    ).annotate(
+        percent_read=as_float(F('fraction_read')) * 100.,
+    ).order_by("-start")
 
 
 def completed_readings_by_year_for(user):
-    """Return list of books already read, sorted by finish date and grouped by year (recent first)."""
-
+    """
+    Return list of books already read, sorted by finish date and grouped by year (recent first).
+    """
     my_readings = Reading.objects.filter(reader=user).exclude(end=None)
 
-    years_with_readings_qs = my_readings.order_by("-end__year").values_list("end__year", flat=True).distinct()
+    years_with_readings_qs = my_readings.order_by("-end__year").values_list(
+        "end__year",
+        flat=True,
+    ).distinct()
 
     data = []
     for year in years_with_readings_qs:

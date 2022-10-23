@@ -1,7 +1,14 @@
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
 
-from apps.books.models import BookStartEvent, BookEndEvent, PageUpdateEvent, Reading, ReadingUpdate, Event
+from apps.books.models import (
+    BookStartEvent,
+    BookEndEvent,
+    PageUpdateEvent,
+    Reading,
+    ReadingUpdate,
+    Event,
+)
 
 
 def start_reading(user, event):
@@ -52,4 +59,3 @@ class Command(BaseCommand):
             else:
                 print(f"[UNKNOWN] {event} of type {type(event)}")
                 break
-
