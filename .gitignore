@@ -12,3 +12,4 @@ utils/*.json
 .coverage
 *.dump
 *.dump.gz
+.python-version

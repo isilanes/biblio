@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "biblio"
+version = "0.1.0"
+description = "Database of books I read."
+authors = ["Iñaki Silanes <isilanes@gmail.com>"]
+license = "GPL"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Django = "^4"
+
+[tool.poetry.group.dev.dependencies]
+radon = "^5.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
