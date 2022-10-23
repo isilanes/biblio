@@ -8,7 +8,9 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-Django = "^4"
+django = "3.1.14"
+psycopg2 = "^2.9.4"
+plotly = "^5.10.0"
 
 [tool.poetry.group.dev.dependencies]
 radon = "^5.1.0"
