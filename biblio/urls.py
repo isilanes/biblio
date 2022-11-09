@@ -17,4 +17,7 @@ urlpatterns = [
 # Apps:
 for app in settings.EXTRA_APPS:
     app_name = app.split(".")[-1]  # if app = "apps.app_name", "fix" it
-    urlpatterns.append(path(f'{app_name}/', include(f'{app}.urls', namespace=app_name)))
+    urlpatterns.append(path(f"{app_name}/", include(f"{app}.urls", namespace=app_name)))
+
+# API:
+urlpatterns.append(path("books/api/", include("apps.books.api.urls", namespace="api-books")))

@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     PROJECT_NAME,
+    "rest_framework",
 ]
 
 # Get extra apps either from JSON config (local), or from env variable (heroku):
@@ -52,6 +53,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = f'{PROJECT_NAME}.urls'
+API_URLCONF = "config.urls."
 
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 TEMPLATES = [
@@ -121,6 +123,12 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Europe/Madrid'
 USE_I18N = True
 USE_TZ = True
+
+# DRF:
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 25,
+}
 
 # Static files:
 STATIC_URL = '/static/'
