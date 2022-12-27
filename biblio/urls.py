@@ -3,6 +3,7 @@ from django.urls import path, include
 
 from . import settings, views
 
+
 urlpatterns = [
     # Admin view:
     path('admin/', admin.site.urls),
@@ -20,4 +21,4 @@ for app in settings.EXTRA_APPS:
     urlpatterns.append(path(f"{app_name}/", include(f"{app}.urls", namespace=app_name)))
 
 # API:
-urlpatterns.append(path("books/api/", include("apps.books.api.urls", namespace="api-books")))
+urlpatterns.append(path("api/books/", include("apps.books.api.urls", namespace="api-books")))
