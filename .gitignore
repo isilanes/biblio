@@ -14,3 +14,4 @@ utils/*.json
 *.dump.gz
 .python-version
 *.sqlite3
+*.db
