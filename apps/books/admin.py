@@ -13,6 +13,6 @@ admin.site.register(ReadingUpdate)
 
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
-    fields = ["title", "authors", "pages", "year", "saga", "index_in_saga", "owned"]
+    fields = ["title", "authors", "year", "saga", "index_in_saga", "owned"]
     list_display = ("title", "year")
     search_fields = ["title"]
