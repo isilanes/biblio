@@ -8,6 +8,7 @@ from django.http import JsonResponse
 from . import core, statistics
 from .models import Book, Author, Saga, Edition, BookCopy, Reading
 from .forms import ReadingUpdateForm, AddBookForm, SearchBookForm, AddEditionForm
+from apps.readings.api.views import ReadingViewSet
 
 
 @login_required
@@ -17,6 +18,7 @@ def stats(request, year=None):
     year = year or timezone.now().year
 
     state = statistics.State(year, request.user)
+    progress_response = ReadingViewSet(request=request).progress()
 
     context = {
         "banner": "Stats",
@@ -24,7 +26,7 @@ def stats(request, year=None):
         "books_stats_active": True,
         "year": year,
         "state": state,
-        "current_readings": core.current_readings_by(request.user),
+        "current_readings": progress_response.data,
     }
 
     return render(request, "books/stats.html", context)

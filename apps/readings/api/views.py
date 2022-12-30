@@ -13,12 +13,14 @@ class ReadingViewSet(ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
+
         return Reading.objects.filter(reader=user)
 
     @action(detail=False, methods=['get'], url_path="progress")
-    def progress(self, request):
+    def progress(self, request=None):
         qs = self.get_queryset()
         qs = qs.filter(end__isnull=True)
+        qs = ReadingProgressSerializer.setup_eager_loading(qs)
 
         data = ReadingProgressSerializer(qs, many=True).data
 

@@ -3,7 +3,7 @@
 {% for reading in current_readings %}
 <div class="stats-book-line-mobile mt-4 mb-1">
     <div class="sbl-mobile-title">
-        <a href="{% url 'books:book_detail' reading.edition.book.id %}">{{reading.edition.title}}</a>
+        <a href="{% url 'books:book_detail' reading.book_id %}">{{reading.title}}</a>
     </div>
     <div class="sbl-mobile-buttons" id="update-button-block-{{reading.id}}">
         <button class="btn btn-sm btn-success h-auto" onclick="toggle_slider('{{reading.id}}')">Update</button>
@@ -23,17 +23,17 @@
 
     <div class="slidecontainer sbl-mobile-slider w-100" id="slider-block-{{reading.id}}" style="display: none;">
         <div id="pages-count-{{reading.id}}"
-             data-current-pages="{{reading.page_progress}}"
-             data-total-pages="{{reading.edition.pages}}"
+             data-current-pages="{{reading.pages_read}}"
+             data-total-pages="{{reading.pages}}"
         ></div>
         <div id="pages-percent-{{reading.id}}"></div>
         <div class="sbl-mobile-slider-line">
             <button class="btn btn-sm btn-primary btn-slider" onclick="add_pages_to_slider({{reading.id}}, -1)">-</button>
             <div style="margin-top: auto; margin-bottom: auto">
                 <input type="range"
-                       min="{{reading.page_progress}}"
-                       max="{{reading.edition.pages}}"
-                       value="{{reading.page_progress}}"
+                       min="{{reading.pages_read}}"
+                       max="{{reading.pages}}"
+                       value="{{reading.pages_read}}"
                        oninput="update_slider('{{reading.id}}')"
                        id="slider-element-{{reading.id}}">
             </div>

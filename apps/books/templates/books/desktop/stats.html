@@ -4,9 +4,9 @@
         <div class="progress bg-secondary w-100" style="height: 50px;">
             <div class="progress-bar bg-primary pl-3 text-white" role="progressbar"
                  style="width: {{reading.percent_read}}%; font-size: 200%;">
-                {{reading.edition.title}} ({{reading.pages_read}} / {{reading.edition.pages}})</div>
+                {{reading.title}} ({{reading.pages_read}} / {{reading.pages}})</div>
         </div>
-        <a class="condensed-btn details-btn" href="{% url 'books:book_detail' reading.edition.book.id %}">Details</a>
+        <a class="condensed-btn details-btn" href="{% url 'books:book_detail' reading.book_id %}">Details</a>
         <a class="condensed-btn update-btn" href="{% url 'books:update_reading' reading.id %}">Update</a>
     </div>
     {% endfor %}
