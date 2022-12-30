@@ -9,6 +9,7 @@ from . import core, statistics
 from .models import Book, Author, Saga, Edition, BookCopy, Reading
 from .forms import ReadingUpdateForm, AddBookForm, SearchBookForm, AddEditionForm
 from apps.readings.api.views import ReadingViewSet
+from apps.readings.lib.actions import update_reading_progress
 
 
 @login_required
@@ -90,7 +91,7 @@ def update_reading(request, reading_id):
             data = form.cleaned_data
             pages_read = data.get("pages_read")
             percent_read = data.get("percent_read")
-            reading.update_progress(pages_read, percent_read)
+            update_reading_progress(reading, pages_read, percent_read)
 
             return redirect("books:stats")
 
@@ -342,7 +343,7 @@ def mark_reading_pages(request, reading_id):
     new_pages = request.POST.get("new_pages")
 
     if new_pages is not None:
-        reading.update_progress(pages=int(new_pages))
+        update_reading_progress(reading=reading, pages=int(new_pages))
 
     return JsonResponse({})
 
