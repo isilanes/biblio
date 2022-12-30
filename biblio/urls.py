@@ -26,5 +26,5 @@ for app in settings.EXTRA_APPS:
     urlpatterns.append(path(f"{app_name}/", include(f"{app}.urls", namespace=app_name)))
 
 # API:
-urlpatterns.append(path("api/books/", include("apps.books.api.urls", namespace="api-books")))
-urlpatterns.append(path("api/readings/", include("apps.readings.api.urls", namespace="api-readings")))
+urlpatterns.append(path("api/", include("apps.books.api.urls", namespace="api-books")))
+urlpatterns.append(path("api/", include("apps.readings.api.urls", namespace="api-readings")))
