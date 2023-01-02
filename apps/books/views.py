@@ -9,7 +9,7 @@ from . import core, statistics
 from .models import Book, Author, Saga, Edition, BookCopy, Reading
 from .forms import ReadingUpdateForm, AddBookForm, SearchBookForm, AddEditionForm
 from apps.readings.api.views import ReadingViewSet
-from apps.readings.lib.actions import update_reading_progress
+from apps.readings.lib.controllers import update_reading_progress
 
 
 @login_required

@@ -3,7 +3,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from apps.readings.lib.actions import update_reading_progress
+from apps.readings.lib.controllers import update_reading_progress
 from apps.readings.models import Reading, ReadingUpdate
 from apps.readings.api.serializers import (
     ReadingSerializer,
@@ -48,7 +48,7 @@ class ReadingUpdateViewSet(ModelViewSet):
 
         return qs
 
-    def create(self, request):
+    def create(self, request, *args):
 
         reading_id = request.data.get("reading")
         pages = request.data.get("pages")
