@@ -1,3 +1,5 @@
+from typing import Optional
+
 from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
@@ -13,7 +15,7 @@ from apps.readings.lib.controllers import update_reading_progress
 
 
 @login_required
-def stats(request, year=None):
+def stats(request, year: Optional[int] = None):
     """View with statistics for 'year' (default: current year)."""
 
     year = year or timezone.now().year
@@ -113,9 +115,11 @@ def update_reading(request, reading_id):
 def update_book_reading(request, book_id):
     """Update (current) Reading of a given Book."""
 
-    reading = Reading.objects.get(edition__book__pk=book_id,
-                                  reader=request.user,
-                                  end__isnull=True)
+    reading = Reading.objects.get(
+        edition__book__pk=book_id,
+        reader=request.user,
+        end__isnull=True,
+    )
 
     return redirect("books:update_reading", reading_id=reading.id)
 

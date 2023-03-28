@@ -29,8 +29,7 @@ class Saga(models.Model):
     def completed_by(self, user):
         """True if all books in saga read by user. False otherwise."""
 
-        return not Book.objects.filter(saga=self).\
-            exclude(reading__reader=user, reading__end__isnull=False).exists()
+        return not Book.objects.filter(saga=self).exclude(reading__reader=user, reading__end__isnull=False).exists()
 
     def owned_by(self, user):
         """TODO
@@ -113,9 +112,11 @@ class Book(models.Model):
         return 100. * self.pages_read_by(user) / self._last_update_of(user).edition.pages
 
     def _last_update_of(self, user):
-        return ReadingUpdate.objects.filter(reading__book=self,
-                                            reading__end=None,
-                                            reader=user).order_by("date").last()
+        return ReadingUpdate.objects.filter(
+            reading__book=self,
+            reading__end=None,
+            reader=user,
+        ).order_by("date").last()
 
     @property
     def list_of_authors(self):

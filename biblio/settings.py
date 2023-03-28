@@ -38,7 +38,7 @@ INSTALLED_APPS = [
 ]
 
 # Get extra apps either from JSON config (local), or from env variable (heroku):
-EXTRA_APPS = conf.get("EXTRA_APPS") or [a for a in os.environ.get("INSTALLED_APPS", "").split(":") if a]  # NOQA
+EXTRA_APPS = conf.get("EXTRA_APPS") or [a for a in os.environ.get("INSTALLED_APPS", "").split(":") if a]  # noqa
 if EXTRA_APPS:
     INSTALLED_APPS += EXTRA_APPS
 

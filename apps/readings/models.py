@@ -2,17 +2,23 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+from apps.readings.lib.custom_definitions import ReadingStatus
+
+
+EditionType = "books.Edition"
+
 
 class Reading(models.Model):
     reader = models.ForeignKey(User, blank=False, on_delete=models.CASCADE)
     edition = models.ForeignKey(
-        "books.Edition",
+        EditionType,
         blank=True,
         on_delete=models.CASCADE,
         default=1,
     )
     start = models.DateTimeField("Start", blank=False, default=timezone.now)
     end = models.DateTimeField("End", blank=True, default=None, null=True)
+    status = models.PositiveSmallIntegerField(choices=ReadingStatus.get_choices(), default=ReadingStatus.STARTED)
 
     objects = models.Manager()
 
