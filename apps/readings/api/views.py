@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from apps.readings.lib.controllers import update_reading_progress
+from apps.readings.lib.custom_definitions import ReadingStatus
 from apps.readings.models import Reading, ReadingUpdate
 from apps.readings.api.serializers import (
     ReadingSerializer,
@@ -28,8 +29,11 @@ class ReadingViewSet(ModelViewSet):
 
     @action(detail=False, methods=['get'], url_path="progress")
     def progress(self, request=None):
+        """
+        Return Readings that are ongoing, and what progress it has been made on them.
+        """
         qs = self.get_queryset()
-        qs = qs.filter(end__isnull=True)
+        qs = qs.filter(status=ReadingStatus.STARTED)
 
         data = ReadingProgressSerializer(qs, many=True).data
 
