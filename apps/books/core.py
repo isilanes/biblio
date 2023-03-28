@@ -8,6 +8,7 @@ from plotly.offline import plot as offplot
 
 from biblio.core import as_float
 from .models import Reading, ReadingUpdate, Saga, Edition
+from ..readings.lib.custom_definitions import ReadingStatus
 
 
 def get_book_progress_plot(points, total_pages, longest=0, pages_per_day=None):
@@ -87,7 +88,7 @@ def get_book_progress_plot(points, total_pages, longest=0, pages_per_day=None):
 def current_readings_by(user):
     latest_ru_subquery = ReadingUpdate.objects.filter(reading=OuterRef('id')).order_by("-date")[:1]
 
-    open_readings = Reading.objects.filter(reader=user, end=None)
+    open_readings = Reading.objects.filter(reader=user, status=ReadingStatus.STARTED)
     Edition.objects.filter(reading__in=open_readings, pages=0).update(pages=1)  # just in case
 
     return open_readings.annotate(
@@ -103,7 +104,7 @@ def completed_readings_by_year_for(user):
     """
     Return list of books already read, sorted by finish date and grouped by year (recent first).
     """
-    my_readings = Reading.objects.filter(reader=user).exclude(end=None)
+    my_readings = Reading.objects.filter(reader=user, status=ReadingStatus.COMPLETED)
 
     years_with_readings_qs = my_readings.order_by("-end__year").values_list(
         "end__year",
