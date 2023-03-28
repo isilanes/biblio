@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+from apps.readings.lib.custom_definitions import ReadingStatus
 from apps.readings.models import Reading, ReadingUpdate
 
 
@@ -92,7 +93,7 @@ class Book(models.Model):
     def is_already_read_by(self, user):
         """Returns True if it has already been read by user. False otherwise."""
 
-        return Reading.objects.filter(edition__book=self, reader=user).exclude(end=None).exists()
+        return Reading.objects.filter(edition__book=self, reader=user, status=ReadingStatus.COMPLETED).exists()
 
     def is_owned_by(self, user):
         return BookCopy.objects.filter(edition__book=self, owner=user).exists()
