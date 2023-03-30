@@ -90,20 +90,9 @@ async function save_reading_update(reading_id) {
 };
 
 async function dnf_reading(reading_id) {
-    response = await fetch(
-        "/books/mark_reading_dnf_rest/" + reading_id,
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": 'application/x-www-form-urlencoded',
-            },
-            body: {},
-        }
-    );
+    response = await fetch("/books/mark_reading_dnf_rest/" + reading_id);
     response = await response;
-    if (response.status == 200) {
-        location.reload();
-    }
+    location.reload();
 };
 
 function add_pages_to_slider(reading_id, pages) {
