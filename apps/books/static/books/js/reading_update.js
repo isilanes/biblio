@@ -17,7 +17,7 @@ function update_slider(reading_id) {
         save_button.classList.remove("btn-danger");
         save_button.classList.add("btn-success");
     }
-};
+}
 
 function mytoggle(id) {
     var x = document.getElementById(id);
@@ -26,7 +26,7 @@ function mytoggle(id) {
     } else {
         x.style.display = "none";
     }
-};
+}
 
 function toggle_slider(reading_id) {
     let slider_block_id = "slider-block-" + reading_id
@@ -51,7 +51,7 @@ function toggle_slider(reading_id) {
     mytoggle(slider_block_id);
     mytoggle(update_button_block_id);
     mytoggle(save_button_block_id);
-};
+}
 
 async function save_reading_update(reading_id) {
     let slider = document.getElementById("slider-element-"+reading_id);
@@ -87,17 +87,17 @@ async function save_reading_update(reading_id) {
     if (response.status == 200) {
         location.reload();
     }
-};
+}
 
 async function dnf_reading(reading_id) {
-    response = await fetch("/books/mark_reading_dnf_rest/" + reading_id);
+    let response = await fetch("/books/mark_reading_dnf_rest/" + reading_id);
     response = await response;
     location.reload();
-};
+}
 
 function add_pages_to_slider(reading_id, pages) {
     let slider = document.getElementById("slider-element-"+reading_id);
 
     slider.value = parseInt(slider.value) + parseInt(pages);
     update_slider(reading_id);
-};
+}

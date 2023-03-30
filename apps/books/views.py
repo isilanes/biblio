@@ -383,8 +383,7 @@ def mark_reading_dnf_rest(request, reading_id):
     Come here with a POST to mark a Reading as DNF.
     """
     reading = Reading.objects.get(pk=reading_id)
-    #reading.mark_dnf()
-    print(reading)
+    reading.mark_dnf()
 
     return JsonResponse({})
 
