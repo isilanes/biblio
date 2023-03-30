@@ -375,6 +375,19 @@ def mark_reading_finished(request, reading_id):
     return JsonResponse({})
 
 
+@csrf_exempt
+@login_required
+def mark_reading_dnf_rest(request, reading_id):
+    """
+    TODO: use ReadingViewSet
+    Come here with a POST to mark a Reading as DNF.
+    """
+    reading = Reading.objects.get(pk=reading_id)
+    reading.mark_dnf()
+
+    return JsonResponse({})
+
+
 @login_required
 def mark_edition_owned(request, edition_id):
     """Come here with a GET to mark a copy of an Edition of a Book as owned."""
