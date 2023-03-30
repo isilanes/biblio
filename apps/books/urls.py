@@ -37,6 +37,11 @@ urlpatterns = [
         name='mark_reading_done',
     ),
     path(
+        'mark_reading_dnf/<int:reading_id>',
+        views.mark_reading_dnf,
+        name='mark_reading_dnf',
+    ),
+    path(
         'mark_edition_owned/<int:edition_id>',
         views.mark_edition_owned,
         name='mark_edition_owned',

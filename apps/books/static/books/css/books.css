@@ -92,6 +92,16 @@ button.mark-read {
     background-color: #54ca86;
 }
 
+.neutral {
+    background-color: #6634aa;
+}
+
+.neutral:hover {
+    text-decoration: none;
+    color: white;
+    background-color: #8654ca;
+}
+
 .bad {
     background-color: #d9534f;
 }

@@ -329,11 +329,23 @@ def find_book(request):
 @login_required
 def mark_reading_done(request, reading_id):
     """
+    # TODO: deprecate?
     Come here with a GET to mark a book read (a Reading done).
-    DEPRECATE THIS?
     """
     reading = Reading.objects.get(pk=reading_id)
     reading.mark_read()
+
+    return redirect("books:book_detail", book_id=reading.edition.book.id)
+
+
+@login_required
+def mark_reading_dnf(request, reading_id):
+    """
+    # TODO: deprecate?
+    Come here with a GET to mark a book did not finish (a Reading DNF).
+    """
+    reading = Reading.objects.get(pk=reading_id)
+    reading.mark_dnf()
 
     return redirect("books:book_detail", book_id=reading.edition.book.id)
 

@@ -33,6 +33,12 @@ class Reading(models.Model):
 
     def mark_read(self):
         self.end = timezone.now()
+        self.status = ReadingStatus.COMPLETED
+        self.save()
+
+    def mark_dnf(self):
+        self.end = timezone.now()
+        self.status = ReadingStatus.DNF
         self.save()
 
     def __str__(self):
