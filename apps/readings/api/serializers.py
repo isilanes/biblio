@@ -81,12 +81,15 @@ class ReadingProgressSerializer(ReadingBaseSerializer):
         )
 
     @staticmethod
-    def get_deadline(obj) -> Optional[datetime]:
-        import random
-        if random.random() < 0.5:
-            return timezone.now()
-        else:
+    def get_deadline(obj) -> Optional[str]:
+        if obj.deadline is None:
             return None
+
+        ts = obj.deadline.strftime("%Y-%m-%d %H:%M")
+        if obj.deadline_percent == 100:
+            return ts
+
+        return f"{ts} ({obj.deadline_percent}%)"
 
 
 class ReadingUpdateBaseSerializer(ModelSerializer):

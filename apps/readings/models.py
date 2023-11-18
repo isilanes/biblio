@@ -19,6 +19,8 @@ class Reading(models.Model):
     start = models.DateTimeField("Start", blank=False, default=timezone.now)
     end = models.DateTimeField("End", blank=True, default=None, null=True)
     status = models.PositiveSmallIntegerField(choices=ReadingStatus.get_choices(), default=ReadingStatus.STARTED)
+    deadline = models.DateTimeField("Deadline", blank=True, default=None, null=True)
+    deadline_percent = models.PositiveIntegerField("Deadline percent", blank=True, default=100)
 
     objects = models.Manager()
 
