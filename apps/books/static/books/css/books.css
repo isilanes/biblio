@@ -153,13 +153,18 @@ button.mark-read {
     padding: 10px;
     font-size: 150%;
     grid-template-areas:
-        "title  .      buttons"
-        "bar    bar    bar"
-        "slider slider slider"
+        "title    .       update "
+        "buttons  buttons buttons"
+        "bar      bar     bar    "
+        "slider   slider  slider "
 }
 
 .sbl-mobile-title {
     grid-area: title;
+}
+
+.sbl-mobile-update-button {
+    grid-area: update;
 }
 
 .sbl-mobile-buttons {

@@ -5,9 +5,10 @@
     <div class="sbl-mobile-title">
         <a href="{% url 'books:book_detail' reading.book_id %}">{{reading.title}}</a>
     </div>
-    <div class="sbl-mobile-buttons" id="update-button-block-{{reading.id}}">
+    <div class="sbl-mobile-update-button" id="update-button-block-{{reading.id}}">
         <button class="btn btn-sm btn-success h-auto" onclick="toggle_slider('{{reading.id}}')">Update</button>
     </div>
+
     <div class="sbl-mobile-buttons" id="save-button-block-{{reading.id}}" style="display: none;">
         <button class="btn btn-sm btn-success h-auto"
                 id="save-button-{{reading.id}}"
