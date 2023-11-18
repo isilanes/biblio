@@ -6,6 +6,7 @@ from .views import ReadingViewSet, ReadingUpdateViewSet
 
 app_name = "readings"
 
+
 router = routers.DefaultRouter()
 router.register(r"readings", ReadingViewSet, basename="readings")
 router.register(r"readingupdates", ReadingUpdateViewSet, basename="readingupdates")

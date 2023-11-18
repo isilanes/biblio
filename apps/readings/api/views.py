@@ -1,3 +1,5 @@
+from typing import Optional
+
 from rest_framework import permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -27,7 +29,7 @@ class ReadingViewSet(ModelViewSet):
 
         return qs
 
-    @action(detail=False, methods=['get'], url_path="progress")
+    @action(detail=False, methods=['GET'], url_path="progress")
     def progress(self, request=None):
         """
         Return Readings that are ongoing, and what progress it has been made on them.
@@ -38,6 +40,19 @@ class ReadingViewSet(ModelViewSet):
         data = ReadingProgressSerializer(qs, many=True).data
 
         return Response(data=data)
+
+    @action(detail=True, methods=['POST'], url_path="set_deadline_drf")
+    def set_deadline(self, request=None, pk: Optional[int] = None):
+        """
+        Set a deadline on a Reading.
+        """
+        qs = self.get_queryset()
+        reading = qs.filter(id=pk).first()
+
+        if not reading:
+            return {}
+
+        return Response(data={1: 2})
 
 
 class ReadingUpdateViewSet(ModelViewSet):

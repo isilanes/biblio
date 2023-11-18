@@ -305,6 +305,15 @@ button.mark-read {
     font-size: 175%;
 }
 
+.form-two-col-grid-deadline {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    justify-items: center;
+    align-items: center;
+    grid-gap: 5px;
+    font-size: 75%;
+}
+
 .span-two {
     width: 100%;
     text-align: center;
