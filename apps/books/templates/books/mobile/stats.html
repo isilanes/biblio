@@ -9,6 +9,13 @@
         <button class="btn btn-sm btn-success h-auto" onclick="toggle_slider('{{reading.id}}')">Update</button>
     </div>
 
+    {% if reading.deadline %}
+    <div class="w-100"></div>
+    <div class="sbl-mobile-deadline w-100">
+        <div class="" style="">{{reading.deadline}}</div>
+    </div>
+    {% endif %}
+
     <div class="sbl-mobile-buttons" id="save-button-block-{{reading.id}}" style="display: none;">
         <button class="btn btn-sm btn-success h-auto"
                 id="save-button-{{reading.id}}"

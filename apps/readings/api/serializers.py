@@ -1,5 +1,9 @@
+from datetime import datetime
+from typing import Optional
+
 from django.db.models import Subquery, F, OuterRef
 from django.db.models.functions import Coalesce
+from django.utils import timezone
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
@@ -61,6 +65,7 @@ class ReadingProgressSerializer(ReadingBaseSerializer):
     percent_read = serializers.SerializerMethodField()
     pages = serializers.IntegerField(source="edition.pages")
     isbn = serializers.CharField(source="edition.isbn")
+    deadline = serializers.SerializerMethodField()
 
     class Meta:
         model = Reading
@@ -72,7 +77,16 @@ class ReadingProgressSerializer(ReadingBaseSerializer):
             "pages_read",
             "fraction_read",
             "percent_read",
+            "deadline",
         )
+
+    @staticmethod
+    def get_deadline(obj) -> Optional[datetime]:
+        import random
+        if random.random() < 0.5:
+            return timezone.now()
+        else:
+            return None
 
 
 class ReadingUpdateBaseSerializer(ModelSerializer):

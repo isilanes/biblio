@@ -153,10 +153,11 @@ button.mark-read {
     padding: 10px;
     font-size: 150%;
     grid-template-areas:
-        "title    .       update "
-        "buttons  buttons buttons"
-        "bar      bar     bar    "
-        "slider   slider  slider "
+        "title     .         update  "
+        "deadline  deadline  deadline"
+        "buttons   buttons   buttons "
+        "bar       bar       bar     "
+        "slider    slider    slider  "
 }
 
 .sbl-mobile-title {
@@ -165,6 +166,13 @@ button.mark-read {
 
 .sbl-mobile-update-button {
     grid-area: update;
+}
+
+.sbl-mobile-deadline {
+    grid-area: deadline;
+    height: auto;
+    font-size: 50%;
+    color: #dd3333;
 }
 
 .sbl-mobile-buttons {
