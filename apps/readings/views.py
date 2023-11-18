@@ -28,11 +28,11 @@ def set_deadline(request, reading_id: int):
         return HttpResponse(status=http_status.HTTP_400_BAD_REQUEST)
 
     try:
-        deadline_percent = int(request.POST.get("deadline_percent", 0))
+        deadline_percent = int(request.POST.get("percent", 0))
     except ValueError:
         deadline_percent = 100
 
-    if not (0 <= deadline_percent >= 100):
+    if not (0 <= deadline_percent <= 100):
         deadline_percent = 100
 
     reading.deadline = deadline
