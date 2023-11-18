@@ -29,12 +29,20 @@ function mytoggle(id) {
 }
 
 function toggle_slider(reading_id) {
+    let deadline_id = "deadline-block-" + reading_id
+    let save_button_block_id = "save-button-block-" + reading_id
+    var deadline_block = document.getElementById(deadline_id);
+    if (deadline_block.style.display != "none") {
+        mytoggle(deadline_id);
+        mytoggle(save_button_block_id);
+        return;
+    };
+
     let slider_block_id = "slider-block-" + reading_id
     let slider_id = "slider-element-" + reading_id
     let pages_count_id = "pages-count-" + reading_id
     let pages_percent_id = "pages-percent-" + reading_id
     let update_button_block_id = "update-button-block-" + reading_id
-    let save_button_block_id = "save-button-block-" + reading_id
 
     let sliderBlock = document.getElementById(slider_block_id);
 
