@@ -172,6 +172,13 @@ button.mark-read {
     grid-area: deadline;
     height: auto;
     font-size: 50%;
+}
+
+.good-text {
+    color: #33dd33;
+}
+
+.bad-text {
     color: #dd3333;
 }
 
