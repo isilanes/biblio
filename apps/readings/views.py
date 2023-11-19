@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponse
 from rest_framework import status as http_status
@@ -17,13 +18,13 @@ def set_deadline(request, reading_id: int):
           lazy today.
 
     TODO: Also, should use DRF serializers to save data. Again, too lazy.
-    TODO: use aware time.
     """
     reading = Reading.objects.get(pk=reading_id)
 
     deadline = request.POST.get("deadline")
     try:
         deadline = datetime.strptime(deadline, "%Y-%m-%d %H:%M")
+        deadline = timezone.make_aware(deadline)
     except ValueError:
         return HttpResponse(status=http_status.HTTP_400_BAD_REQUEST)
 
