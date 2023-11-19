@@ -9,6 +9,19 @@
         <button class="btn btn-sm btn-success h-auto" onclick="toggle_slider('{{reading.id}}')">Update</button>
     </div>
 
+    {% if reading.deadline %}
+    <div class="w-100"></div>
+    {% if not reading.pages_per_day_to_meet_deadline %}
+        <div class="sbl-mobile-deadline good-text w-100">
+            <div class="" style="">{{reading.deadline}}</div>
+        </div>
+    {% else %}
+        <div class="sbl-mobile-deadline bad-text w-100">
+            <div class="" style="">{{reading.deadline}} &#8594; {{reading.pages_per_day_to_meet_deadline|floatformat:1}} ppd</div>
+        </div>
+    {% endif %}
+    {% endif %}
+
     <div class="sbl-mobile-buttons" id="save-button-block-{{reading.id}}" style="display: none;">
         <button class="btn btn-sm btn-success h-auto"
                 id="save-button-{{reading.id}}"
@@ -16,6 +29,9 @@
         <button class="btn btn-sm btn-danger h-auto"
                 id="dnf-button-{{reading.id}}"
                 onclick="dnf_reading('{{reading.id}}')">DNF</button>
+        <button class="btn btn-sm btn-info h-auto"
+                id="deadline-button-{{reading.id}}"
+                onclick="toggle_deadline('{{reading.id}}')">Deadline</button>
         <button class="btn btn-sm btn-warning h-auto" onclick="toggle_slider('{{reading.id}}')">Cancel</button>
     </div>
 
@@ -23,6 +39,19 @@
     <div class="sbl-mobile-bar progress w-100">
         <div class="progress-bar bg-primary pl-3" role="progressbar"
              style="width: {{reading.percent_read}}%;"></div>
+    </div>
+
+    <div class="sbl-mobile-slider w-100" id="deadline-block-{{reading.id}}" style="display: none;">
+        <div class="form-two-col-grid-deadline mt-3">
+            <div class="w-100">Date</div>
+            <div class="w-100">
+                <input type="text" id="deadline-input-{{reading.id}}" name="name" minlength="16" maxlength="16"/>
+            </div>
+            <div class="w-100">Percent</div>
+            <div class="w-100">
+                <input type="text" id="deadline-percent-input-{{reading.id}}" name="name" required minlength="4" maxlength="8" size="10" />
+            </div>
+        </div>
     </div>
 
     <div class="slidecontainer sbl-mobile-slider w-100" id="slider-block-{{reading.id}}" style="display: none;">

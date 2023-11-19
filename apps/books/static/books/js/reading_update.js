@@ -29,12 +29,20 @@ function mytoggle(id) {
 }
 
 function toggle_slider(reading_id) {
+    let deadline_id = "deadline-block-" + reading_id
+    let save_button_block_id = "save-button-block-" + reading_id
+    var deadline_block = document.getElementById(deadline_id);
+    if (deadline_block.style.display != "none") {
+        mytoggle(deadline_id);
+        mytoggle(save_button_block_id);
+        return;
+    };
+
     let slider_block_id = "slider-block-" + reading_id
     let slider_id = "slider-element-" + reading_id
     let pages_count_id = "pages-count-" + reading_id
     let pages_percent_id = "pages-percent-" + reading_id
     let update_button_block_id = "update-button-block-" + reading_id
-    let save_button_block_id = "save-button-block-" + reading_id
 
     let sliderBlock = document.getElementById(slider_block_id);
 
@@ -53,27 +61,24 @@ function toggle_slider(reading_id) {
     mytoggle(save_button_block_id);
 }
 
+function toggle_deadline(reading_id) {
+    let slider_block_id = "slider-block-" + reading_id
+    let deadline_id = "deadline-block-" + reading_id
+
+    mytoggle(slider_block_id);
+    mytoggle(deadline_id);
+}
+
 async function save_reading_update(reading_id) {
     let slider = document.getElementById("slider-element-"+reading_id);
     let pages_count_element = document.getElementById("pages-count-"+reading_id);
-
-    let new_pages = slider.value
-    let total_pages = pages_count_element.dataset.totalPages;
+    let deadline = document.getElementById("deadline-input-"+reading_id);
+    let deadline_percent = document.getElementById("deadline-percent-input-"+reading_id);
 
     let response;
-    if (new_pages == total_pages) {
-        response = await fetch("/books/mark_reading_finished/" + reading_id,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": 'application/x-www-form-urlencoded',
-                },
-                body: {},
-            }
-        );
-    } else {
-        const payload = 'new_pages=' + new_pages
-        response = await fetch("/books/mark_reading_pages/" + reading_id,
+    if (deadline.value != "") {
+        const payload = 'deadline=' + deadline.value + '&percent=' + deadline_percent.value;
+        response = await fetch("/readings/set_deadline/" + reading_id,
             {
                 method: "POST",
                 headers: {
@@ -82,7 +87,34 @@ async function save_reading_update(reading_id) {
                 body: payload,
             }
         );
+    } else {
+        let new_pages = slider.value
+        let total_pages = pages_count_element.dataset.totalPages;
+
+        if (new_pages == total_pages) {
+            response = await fetch("/books/mark_reading_finished/" + reading_id,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": 'application/x-www-form-urlencoded',
+                    },
+                    body: {},
+                }
+            );
+        } else {
+            const payload = 'new_pages=' + new_pages;
+            response = await fetch("/books/mark_reading_pages/" + reading_id,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": 'application/x-www-form-urlencoded',
+                    },
+                    body: payload,
+                }
+            );
+        }
     }
+
     response = await response;
     if (response.status == 200) {
         location.reload();
