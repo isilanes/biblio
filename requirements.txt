@@ -1,5 +1,5 @@
 beautifulsoup4==4.8.1
-certifi==2023.7.22
+certifi==2024.7.4
 Django==4.1.13
 django-model-utils==4.0.0
 gunicorn==22.0.0
