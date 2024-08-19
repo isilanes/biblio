@@ -18,7 +18,7 @@ def set_completed_status(apps, schema) -> None:
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('readings', '0001_initial'),
+        ('readings', '0002_reading_current_page'),
     ]
 
     operations = [
