@@ -13,6 +13,7 @@ class Reading(models.Model):
     )
     start = models.DateTimeField("Start", blank=False, default=timezone.now)
     end = models.DateTimeField("End", blank=True, default=None, null=True)
+    current_page = models.IntegerField(blank=False, default=0, null=False)
 
     objects = models.Manager()
 

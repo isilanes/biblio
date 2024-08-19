@@ -33,4 +33,6 @@ def update_reading_progress(
 
     if reading.page_progress < new_pages <= max_pages:  # only save if an update, and valid (less than max)
         ReadingUpdate(reading=reading, page=new_pages, date=timezone.now()).save()
+        reading.current_page = new_pages
+        reading.save()
 
