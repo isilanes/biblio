@@ -19,6 +19,7 @@ gnureadline = "^8.1.2"
 radon = "^5.1.0"
 coverage = "^6.5.0"
 flake8 = "^5.0.4"
+ruff = "^0.6.1"
 
 [build-system]
 requires = ["poetry-core"]
