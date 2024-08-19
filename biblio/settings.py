@@ -38,7 +38,7 @@ INSTALLED_APPS = [
 ]
 
 # Get extra apps either from JSON config (local), or from env variable (heroku):
-EXTRA_APPS = conf.get("EXTRA_APPS") or [a for a in os.environ.get("INSTALLED_APPS", "").split(":") if a]  # NOQA
+EXTRA_APPS = conf.get("EXTRA_APPS") or [a for a in os.environ.get("INSTALLED_APPS", "").split(":") if a]  # noqa
 if EXTRA_APPS:
     INSTALLED_APPS += EXTRA_APPS
 
@@ -97,7 +97,7 @@ if conf.get("WHICH_DB"):
     DATABASES["default"] = AVAILABLE_DATABASES[conf.get("WHICH_DB")]
 else:
     # Heroku: Update database configuration from $DATABASE_URL.
-    import dj_database_url
+    import dj_database_url  # noqa
     db_from_env = dj_database_url.config(conn_max_age=500)
     DATABASES["default"] = AVAILABLE_DATABASES["heroku"]
     DATABASES['default'].update(db_from_env)
@@ -142,3 +142,4 @@ STATICFILES_DIRS = []  # leave empty if static files only within apps (automatic
 LOGIN_URL = "/login"
 LOGIN_REDIRECT_URL = "/books"
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+CSRF_TRUSTED_ORIGINS = ["https://goblin-fleet-escargot.ngrok-free.app"]  # for ngrok

@@ -2,17 +2,25 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+from apps.readings.lib.custom_definitions import ReadingStatus
+
+
+EditionType = "books.Edition"
+
 
 class Reading(models.Model):
     reader = models.ForeignKey(User, blank=False, on_delete=models.CASCADE)
     edition = models.ForeignKey(
-        "books.Edition",
+        EditionType,
         blank=True,
         on_delete=models.CASCADE,
         default=1,
     )
     start = models.DateTimeField("Start", blank=False, default=timezone.now)
     end = models.DateTimeField("End", blank=True, default=None, null=True)
+    status = models.PositiveSmallIntegerField(choices=ReadingStatus.get_choices(), default=ReadingStatus.STARTED)
+    deadline = models.DateTimeField("Deadline", blank=True, default=None, null=True)
+    deadline_percent = models.PositiveIntegerField("Deadline percent", blank=True, default=100)
     current_page = models.IntegerField(blank=False, default=0, null=False)
 
     objects = models.Manager()
@@ -28,6 +36,12 @@ class Reading(models.Model):
 
     def mark_read(self):
         self.end = timezone.now()
+        self.status = ReadingStatus.COMPLETED
+        self.save()
+
+    def mark_dnf(self):
+        self.end = timezone.now()
+        self.status = ReadingStatus.DNF
         self.save()
 
     def __str__(self):

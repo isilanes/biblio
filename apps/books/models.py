@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+from apps.readings.lib.custom_definitions import ReadingStatus
 from apps.readings.models import Reading, ReadingUpdate
 
 
@@ -29,8 +30,7 @@ class Saga(models.Model):
     def completed_by(self, user):
         """True if all books in saga read by user. False otherwise."""
 
-        return not Book.objects.filter(saga=self).\
-            exclude(reading__reader=user, reading__end__isnull=False).exists()
+        return not Book.objects.filter(saga=self).exclude(reading__reader=user, reading__end__isnull=False).exists()
 
     def owned_by(self, user):
         """TODO
@@ -93,7 +93,7 @@ class Book(models.Model):
     def is_already_read_by(self, user):
         """Returns True if it has already been read by user. False otherwise."""
 
-        return Reading.objects.filter(edition__book=self, reader=user).exclude(end=None).exists()
+        return Reading.objects.filter(edition__book=self, reader=user, status=ReadingStatus.COMPLETED).exists()
 
     def is_owned_by(self, user):
         return BookCopy.objects.filter(edition__book=self, owner=user).exists()
@@ -113,9 +113,11 @@ class Book(models.Model):
         return 100. * self.pages_read_by(user) / self._last_update_of(user).edition.pages
 
     def _last_update_of(self, user):
-        return ReadingUpdate.objects.filter(reading__book=self,
-                                            reading__end=None,
-                                            reader=user).order_by("date").last()
+        return ReadingUpdate.objects.filter(
+            reading__book=self,
+            reading__end=None,
+            reader=user,
+        ).order_by("date").last()
 
     @property
     def list_of_authors(self):

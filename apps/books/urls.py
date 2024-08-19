@@ -37,6 +37,11 @@ urlpatterns = [
         name='mark_reading_done',
     ),
     path(
+        'mark_reading_dnf/<int:reading_id>',
+        views.mark_reading_dnf,
+        name='mark_reading_dnf',
+    ),
+    path(
         'mark_edition_owned/<int:edition_id>',
         views.mark_edition_owned,
         name='mark_edition_owned',
@@ -45,7 +50,7 @@ urlpatterns = [
          views.mark_reading_started,
          name='mark_reading_started'),
 
-    # Data endpoints:
+    # REST endpoints: TODO: use DRF
     path(
         'mark_reading_pages/<int:reading_id>',
         views.mark_reading_pages,
@@ -55,5 +60,10 @@ urlpatterns = [
         'mark_reading_finished/<int:reading_id>',
         views.mark_reading_finished,
         name='mark_reading_finished',
+    ),
+    path(
+        'mark_reading_dnf_rest/<int:reading_id>',
+        views.mark_reading_dnf_rest,
+        name='mark_reading_dnf_rest',
     ),
 ]

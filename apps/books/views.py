@@ -1,3 +1,5 @@
+from typing import Optional
+
 from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
@@ -6,14 +8,15 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 
 from . import core, statistics
-from .models import Book, Author, Saga, Edition, BookCopy, Reading
+from .models import Book, Author, Saga, Edition, BookCopy
 from .forms import ReadingUpdateForm, AddBookForm, SearchBookForm, AddEditionForm
 from apps.readings.api.views import ReadingViewSet
 from apps.readings.lib.controllers import update_reading_progress
+from apps.readings.models import Reading
 
 
 @login_required
-def stats(request, year=None):
+def stats(request, year: Optional[int] = None):
     """View with statistics for 'year' (default: current year)."""
 
     year = year or timezone.now().year
@@ -113,9 +116,11 @@ def update_reading(request, reading_id):
 def update_book_reading(request, book_id):
     """Update (current) Reading of a given Book."""
 
-    reading = Reading.objects.get(edition__book__pk=book_id,
-                                  reader=request.user,
-                                  end__isnull=True)
+    reading = Reading.objects.get(
+        edition__book__pk=book_id,
+        reader=request.user,
+        end__isnull=True,
+    )
 
     return redirect("books:update_reading", reading_id=reading.id)
 
@@ -325,11 +330,23 @@ def find_book(request):
 @login_required
 def mark_reading_done(request, reading_id):
     """
+    # TODO: deprecate?
     Come here with a GET to mark a book read (a Reading done).
-    DEPRECATE THIS?
     """
     reading = Reading.objects.get(pk=reading_id)
     reading.mark_read()
+
+    return redirect("books:book_detail", book_id=reading.edition.book.id)
+
+
+@login_required
+def mark_reading_dnf(request, reading_id):
+    """
+    # TODO: deprecate?
+    Come here with a GET to mark a book did not finish (a Reading DNF).
+    """
+    reading = Reading.objects.get(pk=reading_id)
+    reading.mark_dnf()
 
     return redirect("books:book_detail", book_id=reading.edition.book.id)
 
@@ -355,6 +372,19 @@ def mark_reading_finished(request, reading_id):
 
     reading = Reading.objects.get(pk=reading_id)
     reading.mark_read()
+
+    return JsonResponse({})
+
+
+@csrf_exempt
+@login_required
+def mark_reading_dnf_rest(request, reading_id):
+    """
+    TODO: use ReadingViewSet
+    Come here with a POST to mark a Reading as DNF.
+    """
+    reading = Reading.objects.get(pk=reading_id)
+    reading.mark_dnf()
 
     return JsonResponse({})
 
