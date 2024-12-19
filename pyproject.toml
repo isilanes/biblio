@@ -1,25 +1,20 @@
-[tool.poetry]
+[project]
 name = "biblio"
 version = "0.1.0"
-description = "Database of books I read."
-authors = ["Iñaki Silanes <isilanes@gmail.com>"]
-license = "GPL"
+description = "Add your description here"
 readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "django>=5.1.4",
+    "djangorestframework-simplejwt>=5.3.1",
+    "djangorestframework>=3.15.2",
+    "gnureadline>=8.2.13",
+    "plotly>=5.24.1",
+]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-django = "^4.1"
-psycopg2-binary = "^2.9.4"
-plotly = "^5.10.0"
-djangorestframework = "^3.14.0"
-djangorestframework-simplejwt = "^5.2.2"
-gnureadline = "^8.1.2"
-
-[tool.poetry.group.dev.dependencies]
-radon = "^5.1.0"
-coverage = "^6.5.0"
-flake8 = "^5.0.4"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[dependency-groups]
+dev = [
+    "coverage>=7.6.9",
+    "radon>=6.0.1",
+    "ruff>=0.8.4",
+]
