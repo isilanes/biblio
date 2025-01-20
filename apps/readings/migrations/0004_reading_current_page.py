@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('readings', '0001_initial'),
+        ('readings', '0003_reading_deadline_reading_deadline_percent'),
     ]
 
     operations = [
