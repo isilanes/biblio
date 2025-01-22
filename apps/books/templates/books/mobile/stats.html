@@ -1,5 +1,37 @@
 {% load books_filters %}
 
+<div class="mt-3 mb-3" id="stats-progress-block">
+    <div class="card-stack-mobile">
+        <div class="card-mobile
+        {% if state.expected_books_by_end_of_year < state.goal %} card-fail {% else %} card-success {% endif %}">
+            {{state.books_read|floatformat:1}} books read
+        </div>
+
+        <div class="card-mobile
+        {% if state.expected_books_by_end_of_year < state.goal %} card-fail {% else %} card-success {% endif %}">
+            {{state.expected_books_by_end_of_year|floatformat:1}} books expected
+        </div>
+
+        <div class="card-mobile
+            {% if state.pages_superavit > 0 %} card-success {% else %} card-fail {% endif %}">
+            {{state.pages_superavit|floatformat:1|absolute}}
+            {% if state.pages_superavit > 0 %} pages ahead {% else %} pages behind {% endif %}
+        </div>
+    </div>
+    <button class="btn btn-primary w-100" onclick="toggle_stats()">Show stats</button>
+</div>
+
+<div class="mt-3 mb-3" id="stats-stats-block" style="display: none;">
+    <div class="card-stack-mobile">
+        <div class="card-mobile card-info">{{state.pages_read|floatformat:0}} pages read</div>
+
+        <div class="card-mobile card-info">{{state.pages_per_day|floatformat:1}} pages/day</div>
+
+        <div class="card-mobile card-info">{{state.pages_per_book|floatformat:1}} pages/book</div>
+    </div>
+    <button class="btn btn-success w-100" onclick="toggle_stats()">Show progress</button>
+</div>
+
 {% for reading in current_readings %}
 <div class="stats-book-line-mobile mt-4 mb-1">
     <div class="sbl-mobile-title">
@@ -75,35 +107,3 @@
     </div>
 </div>
 {% endfor %}
-
-<div class="mt-3 mb-3" id="stats-progress-block">
-    <div class="card-stack-mobile">
-        <div class="card-mobile
-        {% if state.expected_books_by_end_of_year < state.goal %} card-fail {% else %} card-success {% endif %}">
-            {{state.books_read|floatformat:1}} books read
-        </div>
-
-        <div class="card-mobile
-        {% if state.expected_books_by_end_of_year < state.goal %} card-fail {% else %} card-success {% endif %}">
-            {{state.expected_books_by_end_of_year|floatformat:1}} books expected
-        </div>
-
-        <div class="card-mobile
-            {% if state.pages_superavit > 0 %} card-success {% else %} card-fail {% endif %}">
-            {{state.pages_superavit|floatformat:1|absolute}}
-            {% if state.pages_superavit > 0 %} pages ahead {% else %} pages behind {% endif %}
-        </div>
-    </div>
-    <button class="btn btn-primary w-100" onclick="toggle_stats()">Show stats</button>
-</div>
-
-<div class="mt-3 mb-3" id="stats-stats-block" style="display: none;">
-    <div class="card-stack-mobile">
-        <div class="card-mobile card-info">{{state.pages_read|floatformat:0}} pages read</div>
-
-        <div class="card-mobile card-info">{{state.pages_per_day|floatformat:1}} pages/day</div>
-
-        <div class="card-mobile card-info">{{state.pages_per_book|floatformat:1}} pages/book</div>
-    </div>
-    <button class="btn btn-success w-100" onclick="toggle_stats()">Show progress</button>
-</div>
