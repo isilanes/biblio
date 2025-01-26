@@ -72,12 +72,12 @@ function toggle_deadline(reading_id) {
 async function save_reading_update(reading_id) {
     let slider = document.getElementById("slider-element-"+reading_id);
     let pages_count_element = document.getElementById("pages-count-"+reading_id);
-    let deadline = document.getElementById("deadline-input-"+reading_id);
+    let deadline_date = document.getElementById("deadline-date-"+reading_id);
     let deadline_percent = document.getElementById("deadline-percent-input-"+reading_id);
 
     let response;
-    if (deadline.value != "") {
-        const payload = 'deadline=' + deadline.value + '&percent=' + deadline_percent.value;
+    if (deadline_date.value != "") {
+        const payload = 'deadline=' + deadline_date.value + '&percent=' + deadline_percent.value;
         response = await fetch("/readings/set_deadline/" + reading_id,
             {
                 method: "POST",
