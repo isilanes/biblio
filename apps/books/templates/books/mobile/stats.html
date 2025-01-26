@@ -1,6 +1,6 @@
 {% load books_filters %}
 
-<div class="progress w-100 mt-2" onclick="mytoggle('stats-progress-block')" style="cursor: pointer;">
+<div class="progress w-100 mt-3 mb-3" onclick="mytoggle('stats-progress-block')" style="cursor: pointer;">
     <div class="progress-bar pl-3
          {% if state.expected_books_by_end_of_year < state.goal %} bg-danger {% else %} bg-success {% endif %}"
          role="progressbar" style="width: {{state.expected_book_superavit_percent|wrt_fifty}}%;">
@@ -35,7 +35,7 @@
 </div>
 
 {% for reading in current_readings %}
-<div class="stats-book-line-mobile mt-4 mb-1">
+<div class="stats-book-line-mobile mt-0 mb-1">
     <div class="sbl-mobile-title">
         <a href="{% url 'books:book_detail' reading.book_id %}">{{reading.title}}</a>
     </div>
