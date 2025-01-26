@@ -25,7 +25,7 @@ def stats(request, year: Optional[int] = None):
     progress_response = ReadingViewSet(request=request).progress()
 
     context = {
-        "banner": "Stats",
+        "banner": None,
         "books_active": "active",
         "books_stats_active": True,
         "year": year,

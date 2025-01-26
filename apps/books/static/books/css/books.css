@@ -150,8 +150,13 @@ button.mark-read {
     justify-items: center;
     align-items: center;
     grid-gap: 5px;
-    padding: 10px;
-    font-size: 150%;
+    padding: 12px;
+    font-size: 100%;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 2px;
+    border-color: #cccccc;
+    background-color: #fefeff;
     grid-template-areas:
         "title     .         update  "
         "deadline  deadline  deadline"
@@ -189,6 +194,7 @@ button.mark-read {
 .sbl-mobile-bar {
     grid-area: bar;
     height: 10px;
+    background-color: #eeeeff;
 }
 
 .sbl-mobile-slider {

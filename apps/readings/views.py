@@ -23,7 +23,7 @@ def set_deadline(request, reading_id: int):
 
     deadline = request.POST.get("deadline")
     try:
-        deadline = datetime.strptime(deadline, "%Y-%m-%d %H:%M")
+        deadline = datetime.strptime(deadline, "%Y-%m-%d")
         deadline = timezone.make_aware(deadline)
     except ValueError:
         return HttpResponse(status=http_status.HTTP_400_BAD_REQUEST)

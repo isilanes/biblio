@@ -67,11 +67,26 @@ class State(object):
         return self.books_read - self.expected_books_so_far
 
     @property
-    def book_superavit_percent(self):
-        """How many books ahead we are in the book count up to now in the year,
-        as a percent of total books to read."""
+    def expected_book_superavit(self):
+        """How many books ahead we will be by the end of the year."""
 
+        return self.expected_books_by_end_of_year - self.goal
+
+    @property
+    def book_superavit_percent(self):
+        """
+        How many books ahead we are in the book count up to now in the year,
+        as a percent of total books to read.
+        """
         return 100. * self.book_superavit / self.goal
+
+    @property
+    def expected_book_superavit_percent(self):
+        """
+        How many books ahead we will be in the book count by the end of the year,
+        as a percent of total books to read.
+        """
+        return 100. * self.expected_book_superavit / self.goal
 
     @property
     def book_percent_read(self):

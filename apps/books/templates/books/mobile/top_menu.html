@@ -1,6 +1,6 @@
 {% load static %}
 
-<div class="btn-group w-100" role="group">
+<div class="btn-group mt-2 w-100" role="group">
     <a class="btn {% if books_stats_active %} btn-primary {% else %} btn-secondary {% endif %}"
        href="{% url 'books:stats' %}">
         <img src="{% static 'icons/stats_white.png'%}" height="24px">
