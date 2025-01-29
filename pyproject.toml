@@ -1,7 +1,7 @@
 [project]
 name = "biblio"
-version = "0.2.1"
-description = "Add your description here"
+version = "0.2.2"
+description = "Web to manage the books I own and read."
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
