@@ -74,7 +74,13 @@ async function save_reading_update(reading_id, total_pages) {
     let pages_count_element = document.getElementById("pages-count-"+reading_id);
     let deadline_date = document.getElementById("deadline-date-"+reading_id);
     let deadline_pages = document.getElementById("deadline-pages-input-"+reading_id);
-    let deadline_percent = 100 * deadline_pages.value / total_pages;
+
+    let deadline_percent;
+    if (deadline_pages.value == "") {
+        deadline_percent = 100;
+    } else {
+        deadline_percent = 100 * deadline_pages.value / total_pages;
+    }
 
     let response;
     if (deadline_date.value != "") {
