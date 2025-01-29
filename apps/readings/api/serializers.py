@@ -79,7 +79,7 @@ class ReadingProgressSerializer(ReadingBaseSerializer):
         if obj.deadline is None:
             return None
 
-        ts = obj.deadline.astimezone().strftime("%Y-%m-%d %H:%M")
+        ts = obj.deadline.astimezone().strftime("%Y-%m-%d")
         if obj.deadline_percent == 100:
             return ts
 

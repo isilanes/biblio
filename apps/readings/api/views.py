@@ -52,7 +52,7 @@ class ReadingViewSet(ModelViewSet):
         if not reading:
             return {}
 
-        return Response(data={1: 2})
+        return Response(data={1: 2})  # TODO: wtf is this?
 
 
 class ReadingUpdateViewSet(ModelViewSet):

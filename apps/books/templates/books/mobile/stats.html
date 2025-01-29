@@ -59,7 +59,7 @@
     <div class="sbl-mobile-buttons" id="save-button-block-{{reading.id}}" style="display: none;">
         <button class="btn btn-sm btn-success h-auto"
                 id="save-button-{{reading.id}}"
-                onclick="save_reading_update('{{reading.id}}')">Save</button>
+                onclick="save_reading_update('{{reading.id}}', {{reading.pages}})">Save</button>
         <button class="btn btn-sm btn-danger h-auto"
                 id="dnf-button-{{reading.id}}"
                 onclick="dnf_reading('{{reading.id}}')">DNF</button>
@@ -78,9 +78,9 @@
     <div class="sbl-mobile-slider w-100 mt-2" id="deadline-block-{{reading.id}}" style="display: none;">
         <input type="date" value="" id="deadline-date-{{reading.id}}">
         <div class="form-two-col-grid-deadline mt-3">
-            <div class="w-100">Percent</div>
+            <div class="w-100">Page</div>
             <div class="w-100">
-                <input type="text" id="deadline-percent-input-{{reading.id}}" name="name" required minlength="4" maxlength="8" size="10" />
+                <input type="text" id="deadline-pages-input-{{reading.id}}" name="name" required minlength="4" maxlength="8" size="10" />
             </div>
         </div>
     </div>
