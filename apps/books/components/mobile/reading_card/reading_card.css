@@ -1,0 +1,20 @@
+.card-body {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    justify-items: center;
+    align-items: center;
+    grid-gap: 5px;
+    padding: 12px;
+    font-size: 100%;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 2px;
+    border-color: #cccccc;
+    background-color: #fefeff;
+    grid-template-areas:
+        "title     .         update  "
+        "deadline  deadline  deadline"
+        "buttons   buttons   buttons "
+        "bar       bar       bar     "
+        "slider    slider    slider  "
+}
