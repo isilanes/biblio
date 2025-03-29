@@ -1,0 +1,72 @@
+{% load books_filters %}
+
+<div class="card-body mt-0 mb-1">
+    <div class="sbl-mobile-title">
+        <a href="{% url 'books:book_detail' reading.book_id %}">{{reading.title}}</a>
+    </div>
+    <div class="sbl-mobile-update-button" id="update-button-block-{{reading.id}}">
+        <button class="btn btn-sm btn-success h-auto" onclick="toggle_slider('{{reading.id}}')">Update</button>
+    </div>
+
+    {% if reading.deadline %}
+    <div class="w-100"></div>
+    {% if not reading.pages_per_day_to_meet_deadline %}
+    <div class="sbl-mobile-deadline good-text w-100">
+        <div class="" style="">{{reading.deadline|to_date_string}}</div>
+    </div>
+    {% else %}
+    <div class="sbl-mobile-deadline bad-text w-100">
+        <div class="" style="">{{reading.deadline|to_date_string}} &#8594; {{reading.pages_per_day_to_meet_deadline|floatformat:1}} ppd</div>
+    </div>
+    {% endif %}
+    {% endif %}
+
+    <div class="sbl-mobile-buttons" id="save-button-block-{{reading.id}}" style="display: none;">
+        <button class="btn btn-sm btn-success h-auto"
+                id="save-button-{{reading.id}}"
+                onclick="save_reading_update('{{reading.id}}', {{reading.pages}})">Save</button>
+        <button class="btn btn-sm btn-danger h-auto"
+                id="dnf-button-{{reading.id}}"
+                onclick="dnf_reading('{{reading.id}}')">DNF</button>
+        <button class="btn btn-sm btn-info h-auto"
+                id="deadline-button-{{reading.id}}"
+                onclick="toggle_deadline('{{reading.id}}')">Deadline</button>
+        <button class="btn btn-sm btn-warning h-auto" onclick="toggle_slider('{{reading.id}}')">Cancel</button>
+    </div>
+
+    <div class="w-100"></div>
+    <div class="sbl-mobile-bar progress w-100">
+        <div class="progress-bar bg-primary pl-3" role="progressbar"
+             style="width: {{reading.percent_read}}%;"></div>
+    </div>
+
+    <div class="sbl-mobile-slider w-100 mt-2" id="deadline-block-{{reading.id}}" style="display: none;">
+        <input type="date" value="" id="deadline-date-{{reading.id}}">
+        <div class="form-two-col-grid-deadline mt-3">
+            <div class="w-100">Page</div>
+            <div class="w-100">
+                <input type="text" id="deadline-pages-input-{{reading.id}}" name="name" required minlength="4" maxlength="8" size="10" />
+            </div>
+        </div>
+    </div>
+
+    <div class="slidecontainer sbl-mobile-slider w-100" id="slider-block-{{reading.id}}" style="display: none;">
+        <div id="pages-count-{{reading.id}}"
+             data-current-pages="{{reading.current_page}}"
+             data-total-pages="{{reading.pages}}"
+        ></div>
+        <div id="pages-percent-{{reading.id}}"></div>
+        <div class="sbl-mobile-slider-line">
+            <button class="btn btn-sm btn-primary btn-slider" onclick="add_pages_to_slider({{reading.id}}, -1)">-</button>
+            <div style="margin-top: auto; margin-bottom: auto">
+                <input type="range"
+                       min="{{reading.current_page}}"
+                       max="{{reading.pages}}"
+                       value="{{reading.current_page}}"
+                       oninput="update_slider('{{reading.id}}')"
+                       id="slider-element-{{reading.id}}">
+            </div>
+            <button class="btn btn-sm btn-primary btn-slider" onclick="add_pages_to_slider({{reading.id}}, 1)">+</button>
+        </div>
+    </div>
+</div>
