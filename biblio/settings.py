@@ -1,5 +1,8 @@
 import os
 import json
+from pathlib import Path
+
+from django_components import ComponentsSettings
 
 
 PROJECT_NAME = "biblio"
@@ -19,9 +22,7 @@ for conf_file in try_confs:
             conf = json.load(f)
         break
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...):
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = conf.get("SECRET_KEY") or os.environ.get("DJANGO_SECRET_KEY")
 DEBUG = conf.get("DEBUG") or (os.environ.get("DEBUG") == "True")
 ALLOWED_HOSTS = conf.get("ALLOWED_HOSTS") or ["*"]
@@ -35,7 +36,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     PROJECT_NAME,
     "rest_framework",
+    "django_components",
 ]
+
+COMPONENTS = ComponentsSettings(
+    dirs=[
+        BASE_DIR.joinpath("apps/books/components/mobile"),
+    ]
+)
 
 # Get extra apps either from JSON config (local), or from env variable (heroku):
 EXTRA_APPS = conf.get("EXTRA_APPS") or [a for a in os.environ.get("INSTALLED_APPS", "").split(":") if a]  # noqa
@@ -50,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django_components.middleware.ComponentDependencyMiddleware",
 ]
 
 ROOT_URLCONF = f'{PROJECT_NAME}.urls'
@@ -60,7 +69,6 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(PROJECT_PATH, "templates")],
-        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -68,6 +76,16 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            "loaders": [(
+                'django.template.loaders.cached.Loader', [
+                    # Default Django loader
+                    'django.template.loaders.filesystem.Loader',
+                    # Including this is the same as APP_DIRS=True
+                    'django.template.loaders.app_directories.Loader',
+                    # Components loader
+                    'django_components.template_loader.Loader',
+                ]
+            )],
         },
     },
 ]
@@ -137,6 +155,13 @@ REST_FRAMEWORK = {
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATICFILES_DIRS = []  # leave empty if static files only within apps (automatically found)
+STATICFILES_FINDERS = [
+    # Default finders
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    # Django components
+    "django_components.finders.ComponentsFileSystemFinder",
+]
 
 # Other:
 LOGIN_URL = "/login"
