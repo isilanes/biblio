@@ -66,6 +66,37 @@ def sagas(request):
 
 
 @login_required
+def bibliography(request):
+    """Bibliography of an author."""
+
+    bg = [
+        {
+            "saga1": {
+                (1977, "book1"),
+                (1978, "book2"),
+                (1979, "book3"),
+            },
+            "saga2": {
+                (1997, "book4"),
+                (1998, "book5"),
+                (1999, "book6"),
+            },
+        },
+        [
+            (2000, "book7"),
+            (2001, "book8"),
+            (2002, "book9"),
+        ],
+    ]
+
+    context = {
+        "bibliography": bg,
+    }
+
+    return render(request, "books/bibliography.html", context)
+
+
+@login_required
 def book_detail(request, book_id):
     """Detail view for a book."""
 

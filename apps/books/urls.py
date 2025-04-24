@@ -13,6 +13,7 @@ urlpatterns = [
     # Misc:
     path('index', views.index, name="index"),
     path('sagas', views.sagas, name="sagas"),
+    path('bibliography', views.bibliography, name="bibliography"),
     path('stats/<int:year>', views.stats, name="stats"),
 
     # Details:

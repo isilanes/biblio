@@ -1,0 +1,13 @@
+{% extends "books/base/base_books.html" %}
+
+{% load static %}
+
+{% block body %}
+<div class="only-desktop">
+    {% include "books/desktop/bibliography.html" %}
+</div>
+
+<div class="only-mobile">
+    {% include "books/mobile/bibliography.html" %}
+</div>
+{% endblock %}
