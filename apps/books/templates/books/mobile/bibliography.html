@@ -1,18 +1,11 @@
 {% load books_filters %}
 {% load component_tags %}
 
-{% for saga, books in bibliography.0.items %}
+{% for saga, books in bibliography.items %}
     <b>{{saga}}</b>
-    <ul>
-        {% for year, title in books %}
-        <li>{{title}} ({{year}})</li>
+    <ol>
+        {% for book in books %}
+        <li>{{book.title}} ({{book.year}})</li>
         {% endfor %}
-    </ul>
+    </ol>
 {% endfor %}
-
-<b>Sueltos</b>
-<ul>
-    {% for year, title in bibliography.1 %}
-    <li>{{title}} ({{year}})</li>
-    {% endfor %}
-</ul>

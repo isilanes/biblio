@@ -128,6 +128,9 @@ class Book(models.Model):
     def __str__(self):
         return self.title
 
+    def __lt__(self, other):
+        return self.title < other.title
+
 
 class Edition(models.Model):
     book = models.ForeignKey(Book, blank=True, on_delete=models.CASCADE)

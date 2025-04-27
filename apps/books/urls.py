@@ -11,7 +11,7 @@ urlpatterns = [
     path('', views.stats, name="stats"),
 
     # Misc:
-    path('index', views.index, name="index"),
+    path('reading_and_read', views.reading_and_read, name="reading_and_read"),
     path('sagas', views.sagas, name="sagas"),
     path('bibliography', views.bibliography, name="bibliography"),
     path('stats/<int:year>', views.stats, name="stats"),

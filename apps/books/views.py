@@ -37,7 +37,7 @@ def stats(request, year: Optional[int] = None):
 
 
 @login_required
-def index(request):
+def reading_and_read(request):
     """Index view."""
 
     context = {
@@ -69,25 +69,22 @@ def sagas(request):
 def bibliography(request):
     """Bibliography of an author."""
 
-    bg = [
-        {
-            "saga1": {
-                (1977, "book1"),
-                (1978, "book2"),
-                (1979, "book3"),
-            },
-            "saga2": {
-                (1997, "book4"),
-                (1998, "book5"),
-                (1999, "book6"),
-            },
-        },
-        [
-            (2000, "book7"),
-            (2001, "book8"),
-            (2002, "book9"),
-        ],
-    ]
+    author_name = "Agatha"
+
+    author = Author.objects.filter(name__contains=author_name).first()  # noqa
+    books = Book.objects.filter(authors=author)
+
+    author_sagas = {}
+    for book in books:
+        if book.saga not in author_sagas:
+            author_sagas[book.saga] = []
+        author_sagas[book.saga].append(book)
+
+    bg = {}
+    for saga, books in author_sagas.items():
+        dsu = sorted([(b.index_in_saga, b) for b in books])
+        key = saga or "No saga"
+        bg[key] = [b for _, b in dsu]
 
     context = {
         "bibliography": bg,
