@@ -1,0 +1,11 @@
+<div class="collapsible-list">
+    <div class="collapsible-header" onclick="toggleList(this)">
+        <h2>{{ title }}</h2>
+        <button type="button" class="toggle-btn">▼</button>
+    </div>
+    <ol class="styled-list">
+        {% for book in books %}
+            <li>{{ book.title }} ({{ book.year }})</li>
+        {% endfor %}
+    </ol>
+</div>

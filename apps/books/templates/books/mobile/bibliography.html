@@ -2,10 +2,5 @@
 {% load component_tags %}
 
 {% for saga, books in bibliography.items %}
-    <b>{{saga}}</b>
-    <ol>
-        {% for book in books %}
-        <li>{{book.title}} ({{book.year}})</li>
-        {% endfor %}
-    </ol>
+    {% component "book_list" title=saga books=books / %}
 {% endfor %}
