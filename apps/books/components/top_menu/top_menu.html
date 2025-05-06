@@ -4,7 +4,7 @@
 <div class="btn-group mt-2 w-100" role="group">
     <a class="btn {% if books_stats_active %} btn-primary {% else %} btn-secondary {% endif %}"
        href="{% url 'books:stats' %}">
-        <img src="{% static 'icons/stats_white.png'%}" height="24px">
+        <img src="{% static 'icons/stats_white.png'%}" class="size-6">
     </a>
 
     <a class="btn {% if books_index_active %} btn-primary {% else %} btn-secondary {% endif %}"
@@ -15,12 +15,12 @@
 
     <a class="btn {% if find_book_active %} btn-primary {% else %} btn-secondary {% endif %}"
        href="{% url 'books:find_book' %}">
-        <img src="{% static 'icons/search_white.png'%}" height="24px">
+        <img src="{% static 'icons/search_white.png'%}" class="size-6">
     </a>
 
     <a class="btn {% if add_book_active %} btn-primary {% else %} btn-secondary {% endif %}"
        href="{% url 'books:add_book' %}">
-        <img src="{% static 'icons/plus_white.png'%}" height="20px">
+        <img src="{% static 'icons/plus_white.png'%}" class="size-6">
     </a>
 
     {% if user.is_authenticated %}
