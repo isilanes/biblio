@@ -21,9 +21,16 @@ urlpatterns = [
 
     # Components:
     path("", include("django_components.urls")),
+
+    # Reload for Tailwind CSS:
+    path("__reload__/", include("django_browser_reload.urls")),
 ]
 
 # Apps:
+for app in settings.MY_APPS:
+    app_name = app.split(".")[-1]  # if app = "apps.app_name", "fix" it
+    urlpatterns.append(path(f"{app_name}/", include(f"{app}.urls", namespace=app_name)))
+
 for app in settings.EXTRA_APPS:
     app_name = app.split(".")[-1]  # if app = "apps.app_name", "fix" it
     urlpatterns.append(path(f"{app_name}/", include(f"{app}.urls", namespace=app_name)))

@@ -16,3 +16,4 @@ utils/*.json
 *.sqlite3
 *.db
 dumps/
+apps/theme/static_src

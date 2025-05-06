@@ -37,18 +37,29 @@ INSTALLED_APPS = [
     PROJECT_NAME,
     "rest_framework",
     "django_components",
+    "tailwind",
+    "django_browser_reload",
 ]
+
+MY_APPS = [
+    "apps.theme",
+    "apps.login",
+    "apps.books",
+    "apps.readings",
+]
+INSTALLED_APPS += MY_APPS
+
+# Get extra apps either from JSON config (local), or from env variable (heroku):
+# (I do not remember why I did that. Probably better to hardcode all apps in MY_APPS)
+EXTRA_APPS = conf.get("EXTRA_APPS") or [a for a in os.environ.get("INSTALLED_APPS", "").split(":") if a]  # noqa
+if EXTRA_APPS:
+    INSTALLED_APPS += EXTRA_APPS
 
 COMPONENTS = ComponentsSettings(
     dirs=[
         BASE_DIR.joinpath("apps/books/components/mobile"),
     ]
 )
-
-# Get extra apps either from JSON config (local), or from env variable (heroku):
-EXTRA_APPS = conf.get("EXTRA_APPS") or [a for a in os.environ.get("INSTALLED_APPS", "").split(":") if a]  # noqa
-if EXTRA_APPS:
-    INSTALLED_APPS += EXTRA_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -59,6 +70,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "django_components.middleware.ComponentDependencyMiddleware",
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = f'{PROJECT_NAME}.urls'
@@ -168,3 +180,4 @@ LOGIN_URL = "/login"
 LOGIN_REDIRECT_URL = "/books"
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 CSRF_TRUSTED_ORIGINS = ["https://goblin-fleet-escargot.ngrok-free.app"]  # for ngrok
+TAILWIND_APP_NAME = "theme"
