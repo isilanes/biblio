@@ -180,4 +180,4 @@ LOGIN_URL = "/login"
 LOGIN_REDIRECT_URL = "/books"
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 CSRF_TRUSTED_ORIGINS = ["https://goblin-fleet-escargot.ngrok-free.app"]  # for ngrok
-TAILWIND_APP_NAME = "theme"
+TAILWIND_APP_NAME = "apps.theme"
