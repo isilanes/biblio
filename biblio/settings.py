@@ -56,9 +56,11 @@ if EXTRA_APPS:
     INSTALLED_APPS += EXTRA_APPS
 
 COMPONENTS = ComponentsSettings(
+    autodiscover=True,
+    reload_on_file_change=True,
     dirs=[
         BASE_DIR.joinpath("apps/books/components/mobile"),
-    ]
+    ],
 )
 
 MIDDLEWARE = [
