@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "../../../books/components/top_menu/top_menu.css";
 
 /**
   * A catch-all path to Django template files, JavaScript, and Python files
@@ -11,5 +12,7 @@
 
 
 @theme {
-    --color-abogado-100: #ff0ccc;
+    --color-selected: #2b7fff;
+    --color-dull: #6c757d;
+    --color-success: #6c757d;
 }
