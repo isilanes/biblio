@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "../../../books/components/top_menu/top_menu.css";
+@import "../../../books/components/stats_progress/stats_progress.css";
 
 /**
   * A catch-all path to Django template files, JavaScript, and Python files
@@ -12,7 +13,9 @@
 
 
 @theme {
+    --color-ok: #399774;
     --color-selected: #2b7fff;
     --color-dull: #6c757d;
-    --color-success: #6c757d;
+    --color-failure: #cc1234;
+    --color-background: #dcdced;
 }
