@@ -1,13 +1,7 @@
 {% load books_filters %}
 {% load component_tags %}
 
-<div class="progress w-100 mt-3 mb-3" onclick="mytoggle('stats-progress-block')" style="cursor: pointer;">
-    <div class="progress-bar pl-3
-         {% if state.expected_books_by_end_of_year < state.goal %} bg-danger {% else %} bg-success {% endif %}"
-         role="progressbar" style="width: {{state.expected_book_superavit_percent|wrt_fifty}}%;">
-        {{state.expected_books_by_end_of_year|floatformat:1}}
-    </div>
-</div>
+{% component "stats_progress" state=state / %}
 
 <div class="mt-3 mb-3" id="stats-progress-block" style="display: none;">
     <div class="card-stack-mobile">

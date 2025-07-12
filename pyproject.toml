@@ -11,6 +11,8 @@ dependencies = [
     "gnureadline>=8.2.13",
     "plotly>=5.24.1",
     "django-components>=0.134",
+    "django-tailwind[reload]>=4.0.1",
+    "cookiecutter>=2.6.0",
 ]
 
 [project.optional-dependencies]

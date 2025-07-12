@@ -1,0 +1,13 @@
+{% load component_tags %}
+{% load books_filters %}
+
+<div class="bg-background w-full rounded-md h-5 overflow-hidden mx-0 my-2"
+     onclick="mytoggle('stats-progress-block')"
+     style="cursor: pointer;">
+  <div class="{% if state.expected_books_by_end_of_year < state.goal %} bg-failure {% else %} bg-ok {% endif %}
+              h-full w-50 flex items-center justify-center text-white text-xs font-medium
+              transition-all duration-300"
+       style="width: {{ state.expected_book_superavit_percent|wrt_fifty }}%;">
+     {{ state.expected_books_by_end_of_year|floatformat:1 }}
+  </div>
+</div>
