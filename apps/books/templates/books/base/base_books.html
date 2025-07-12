@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% load static %}
+{% load component_tags %}
 
 {% block top_top %}
 {% if banner %}
@@ -28,5 +29,5 @@
 {% endblock %}
 
 {% block top_mobile %}
-{% include "books/mobile/top_menu.html" %}
+    {% component "top_menu" user=user / %}
 {% endblock %}
