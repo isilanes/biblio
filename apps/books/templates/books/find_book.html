@@ -1,5 +1,15 @@
 {% extends "books/base/base_books.html" %}
 
+{% load static %}
+
+{% block extra_head %}
+<!--
+This is necessary for some 'peer' classes I use for restyling the radiobuttons.
+I don't know why it doesn't work without it.
+-->
+<script src="https://cdn.tailwindcss.com"></script>
+{% endblock %}
+
 {% block body %}
 <div class="only-desktop">
     {% include "books/desktop/find_book.html" %}

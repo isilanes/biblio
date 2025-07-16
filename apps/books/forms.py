@@ -21,5 +21,23 @@ class AddEditionForm(forms.Form):
     pages = forms.IntegerField(label="Pages")
 
 
-class SearchBookForm(forms.Form):
-    search_for = forms.CharField(label="Search for")
+class SearchAuthorOrBookForm(forms.Form):
+    CHOICES = [
+        ('author', 'Author'),
+        ('book', 'Book'),
+    ]
+
+    search_type = forms.ChoiceField(
+        choices=CHOICES,
+        widget=forms.RadioSelect,
+        label="Search by",
+    )
+
+    query = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={
+            'class': 'mt-2 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-500',
+            'placeholder': 'Enter search query...'
+        }),
+        label="Search query",
+    )
