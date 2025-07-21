@@ -9,6 +9,8 @@ from apps.readings.models import Reading, ReadingUpdate
 class Author(models.Model):
     name = models.CharField('Name', max_length=200)
 
+    objects = models.Manager()
+
     def __str__(self):
         return self.name
 

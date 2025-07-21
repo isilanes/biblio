@@ -66,12 +66,10 @@ def sagas(request):
 
 
 @login_required
-def bibliography(request):
+def bibliography(request, author_id: int):
     """Bibliography of an author."""
 
-    author_name = "Agatha"
-
-    author = Author.objects.filter(name__contains=author_name).first()  # noqa
+    author = Author.objects.filter(id=author_id).first()
     books = Book.objects.filter(authors=author)
 
     author_sagas = {}
@@ -351,6 +349,7 @@ def find_book(request):
 
     # Default for GET:
     matching_books = Book.objects.none()
+    matching_authors = Author.objects.none()
     form = SearchAuthorOrBookForm(initial={"query": "", "search_type": "book"})
 
     if request.method == "POST":
@@ -358,7 +357,11 @@ def find_book(request):
 
         if posted_form.is_valid():
             search_for = posted_form.cleaned_data.get("query")
-            matching_books = Book.objects.filter(title__icontains=search_for)
+            search_type = posted_form.cleaned_data.get("search_type")
+            if search_type == "book":
+                matching_books = Book.objects.filter(title__icontains=search_for)
+            else:
+                matching_authors = Author.objects.filter(name__icontains=search_for)
             form = posted_form
 
     context = {
@@ -366,6 +369,7 @@ def find_book(request):
         "find_book_active": True,
         "form": form,
         "matching_books": matching_books,
+        "matching_authors": matching_authors,
     }
 
     return render(request, "books/find_book.html", context)
