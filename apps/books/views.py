@@ -243,7 +243,7 @@ def modify_book(request, book_id=None):
                 for author_name in author_names:
                     try:
                         author = Author.objects.get(name=author_name)
-                    except Author.DoesNotExist:
+                    except Author.DoesNotExist:  # noqa
                         author = Author(name=author_name)
                         author.save()
                     book.authors.add(author)
