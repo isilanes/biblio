@@ -142,4 +142,7 @@ STATICFILES_DIRS = []  # leave empty if static files only within apps (automatic
 LOGIN_URL = "/login"
 LOGIN_REDIRECT_URL = "/books"
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
-CSRF_TRUSTED_ORIGINS = ["https://goblin-fleet-escargot.ngrok-free.app"]  # for ngrok
+CSRF_TRUSTED_ORIGINS = [
+    "https://goblin-fleet-escargot.ngrok-free.app",  # for ngrok (obsolete)
+    "https://biblio.isilanes.org",
+]
