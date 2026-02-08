@@ -3,7 +3,7 @@
     <div class="two-col-grid-text">Author:</div>
     <div class="two-col-grid-text">
         {% for author in book.authors.all %}
-        <a href="{% url 'books:author_detail' author.id %}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
+        <a href="{% url 'books:bibliography' author.id %}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
         {% endfor %}
     </div>
     <div class="two-col-grid-text">Published:</div><div class="two-col-grid-text">{{ book.year }}</div>

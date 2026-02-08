@@ -1,0 +1,80 @@
+.collapsible-list {
+  border-radius: 15px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin: 8px 0;
+  overflow: hidden;
+}
+
+.collapsible-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #007BFF;
+  padding: 6px 10px;
+  cursor: pointer;
+  gap: 12px;
+}
+
+.collapsible-header h2 {
+  margin: 0;
+  font-size: 18px;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: white;
+}
+
+.toggle-btn {
+  background: transparent;
+  border: none;
+  color: red;
+  font-size: 20px;
+  transform: rotate(0deg);
+  transition: transform 0.3s;
+  padding: 0;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.styled-list {
+  list-style: decimal inside;
+  padding-left: 20px;
+  padding-right: 16px;
+  font-size: 16px;
+  line-height: 1.6;
+  background: white;
+  margin: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.styled-list li {
+  margin: 12px 0;
+  padding: 8px 12px;
+  border-left: 4px solid #007BFF;
+  background: #f0f8ff;
+  border-radius: 6px;
+}
+
+.collapsed .styled-list {
+  max-height: 0;
+  padding: 0 20px;
+  overflow: hidden;
+}
+
+.collapsed .toggle-btn {
+  transform: rotate(-90deg);
+}
+
+@media (max-width: 480px) {
+  .styled-list {
+    font-size: 15px;
+    padding-left: 18px;
+  }
+
+  .styled-list li {
+    padding: 6px 10px;
+  }
+}

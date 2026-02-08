@@ -1,0 +1,6 @@
+{% load books_filters %}
+{% load component_tags %}
+
+{% for saga, books in bibliography.items %}
+    {% component "book_list" title=saga books=books / %}
+{% endfor %}

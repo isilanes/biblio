@@ -9,7 +9,7 @@ from django.http import JsonResponse
 
 from . import core, statistics
 from .models import Book, Author, Saga, Edition, BookCopy
-from .forms import ReadingUpdateForm, AddBookForm, SearchBookForm, AddEditionForm
+from .forms import ReadingUpdateForm, AddBookForm, AddEditionForm, SearchAuthorOrBookForm
 from apps.readings.api.views import ReadingViewSet
 from apps.readings.lib.controllers import update_reading_progress
 from apps.readings.models import Reading
@@ -37,11 +37,11 @@ def stats(request, year: Optional[int] = None):
 
 
 @login_required
-def index(request):
+def reading_and_read(request):
     """Index view."""
 
     context = {
-        "banner": "Index",
+        "banner": None,
         "books_index_active": True,
         "current_readings": core.current_readings_by(request.user),
         "completed_readings": core.completed_readings_by_year_for(request.user),
@@ -63,6 +63,32 @@ def sagas(request):
     }
 
     return render(request, "books/sagas.html", context)
+
+
+@login_required
+def bibliography(request, author_id: int):
+    """Bibliography of an author."""
+
+    author = Author.objects.filter(id=author_id).first()
+    books = Book.objects.filter(authors=author)
+
+    author_sagas = {}
+    for book in books:
+        if book.saga not in author_sagas:
+            author_sagas[book.saga] = []
+        author_sagas[book.saga].append(book)
+
+    bg = {}
+    for saga, books in author_sagas.items():
+        dsu = sorted([(b.index_in_saga, b) for b in books])
+        key = saga or "No saga"
+        bg[key] = [b for _, b in dsu]
+
+    context = {
+        "bibliography": bg,
+    }
+
+    return render(request, "books/bibliography.html", context)
 
 
 @login_required
@@ -217,7 +243,7 @@ def modify_book(request, book_id=None):
                 for author_name in author_names:
                     try:
                         author = Author.objects.get(name=author_name)
-                    except Author.DoesNotExist:
+                    except Author.DoesNotExist:  # noqa
                         author = Author(name=author_name)
                         author.save()
                     book.authors.add(author)
@@ -321,10 +347,32 @@ def modify_edition(request, edition_id):
 def find_book(request):
     """View to find a Book."""
 
-    if request.method == "POST":
-        return handle_find_book_post(request)
+    # Default for GET:
+    matching_books = Book.objects.none()
+    matching_authors = Author.objects.none()
+    form = SearchAuthorOrBookForm(initial={"query": "", "search_type": "book"})
 
-    return handle_find_book_get(request)
+    if request.method == "POST":
+        posted_form = SearchAuthorOrBookForm(request.POST or None)
+
+        if posted_form.is_valid():
+            search_for = posted_form.cleaned_data.get("query")
+            search_type = posted_form.cleaned_data.get("search_type")
+            if search_type == "book":
+                matching_books = Book.objects.filter(title__icontains=search_for)
+            else:
+                matching_authors = Author.objects.filter(name__icontains=search_for)
+            form = posted_form
+
+    context = {
+        "banner": None,
+        "find_book_active": True,
+        "form": form,
+        "matching_books": matching_books,
+        "matching_authors": matching_authors,
+    }
+
+    return render(request, "books/find_book.html", context)
 
 
 @login_required
@@ -413,42 +461,10 @@ def mark_reading_started(request, edition_id):
 def author_detail(request, author_id=None):
     """Detail view for an author."""
 
-    author = Author.objects.get(pk=author_id)
+    author = Author.objects.get(pk=author_id)  # noqa
 
     context = {
         "author": author,
     }
 
     return render(request, "books/author_detail.html", context)
-
-
-# Helper functions:
-def handle_find_book_post(request):
-    form = SearchBookForm(request.POST or None)
-
-    if form.is_valid():
-        search_for = form.cleaned_data.get("search_for")
-        matching_books = Book.objects.filter(title__icontains=search_for)
-
-        context = {
-            "banner": "Find book",
-            "find_book_active": True,
-            "form": SearchBookForm(initial={"search_for": ""}),
-            "matching_books": matching_books,
-        }
-
-        return render(request, "books/find_book.html", context)
-
-    else:
-        return handle_find_book_get(request)
-
-
-def handle_find_book_get(request):
-    context = {
-        "banner": "Find book",
-        "find_book_active": True,
-        "form": SearchBookForm(initial={"search_for": ""}),
-        "matching_books": Book.objects.none(),
-    }
-
-    return render(request, "books/find_book.html", context)

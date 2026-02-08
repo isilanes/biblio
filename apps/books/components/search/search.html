@@ -1,0 +1,51 @@
+{% load static %}
+{% load component_tags %}
+
+<form method="post" class="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
+    {% csrf_token %}
+
+    <!-- Toggle radio buttons -->
+    <div class="mb-4">
+        <label class="block text-gray-700 font-semibold mb-2">{{ form.search_type.label }}</label>
+        <div>
+            <input
+                    type="radio"
+                    name="{{ form.search_type.name }}"
+                    value="{{ val }}"
+                    id="{{ id }}"
+                    class="hidden peer" {% if form.search_type.value == val %}checked{% endif %}>
+            <div class="flex space-x-2">
+                {% for val, label in form.search_type.field.choices %}
+                {% with id=form.search_type.auto_id|add:'_'|add:val %}
+                <div>
+                    <input
+                            type="radio"
+                            name="{{ form.search_type.name }}"
+                            value="{{ val }}"
+                            id="{{ id }}"
+                            class="hidden peer" {% if form.search_type.value == val %}checked{% endif %}>
+                    <label for="{{ id }}"
+                           class="peer-checked:bg-blue-600 peer-checked:text-white bg-gray-100 text-gray-700 px-4 py-2 rounded-lg cursor-pointer transition border border-gray-300">
+                        {{ label }}
+                    </label>
+                </div>
+                {% endwith %}
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <!-- Text input -->
+        <div class="mb-4">
+            <label for="{{ form.query.id_for_label }}" class="block text-gray-700 font-semibold mb-2">
+                {{ form.query.label }}
+            </label>
+            {{ form.query }}
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition">
+            Search
+        </button>
+    </div>
+</form>
