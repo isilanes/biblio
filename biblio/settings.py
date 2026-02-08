@@ -25,8 +25,6 @@ SECRET_KEY = conf.get("SECRET_KEY") or os.environ.get("DJANGO_SECRET_KEY")
 DEBUG = conf.get("DEBUG") or (os.environ.get("DEBUG") == "True")
 ALLOWED_HOSTS = conf.get("ALLOWED_HOSTS") or ["*"]
 
-print(DEBUG)
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
