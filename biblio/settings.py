@@ -2,8 +2,6 @@ import os
 import json
 from pathlib import Path
 
-from django_components import ComponentsSettings
-
 
 PROJECT_NAME = "biblio"
 
@@ -27,6 +25,8 @@ SECRET_KEY = conf.get("SECRET_KEY") or os.environ.get("DJANGO_SECRET_KEY")
 DEBUG = conf.get("DEBUG") or (os.environ.get("DEBUG") == "True")
 ALLOWED_HOSTS = conf.get("ALLOWED_HOSTS") or ["*"]
 
+print(DEBUG)
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -47,21 +47,15 @@ MY_APPS = [
     "apps.books",
     "apps.readings",
 ]
-INSTALLED_APPS += MY_APPS
+INSTALLED_APPS.extend(MY_APPS)
 
-# Get extra apps either from JSON config (local), or from env variable (heroku):
-# (I do not remember why I did that. Probably better to hardcode all apps in MY_APPS)
-EXTRA_APPS = conf.get("EXTRA_APPS") or [a for a in os.environ.get("INSTALLED_APPS", "").split(":") if a]  # noqa
-if EXTRA_APPS:
-    INSTALLED_APPS += EXTRA_APPS
-
-COMPONENTS = ComponentsSettings(
-    autodiscover=True,
-    reload_on_file_change=True,
-    dirs=[
+COMPONENTS = {
+    "autodiscover": True,
+    "reload_on_file_change": True,
+    "dirs": [
         BASE_DIR.joinpath("apps/books/components/mobile"),
     ],
-)
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -182,7 +176,6 @@ LOGIN_URL = "/login"
 LOGIN_REDIRECT_URL = "/books"
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 CSRF_TRUSTED_ORIGINS = [
-    "https://goblin-fleet-escargot.ngrok-free.app",  # for ngrok (obsolete)
     "https://biblio.isilanes.org",
 ]
 TAILWIND_APP_NAME = "apps.theme"

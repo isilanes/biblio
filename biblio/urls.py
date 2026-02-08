@@ -31,10 +31,6 @@ for app in settings.MY_APPS:
     app_name = app.split(".")[-1]  # if app = "apps.app_name", "fix" it
     urlpatterns.append(path(f"{app_name}/", include(f"{app}.urls", namespace=app_name)))
 
-for app in settings.EXTRA_APPS:
-    app_name = app.split(".")[-1]  # if app = "apps.app_name", "fix" it
-    urlpatterns.append(path(f"{app_name}/", include(f"{app}.urls", namespace=app_name)))
-
 # API:
 urlpatterns.append(path("api/", include("apps.books.api.urls", namespace="api-books")))
 urlpatterns.append(path("api/", include("apps.readings.api.urls", namespace="api-readings")))
